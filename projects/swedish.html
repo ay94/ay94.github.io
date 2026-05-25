@@ -31,20 +31,21 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">Swedish Institute</p>
-        <h1 class="page-title">Multilingual Disinformation Image Analysis</h1>
-        <span class="status-badge badge-published">Published</span>
+        <p class="page-client">Swedish Institute (Nordic government body)</p>
+        <h1 class="page-title">Sweden's Image Under Disinformation: Multilingual Analysis</h1>
+        <span class="status-badge badge-completed">Completed · 2023</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>A cross-lingual study of disinformation image campaigns, covering 6 distinct language communities. The project sought to identify shared visual motifs and narrative strategies deployed across linguistic boundaries.</p>
+            <p>The Swedish Institute commissioned CASM Technology to analyse how two major international incidents were reshaping Sweden's global image — the Quran Burning protests and the LVU child welfare law controversy. Both incidents triggered significant disinformation campaigns across Muslim-majority countries, damaging Sweden's diplomatic relationships and threatening its international standing.</p>
+            <p>The project required analysing social media and mainstream media content across six language communities simultaneously: Arabic, English, Urdu, Farsi, Turkish and Indonesian.</p>
           </div>
         </div>
 
@@ -52,8 +53,8 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Designed the multimodal analysis pipeline combining image embeddings with multilingual text analysis. Led the cross-language comparative framework to surface shared and divergent narratives.</p>
+            <p>Technical Lead. I designed and built the full multilingual analysis pipeline — including a machine translation layer, a multilayered topic modelling framework, and separate analysis streams for each narrative.</p>
+            <p>I also wrote the machine translation evaluation framework used to validate translation quality before analysis — now documented as a reusable internal methodology.</p>
           </div>
         </div>
 
@@ -61,8 +62,15 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Used CLIP-style image embeddings to cluster visually similar content. Multilingual NLP was applied to associated captions and text overlays. Cross-lingual topic modelling surfaced shared narrative frames.</p>
+            <ol>
+              <li>Data collection — social media and mainstream media across 6 languages: Arabic, English, Urdu, Farsi, Turkish, Indonesian</li>
+              <li>Machine translation — all non-English content translated to English; quality validated using BERTScore as primary metric</li>
+              <li>Preprocessing — URL/hashtag/mention removal, deduplication, language filtering</li>
+              <li>Layer 1 topic model — generic BERTopic across full dataset → 5 broad themes</li>
+              <li>Layer 2 topic models — per-theme BERTopic models → granular sub-topics within each theme, refined with SetFit few-shot classifiers</li>
+              <li>Layer 3 (LVU) — deep topic model for highly granular analysis of LVU narratives specifically</li>
+              <li>Three narrative streams analysed separately and comparatively: Quran Burning, LVU, Overlapping Narratives</li>
+            </ol>
           </div>
         </div>
 
@@ -70,31 +78,33 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Published report documenting coordinated visual disinformation patterns across 6 language communities. Findings contributed to the Swedish Institute's public diplomacy and counter-disinformation work.</p>
+            <p>Full multilingual narrative landscape mapped across 6 language communities. Three narrative streams analysed separately and comparatively.</p>
+            <p>Multilayered topic modelling framework developed — reused in subsequent projects (Ofcom). Machine translation evaluation framework documented as reusable internal methodology.</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">Multilingual NLP</span>
-          <span class="tag">Computer Vision</span>
-          <span class="tag">CLIP</span>
           <span class="tag">BERTopic</span>
-          <span class="tag">transformers</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">6 Languages</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">SetFit</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">Machine Translation APIs</span>
+          <span class="tag">BERTScore</span>
+          <span class="tag">Plotly</span>
+          <span class="tag">Google Colab</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
         </ul>
       </div>
 

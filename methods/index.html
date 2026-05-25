@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Methods — Ahmed Younes</title>
-  <meta name="description" content="Analytical methods used by Ahmed Younes: topic modelling, NER evaluation, machine translation evaluation, and sentiment analysis.">
+  <meta name="description" content="Analytical methods used by Ahmed Younes: multilayered topic modelling, NER evaluation, machine translation evaluation, and sentence-level sentiment analysis.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -35,11 +35,11 @@
         <p class="page-client">Analytical Toolkit</p>
         <h1 class="page-title">Methods</h1>
         <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">
-          The core analytical approaches applied across research and consulting engagements.
+          Core analytical approaches developed and applied across research and consulting engagements.
         </p>
       </div>
 
-      <!-- Method 1: Multilayered Topic Modelling -->
+      <!-- Method 1 -->
       <div class="method-detail" id="topic-modelling">
         <div class="method-detail-header">
           <div class="method-icon" style="flex-shrink:0;">
@@ -53,23 +53,24 @@
           </div>
         </div>
         <div class="method-detail-body">
-          <p>Placeholder — describe this method in detail here. Explain the conceptual approach, the specific techniques used, and why this method is well-suited for the kinds of problems you apply it to.</p>
-          <p>Multilayered topic modelling uses a hierarchical approach to discover themes at multiple levels of granularity within a corpus. At the top level, broad thematic clusters are identified. Each cluster is then modelled independently to surface more granular sub-topics, enabling a structured view of discourse from macro-narratives down to specific talking points.</p>
-          <p>This approach is particularly valuable for large, heterogeneous corpora where both broad thematic mapping and fine-grained narrative analysis are required — for example, in disinformation research where understanding both the overarching campaign framing and the specific tactical sub-narratives is essential.</p>
-          <p>Placeholder — describe your preferred implementation: which libraries, hyperparameter choices, evaluation approach, and how you interpret and present results to non-technical stakeholders.</p>
+          <p>A hierarchical topic discovery framework developed across multiple projects. Rather than running a single topic model on a dataset, the approach starts with a generic layer to survey the broad landscape, then runs separate topic models within each identified theme to expose granular sub-conversations.</p>
+          <p>At Layer 1, a BERTopic model is run across the full corpus — producing 5–10 broad thematic clusters that orient the analysis. At Layer 2, each cluster is modelled independently to surface the granular sub-topics and specific talking points that live inside it. Where needed, a Layer 3 model can be run on a single sub-topic to achieve highly granular analysis of specific narratives.</p>
+          <p>This architecture is particularly valuable for large, heterogeneous corpora where both strategic overview and tactical-level analysis are required — such as disinformation research, where understanding both the overarching campaign framing and specific tactical sub-narratives is essential.</p>
+          <p>Used in the Swedish Institute, Ofcom and EMIF projects. Produces thematic taxonomies that are both broad enough to orient decision-makers and specific enough to be analytically useful. The framework was developed iteratively across projects and is now documented as a reusable internal methodology.</p>
         </div>
         <div style="margin-top: 1.25rem;">
           <div class="tags">
             <span class="tag">BERTopic</span>
             <span class="tag">Python</span>
-            <span class="tag">Sentence Transformers</span>
+            <span class="tag">sentence-transformers</span>
             <span class="tag">UMAP</span>
             <span class="tag">HDBSCAN</span>
+            <span class="tag">SetFit</span>
           </div>
         </div>
       </div>
 
-      <!-- Method 2: NER Evaluation Workflow -->
+      <!-- Method 2 -->
       <div class="method-detail" id="ner-evaluation">
         <div class="method-detail-header">
           <div class="method-icon" style="flex-shrink:0;">
@@ -83,10 +84,11 @@
           </div>
         </div>
         <div class="method-detail-body">
-          <p>Placeholder — describe this method in detail here. Explain the three stages of the workflow and what each stage produces.</p>
-          <p>The NER evaluation workflow comprises three stages: baseline measurement, error taxonomy classification, and comparative cross-language analysis. In stage one, standard precision, recall, and F1 metrics are computed across entity types and datasets. In stage two, errors are classified into a structured taxonomy — distinguishing boundary errors, type confusion, spurious entities, and missed entities.</p>
-          <p>Stage three positions a model's performance within a comparative landscape by benchmarking against reference models on the same data, with results stratified by language resource level (high-resource vs. low-resource), script type, and entity category. This three-stage structure moves evaluation from a single aggregate number to an actionable diagnostic profile.</p>
-          <p>Placeholder — describe how this workflow was formalised in your PhD research (DeformAr) and how it has been applied in applied projects such as FAST.</p>
+          <p>A three-stage framework for selecting and validating NER models in multilingual projects. Designed to work even for low-resource languages where benchmarks and pre-trained models are scarce. Documented as a reusable internal methodology and applied in the FAST and BBC Monitoring projects.</p>
+          <p><strong>Stage 1 — Model identification:</strong> Candidate models are identified on HuggingFace model hub and leaderboards (e.g. BERT LANG STREET) for each target language. For low-resource languages, cross-lingual transfer models (XLM-RoBERTa, multilingual BERT) are evaluated alongside any language-specific models available.</p>
+          <p><strong>Stage 2 — Benchmark evaluation:</strong> Each candidate model is evaluated against standard benchmarks — CoNLL-2003, xtreme/PAN-X, and language-specific datasets where available. Evaluation uses seqeval for entity-level F1 scores (by entity type: PER, LOC, ORG, MISC) and sklearn for boundary-level flat F1. Results are tabulated to produce a ranked model comparison per entity type and overall.</p>
+          <p><strong>Stage 3 — Project-specific validation:</strong> Top-ranked models are applied to a sample of actual project data and reviewed by an analyst. This stage catches domain mismatch that benchmark scores can obscure — a model may score well on news benchmarks but poorly on social media data. Only models that pass analyst review at Stage 3 are used in production.</p>
+          <p>The framework was formalised through my PhD research (DeformAr) and is directly connected to the diagnostic evaluation approach developed there.</p>
         </div>
         <div style="margin-top: 1.25rem;">
           <div class="tags">
@@ -94,12 +96,13 @@
             <span class="tag">seqeval</span>
             <span class="tag">HuggingFace</span>
             <span class="tag">spaCy</span>
-            <span class="tag">Error Taxonomy</span>
+            <span class="tag">XLM-RoBERTa</span>
+            <span class="tag">CoNLL</span>
           </div>
         </div>
       </div>
 
-      <!-- Method 3: Machine Translation Evaluation -->
+      <!-- Method 3 -->
       <div class="method-detail" id="mt-evaluation">
         <div class="method-detail-header">
           <div class="method-icon" style="flex-shrink:0;">
@@ -113,10 +116,11 @@
           </div>
         </div>
         <div class="method-detail-body">
-          <p>Placeholder — describe this method in detail here. Why is BERTScore used as the primary metric, and how does it complement other evaluation signals?</p>
-          <p>The machine translation evaluation framework uses BERTScore as the primary automated metric, supplemented by BLEU and chrF as secondary signals. BERTScore is preferred because it captures semantic similarity through contextualised embeddings rather than surface-level n-gram overlap, making it more robust for morphologically rich languages and domain-specific text.</p>
-          <p>The framework also incorporates structured human evaluation on a sampled subset, using a rubric that assesses adequacy and fluency independently. Results from automated and human evaluation are compared to identify systematic discrepancies and calibrate the automated metrics against human judgement.</p>
-          <p>Placeholder — describe specific languages, domains, or use cases where this evaluation framework has been applied in your work.</p>
+          <p>A comparative framework for selecting the right translation approach for NLP projects that require cross-lingual analysis. Developed for the Swedish Institute project and formalised in the FAST project's MT evaluation framework.</p>
+          <p><strong>Why BERTScore as primary metric:</strong> BERTScore captures semantic similarity through contextualised embeddings rather than surface-level n-gram overlap. This makes it significantly more robust for morphologically rich languages (Arabic, Turkish, Urdu) where the same meaning can be expressed with very different surface forms, and where BLEU scores systematically underestimate translation quality.</p>
+          <p><strong>Secondary metrics:</strong> BLEU and chrF are retained as secondary signals. BLEU provides a baseline for comparison with existing literature. chrF is more sensitive than BLEU for character-level morphological variation. Divergences between BERTScore and BLEU/chrF are informative — they often point to fluency issues that semantic metrics overlook.</p>
+          <p><strong>Error analysis protocol:</strong> A structured error analysis examines three dimensions: named entity preservation (are person names, locations and organisations translated, transliterated or dropped?), tokenisation and sequence length (does the translated text preserve sentence boundaries?), and information loss (are key claims or qualifiers dropped in translation?).</p>
+          <p>The framework also incorporates structured human evaluation on a sampled subset, using a rubric that assesses adequacy and fluency independently. Results from automated and human evaluation are compared to identify systematic discrepancies and calibrate the automated metrics.</p>
         </div>
         <div style="margin-top: 1.25rem;">
           <div class="tags">
@@ -129,7 +133,7 @@
         </div>
       </div>
 
-      <!-- Method 4: Sentence-level Sentiment Analysis -->
+      <!-- Method 4 -->
       <div class="method-detail" id="sentiment">
         <div class="method-detail-header">
           <div class="method-icon" style="flex-shrink:0;">
@@ -143,18 +147,20 @@
           </div>
         </div>
         <div class="method-detail-body">
-          <p>Placeholder — describe this method in detail here. How does sentence-level granularity differ from document-level sentiment, and why does it matter for the use cases you apply it to?</p>
-          <p>Sentence-level sentiment analysis operates at the level of individual sentences rather than entire documents, allowing sentiment to be attributed to specific claims, entities, or events within a longer text. This granularity is essential for financial and geopolitical text, where a single document may express positive sentiment toward one actor and negative sentiment toward another.</p>
-          <p>The workflow involves sentence segmentation, sentiment classification (positive / negative / neutral), and driver classification — identifying the specific topic or entity driving the sentiment in each sentence. Results are aggregated to produce entity-level sentiment profiles, time-series sentiment trends, and comparison across sources or regions.</p>
-          <p>Placeholder — describe how this method was applied in the FCDO/BII and Gates Foundation projects, including any domain-specific fine-tuning or annotation work undertaken.</p>
+          <p>A fine-grained approach to investment sentiment detection developed for the FCDO/BII South Africa project. The core insight is that document-level sentiment classification loses signal in long, mixed-sentiment texts. A news article might express positive sentiment about renewable energy investment and negative sentiment about political risk in the same paragraph — a document-level model returns a muddled average; a sentence-level model captures both.</p>
+          <p><strong>Why sentence-level:</strong> Splitting articles to sentence level before classification produces higher precision sentiment signals with fewer labelled examples. It also allows sentiment to be attributed to specific claims, entities or events within a longer document — enabling entity-level sentiment profiling that document-level approaches cannot produce.</p>
+          <p><strong>The pipeline:</strong> Articles are segmented into sentences. Two binary classifiers — positive and negative — are trained separately on manually annotated sentence samples (typically 500 sentences each). Separate classifiers outperform a single three-class model in this domain. A driver classification layer then attributes each sentiment-bearing sentence to one of several predefined drivers (Economic, Political, Enabling Environment, etc.).</p>
+          <p><strong>Distinguishing investor sentiment from market noise:</strong> A critical design decision is distinguishing genuine investor sentiment — claims about investment decisions, risk appetite, capital allocation — from stock market reporting, which responds to different signals. A relevance classifier trained before sentiment classification filters out stock price reporting and market movement news before sentiment analysis begins.</p>
+          <p>The approach was validated as predictive of net investment flows in South Africa — the strongest validation signal across all markets studied in the FCDO/BII evaluation.</p>
         </div>
         <div style="margin-top: 1.25rem;">
           <div class="tags">
             <span class="tag">Python</span>
-            <span class="tag">transformers</span>
-            <span class="tag">HuggingFace</span>
+            <span class="tag">HuggingFace Transformers</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">scikit-learn</span>
             <span class="tag">FinBERT</span>
-            <span class="tag">Sentence Transformers</span>
+            <span class="tag">sentence-transformers</span>
           </div>
         </div>
       </div>

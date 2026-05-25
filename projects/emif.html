@@ -31,20 +31,21 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">EMIF / ISD</p>
+        <p class="page-client">Institute for Strategic Dialogue (ISD) / European Media and Information Fund (EMIF)</p>
         <h1 class="page-title">Pro-Kremlin Influence Network Mapping</h1>
-        <span class="status-badge badge-published">Published</span>
+        <span class="status-badge badge-published">Published · 2024</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>This project involved large-scale analysis of Telegram data to map pro-Kremlin influence networks, covering 7.8 million posts across multiple channels and time periods.</p>
+            <p>A joint research project between ISD and CASM Technology, funded by the European Media and Information Fund. The study investigated how pro-Kremlin, conspiracy, far-right and far-left communities interact on Telegram across France, Germany and Italy — mapping influence networks, identifying key actors, and tracking narrative spread over a two-year period (January 2022 to February 2024).</p>
+            <p>The findings were published in a public report: <em>"Behind the Curtain: Unveiling Pro-Kremlin Ecosystems in Europe"</em> (ISD, 2025).</p>
           </div>
         </div>
 
@@ -52,8 +53,8 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Led the NLP pipeline design, corpus construction, and topic model training. Developed the network analysis layer to surface coordinated posting behaviour.</p>
+            <p>Technical Lead. I designed and built the entire analytical pipeline — from data preprocessing through semantic mapping to classification. I also wrote the methodology section of the published report.</p>
+            <p>The contrastive learning fine-tuning library (<em>emif-pk</em>) was my own independent initiative, built and tested on top of the project data to improve embedding quality across clusters.</p>
           </div>
         </div>
 
@@ -61,8 +62,18 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Applied multilayered BERTopic modelling to discover hierarchical narrative clusters. Network graphs were constructed from forwarding chains to identify key amplification nodes.</p>
+            <ol>
+              <li>Data collection — 7,784,669 posts from 1,162 Telegram channels across France, Germany and Italy</li>
+              <li>Preprocessing — deduplication, hashtag/URL/mention removal → 4,910,302 unique messages</li>
+              <li>Sampling — stratified sampling to 353,778 messages (max 400 per channel)</li>
+              <li>Embedding — paraphrase-multilingual-mpnet-base-v2 sentence transformer</li>
+              <li>Dimensionality reduction — UMAP applied to embeddings</li>
+              <li>Clustering — HDBSCAN density-based clustering → 162 topic clusters</li>
+              <li>Manual coding — analysts reviewed 100 random samples per cluster → taxonomy of 22 themes and 113 subthemes</li>
+              <li>Validation — random stratified sample reviewed per subtheme</li>
+              <li>Classification — KNN classifier applied to full dataset (F1: 0.87)</li>
+              <li>Contrastive fine-tuning — built <em>emif-pk</em> library using contrastive loss to improve embedding homogeneity across clusters</li>
+            </ol>
           </div>
         </div>
 
@@ -70,31 +81,35 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Findings contributed to a published report on coordinated pro-Kremlin information operations across Telegram. Results were used to brief policymakers and civil society partners.</p>
+            <p>Thematic taxonomy of 22 themes and 113 subthemes applied across 4.9M classified posts.</p>
+            <p>Key finding: 77% of conspiracy channels interacted directly with pro-Kremlin communities.</p>
+            <p>Published report available at isdglobal.org. Contrastive learning library (<em>emif-pk</em>) built as reusable internal tool, available on request.</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">BERTopic</span>
-          <span class="tag">Telegram API</span>
-          <span class="tag">NetworkX</span>
-          <span class="tag">Topic Modelling</span>
-          <span class="tag">spaCy</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">Plotly</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">KNN</span>
+          <span class="tag">Contrastive Learning</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Google Colab</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><a href="https://www.isdglobal.org" class="btn btn-outline" target="_blank" rel="noopener">"Behind the Curtain" — ISD, 2025 ↗</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">emif-pk library — private, available on request</span></li>
         </ul>
       </div>
 

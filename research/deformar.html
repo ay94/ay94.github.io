@@ -32,12 +32,10 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">PhD Doctoral Output — University of Sussex, 2025</p>
+        <p class="page-client">PhD Doctoral Output · University of Sussex · 2025</p>
         <h1 class="page-title">DeformAr</h1>
-        <p style="font-size: 1.1rem; color: var(--text-muted); font-style: italic; font-family: 'Playfair Display', serif; margin-top: 0.5rem; margin-bottom: 1rem;">
-          A diagnostic framework for NER evaluation across Arabic and English
-        </p>
-        <span class="status-badge badge-published">Published</span>
+        <p style="font-size: 1.1rem; color: var(--text-muted); font-style: italic; font-family: 'Playfair Display', serif; margin-top: 0.5rem; margin-bottom: 1rem;">A Diagnostic Framework for NER Evaluation</p>
+        <span class="status-badge badge-published">Published · 2025</span>
       </div>
 
       <div class="project-page-banner"></div>
@@ -52,30 +50,37 @@
       </div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Motivation</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the research context here. What gap in the literature does DeformAr address? What are the limitations of existing NER evaluation approaches for Arabic?</p>
-            <p>Existing NER evaluation for Arabic relies heavily on aggregate F1 scores, which obscure systematic failure modes specific to morphologically complex languages. DeformAr was developed to provide a richer, diagnostic picture of model behaviour.</p>
+            <p>DeformAr is the primary output of my PhD in Natural Language Processing at the University of Sussex (2025). It is a diagnostic framework for evaluating Named Entity Recognition (NER) systems — designed to go beyond standard aggregate metrics like F1 score and expose the fine-grained, component-level failure modes that aggregate scores conceal.</p>
+            <p>The framework was developed and validated across Arabic and English — two typologically different languages that present distinct challenges for NER systems. Arabic is morphologically complex, right-to-left, and has significant dialectal variation. Evaluating across both languages surfaces insights that single-language evaluation misses.</p>
           </div>
         </div>
 
         <div class="section-card">
-          <p class="section-card-label">My Role</p>
-          <h2 class="section-card-title">Research Contributions</h2>
+          <p class="section-card-label">The Problem</p>
+          <h2 class="section-card-title">What DeformAr Solves</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific research contributions. What novel ideas, frameworks, or experiments did you design and lead?</p>
-            <p>Sole researcher and developer. Conceived the diagnostic framework, designed the error taxonomy, built the extraction and evaluation pipeline, and developed the interactive dashboard for result exploration.</p>
+            <p>Standard NER evaluation reports a single F1 score. This tells you how well a model performs overall — but not why it fails, where it fails, or what kind of errors it makes. A model that misses all person names but correctly identifies all locations would score the same as a model that makes random errors everywhere.</p>
+            <p>For practitioners who need to choose, deploy or improve NER systems, this is not enough information. DeformAr provides a multi-dimensional diagnostic lens so that model selection and improvement decisions can be made on evidence rather than a single number.</p>
           </div>
         </div>
 
         <div class="section-card">
-          <p class="section-card-label">Method</p>
-          <h2 class="section-card-title">Framework &amp; Approach</h2>
+          <p class="section-card-label">Framework</p>
+          <h2 class="section-card-title">Components &amp; Design</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical methodology in detail. How does DeformAr work? What datasets, models, and evaluation protocols were used?</p>
-            <p>DeformAr introduces an entity-level error taxonomy for Arabic NER, classifying errors into categories such as boundary errors, type confusion, and morphological decomposition failures. Cross-lingual benchmarking protocols compare Arabic model performance against English baselines on parallel corpora.</p>
+            <ul>
+              <li><strong>Entity-type analysis</strong> — separate evaluation per class (PER, LOC, ORG, MISC)</li>
+              <li><strong>Boundary detection</strong> — distinguishing span boundary errors from entity type errors</li>
+              <li><strong>Token-level diagnostics</strong> — identifying which tokens consistently cause failures</li>
+              <li><strong>Domain sensitivity</strong> — how performance shifts across news, social media and formal text</li>
+              <li><strong>Cross-lingual transfer</strong> — how models trained on one language perform on another</li>
+              <li><strong>Comparison framework</strong> — structured multi-model comparison on the same diagnostic dimensions</li>
+            </ul>
           </div>
         </div>
 
@@ -83,10 +88,12 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Findings &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings from the research. What did DeformAr reveal about Arabic NER model behaviour? What are the implications for practitioners?</p>
-            <p>DeformAr surfaces that the majority of Arabic NER errors are boundary-related rather than type errors — a finding obscured by aggregate metrics. The diagnostic dashboard enables practitioners to identify model weaknesses on specific entity types and domains.</p>
+            <p>DeformAr surfaces that the majority of Arabic NER errors are boundary-related rather than type errors — a finding obscured by aggregate F1 scores and with direct implications for model fine-tuning strategy.</p>
+            <p>The diagnostic dashboard enables practitioners to identify model weaknesses on specific entity types and domains, making model selection evidence-based rather than benchmark-driven.</p>
+            <p>The NER evaluation framework developed for DeformAr has been applied in applied client work across FAST, BBC Monitoring and other multilingual NLP projects.</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
@@ -94,10 +101,8 @@
         <div class="tags">
           <span class="tag">Python</span>
           <span class="tag">PyTorch</span>
-          <span class="tag">HuggingFace</span>
-          <span class="tag">transformers</span>
+          <span class="tag">HuggingFace Transformers</span>
           <span class="tag">Arabic NLP</span>
-          <span class="tag">NER Evaluation</span>
           <span class="tag">seqeval</span>
           <span class="tag">Streamlit</span>
           <span class="tag">Pandas</span>
@@ -105,12 +110,29 @@
         </div>
       </div>
 
+      <div class="education-card">
+        <h3>Education</h3>
+        <ul class="education-list">
+          <li>
+            <span class="education-degree">PhD in Natural Language Processing — University of Sussex</span>
+            <span class="education-meta">2025</span>
+          </li>
+          <li>
+            <span class="education-degree">MSc in Data Science (Distinction)</span>
+            <span class="education-meta">2019</span>
+          </li>
+          <li>
+            <span class="education-degree">BSc in Computer Science (First Class)</span>
+            <span class="education-meta">2016</span>
+          </li>
+        </ul>
+      </div>
+
       <div class="links-card">
         <h3>Further Links</h3>
         <ul class="links-list">
           <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub Profile ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Thesis (placeholder)</a></li>
-          <li><a href="#" class="btn btn-outline">Paper (placeholder)</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Thesis — available on request</span></li>
         </ul>
       </div>
 

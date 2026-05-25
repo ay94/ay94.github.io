@@ -31,20 +31,20 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">FCDO / BII</p>
-        <h1 class="page-title">Investor Sentiment in South African Energy</h1>
-        <span class="status-badge badge-completed">Completed</span>
+        <p class="page-client">FCDO / British International Investment (BII, formerly CDC)</p>
+        <h1 class="page-title">Investor Sentiment Index: South African Energy Sector</h1>
+        <span class="status-badge badge-completed">Completed · 2022</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>Commissioned by the UK Foreign, Commonwealth &amp; Development Office and British International Investment, this project analysed investor sentiment in the South African energy sector to inform development finance decisions.</p>
+            <p>FCDO and BII (British International Investment) commissioned ITAD to evaluate their efforts to mobilise private investment in South Africa's energy sector. CASM Technology built the NLP analysis module — a sentence-level sentiment index tracking how investor sentiment in South Africa's energy market shifted over 25 years, and identifying the key drivers of those shifts.</p>
           </div>
         </div>
 
@@ -52,8 +52,8 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Built and fine-tuned the domain-specific sentiment classifier. Designed the NER pipeline to extract sector entities, investment vehicles, and risk actors from financial news and reports.</p>
+            <p>Technical Lead. I designed and built the full NLP pipeline from scratch — from investment relevance classification through to sentiment detection and driver identification. I also defined the sentiment framework, distinguishing genuine investor sentiment from stock market noise.</p>
+            <p>This was a technically novel approach: sentence-level rather than article-level analysis, which allowed finer-grained sentiment detection with fewer labelled instances.</p>
           </div>
         </div>
 
@@ -61,8 +61,19 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Applied sentence-level financial sentiment analysis with driver classification. NER was used to link sentiment to specific companies, projects, and policy actors in the South African energy landscape.</p>
+            <ol>
+              <li>Data collection — 80,622 articles from 17 online news sources (1996–2022)</li>
+              <li>Keyword annotators — 7 keyword filters for South Africa relevance and investment relevance</li>
+              <li>Investment relevance classifier — articles split into chunks, transformer classifier trained (F1: 71%)</li>
+              <li>Sentiment relevance classifier — trained on investment chunks (F1: 68%)</li>
+              <li>Energy sector filtering — energy keyword annotators applied to relevant chunks</li>
+              <li>Sentence splitting — articles split to sentence level for fine-grained analysis</li>
+              <li>Positive sentiment classifier — trained on 500 manually annotated sentences (F1: 89%)</li>
+              <li>Negative sentiment classifier — trained on 500 manually annotated sentences (F1: 80%)</li>
+              <li>Driver identification — 500 sentences manually analysed → 5 primary drivers: Economic, Political, Enabling Environment, Investor Priorities, COVID-19</li>
+              <li>Driver classifiers — 5 binary classifiers trained (Enabling Environment: 81%, Economics: 82%, Politics: 88%, Investor Priorities: 78%, COVID-19: 93%)</li>
+              <li>Validation — sentiment index validated as predictive of net investment flows in South Africa</li>
+            </ol>
           </div>
         </div>
 
@@ -70,21 +81,22 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Produced a detailed sentiment landscape report with entity-level breakdowns. Insights were used to support BII investment decision-making and FCDO policy briefings.</p>
+            <p>Sentiment index covering 25 years of South African energy investment discourse. 7 classifiers trained across relevance, sentiment and driver detection.</p>
+            <p>Key finding: the sentiment index is predictive of net investment flows — the strongest validation signal across all markets studied in the evaluation.</p>
+            <p>5 primary drivers and 14 sub-drivers of investment sentiment identified. Work referenced in a published ITAD blog post (March 2023).</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">Financial NLP</span>
-          <span class="tag">NER</span>
-          <span class="tag">Sentiment Analysis</span>
-          <span class="tag">transformers</span>
-          <span class="tag">HuggingFace</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">scikit-learn</span>
           <span class="tag">Pandas</span>
           <span class="tag">Plotly</span>
         </div>
@@ -93,8 +105,7 @@
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><a href="https://www.itad.com" class="btn btn-outline" target="_blank" rel="noopener">ITAD Blog — "Harnessing NLP for MEL" (March 2023) ↗</a></li>
         </ul>
       </div>
 

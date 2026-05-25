@@ -31,20 +31,21 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">FAST</p>
-        <h1 class="page-title">Multilingual NER Benchmarking Across 26 Languages</h1>
-        <span class="status-badge badge-published">Published</span>
+        <p class="page-client">FAST — Internal / CASM Technology</p>
+        <h1 class="page-title">Multilingual NER &amp; MT Benchmarking Framework</h1>
+        <span class="status-badge badge-incomplete">Incomplete — methodology fully documented · 2023</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>A large-scale benchmarking study evaluating NER model performance across 26 languages, with a focus on characterising the gap between high-resource and low-resource language performance and diagnosing the sources of failure.</p>
+            <p>The most ambitious NLP project in scope across CASM's portfolio. The goal was to systematically identify and rank the best performing NER models and machine translation approaches for 26 languages, including several low-resource African languages rarely covered in NLP benchmarking literature.</p>
+            <p>The project was stopped before all 26 languages were completed, but the framework and methodology are fully documented and transferable.</p>
           </div>
         </div>
 
@@ -52,17 +53,29 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Designed the evaluation framework and benchmarking protocol. Led the systematic analysis of model error patterns by language family, script type, and resource availability.</p>
+            <p>Technical Lead. I designed the benchmarking framework, built the evaluation infrastructure, and completed the German language evaluation as a reference implementation.</p>
+            <p>I also wrote the NER Evaluation Workflow document and the MT Evaluation Framework — both documented as reusable internal methodologies and applied in subsequent projects.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">Method</p>
-          <h2 class="section-card-title">Approach &amp; Pipeline</h2>
+          <h2 class="section-card-title">Benchmarking Framework</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Implemented a three-stage NER evaluation workflow: baseline measurement, error taxonomy classification, and cross-language comparative analysis. Used HuggingFace model hub for model loading and standardised evaluation across all 26 languages.</p>
+            <p><strong>NER Benchmarking (per language):</strong></p>
+            <ol>
+              <li>Model identification — HuggingFace model hub and leaderboards (BERT LANG STREET) searched for candidate models per language</li>
+              <li>Benchmark dataset identification — language-specific benchmarks sourced (CoNLL, xtreme/PAN-X, GermEval14 for German, etc.)</li>
+              <li>Benchmark evaluation — each model evaluated using seqeval (entity-level F1) and sklearn (boundary-level flat F1) across PER, LOC, ORG, MISC</li>
+              <li>Model ranking — models ranked per entity type and overall</li>
+              <li>Project-specific validation — top-ranked models applied to project data, with analyst review of sample outputs</li>
+            </ol>
+            <p style="margin-top:0.75rem;"><strong>MT Benchmarking:</strong></p>
+            <ul>
+              <li>Comparative analysis of BLEU, ROUGE, METEOR, TER and BERTScore</li>
+              <li>BERTScore selected as primary metric for embedding-based downstream tasks</li>
+              <li>Error analysis: named entity preservation, tokenisation sequence length, information loss</li>
+            </ul>
           </div>
         </div>
 
@@ -70,10 +83,12 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Produced a comprehensive benchmark report with per-language performance profiles and error analysis. Results inform model selection and fine-tuning strategies for multilingual NLP deployments.</p>
+            <p>Full benchmarking framework designed and documented. German language evaluation completed as reference implementation (3 models × 2 benchmarks).</p>
+            <p>NER Evaluation Workflow and MT Evaluation Framework written as reusable internal methodology documents — both applied in subsequent projects. Project stopped before all 26 languages completed; framework fully transferable.</p>
+            <p><strong>Languages scoped:</strong> Afrikaans, Arabic, Bulgarian, Czech, German, Greek, English, Spanish, Farsi, French, Hausa, Hindi, Indonesian, Japanese, Malay, Portuguese, Romanian, Russian, Slovak, Serbo-Croatian, Swahili, Thai, Turkish, Urdu, Xhosa, Chinese (Mandarin), Zulu</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
@@ -81,11 +96,12 @@
         <div class="tags">
           <span class="tag">Python</span>
           <span class="tag">HuggingFace</span>
-          <span class="tag">transformers</span>
-          <span class="tag">26 Languages</span>
-          <span class="tag">NER</span>
-          <span class="tag">Benchmarking</span>
           <span class="tag">seqeval</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">XLM-RoBERTa</span>
+          <span class="tag">multilingual BERT</span>
+          <span class="tag">CoNLL</span>
+          <span class="tag">BERTScore</span>
           <span class="tag">Pandas</span>
         </div>
       </div>
@@ -93,8 +109,7 @@
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Framework — internal methodology document</span></li>
         </ul>
       </div>
 

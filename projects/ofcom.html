@@ -33,18 +33,18 @@
       <div class="page-header">
         <p class="page-client">Ofcom</p>
         <h1 class="page-title">Disinformation Landscape Mapping &amp; Actor Profiling</h1>
-        <span class="status-badge badge-pilot">Pilot</span>
+        <span class="status-badge badge-pilot">Pilot · 2023</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>A pilot study commissioned by Ofcom to map the UK disinformation landscape, identify key spreading actors, and develop a scalable profiling methodology for regulatory intelligence purposes.</p>
+            <p>A pilot project for Ofcom — the UK's communications regulator — to map the disinformation landscape on social media and build detailed behavioural profiles of key actors. Rather than simply identifying what topics exist, the goal was to understand who talks about what, how actors cluster thematically, and what each actor's specific contribution to the disinformation ecosystem looks like.</p>
           </div>
         </div>
 
@@ -52,8 +52,7 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Led the design of the actor profiling framework and topic modelling pipeline. Developed the NER-based entity extraction layer to link narratives to identifiable actors and organisations.</p>
+            <p>Technical Lead. I designed the multilayered topic modelling architecture specifically for actor profiling — adapting the framework first developed on the Swedish Institute project to produce account-level thematic fingerprints rather than just corpus-level themes.</p>
           </div>
         </div>
 
@@ -61,8 +60,13 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Multilayered topic modelling was used to identify disinformation narrative clusters. Actor profiling combined NER output with network analysis to produce ranked influence scores for identified spreaders.</p>
+            <ol>
+              <li>Data collection — curated list of social media accounts identified as disinformation-adjacent actors</li>
+              <li>Layer 1 topic model — generic BERTopic across full dataset → 5 broad themes (Health, Politics, and others)</li>
+              <li>Layer 2 topic models — separate BERTopic per theme → granular sub-topics (e.g. Health → COVID, Vaccines, Pharma conspiracy; Politics → Elections, Deep State)</li>
+              <li>Actor profiling — each account mapped to its dominant themes and sub-topics</li>
+              <li>Behavioural fingerprinting — accounts characterised by: dominant themes, specific sub-topics, actor interactions, and unique contribution to the ecosystem</li>
+            </ol>
           </div>
         </div>
 
@@ -70,10 +74,11 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Delivered a pilot report and methodology documentation to Ofcom. The framework was assessed for potential integration into Ofcom's ongoing Online Safety Act monitoring capabilities.</p>
+            <p>Multilayered disinformation landscape map produced. Account-level thematic profiles built for curated actor list.</p>
+            <p>Framework demonstrated the viability of moving beyond simple topic classification to behavioural actor profiling. Pilot delivered — further phases pending.</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
@@ -81,10 +86,9 @@
         <div class="tags">
           <span class="tag">Python</span>
           <span class="tag">BERTopic</span>
-          <span class="tag">NER</span>
-          <span class="tag">NetworkX</span>
-          <span class="tag">spaCy</span>
-          <span class="tag">Actor Profiling</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">sentence-transformers</span>
           <span class="tag">Pandas</span>
           <span class="tag">Plotly</span>
         </div>
@@ -93,8 +97,7 @@
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
         </ul>
       </div>
 

@@ -31,20 +31,21 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">Gates Foundation</p>
+        <p class="page-client">Bill &amp; Melinda Gates Foundation (via ITAD)</p>
         <h1 class="page-title">Global Health Advocacy Evaluation</h1>
-        <span class="status-badge badge-completed">Completed</span>
+        <span class="status-badge badge-completed">Completed · 2022</span>
       </div>
 
       <div class="project-page-banner"></div>
 
       <div class="sections-grid">
+
         <div class="section-card">
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
-            <p>This evaluation assessed the social media performance of global health advocacy campaigns funded through the Gates Foundation, examining how messages travelled across platforms and audiences.</p>
+            <p>The Gates Foundation commissioned ITAD to evaluate the effectiveness of its Global Fund Advocacy Portfolio (GFAP) — a network of NGO grantees working to influence governments to increase contributions to the Global Fund for AIDS, TB and Malaria ahead of the 7th replenishment.</p>
+            <p>CASM Technology provided the social media analysis module, collecting and analysing 43,282 posts across Twitter, Facebook and Instagram from grantee accounts in the UK, US, France, EC and International markets.</p>
           </div>
         </div>
 
@@ -52,8 +53,8 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
-            <p>Designed and implemented the sentiment analysis and reach-measurement pipeline. Produced the data collection and reporting infrastructure for continuous monitoring.</p>
+            <p>Technical Lead and sole designer of the thematic framework. I built the social media data pipeline, designed the relevancy classification system (Direct / Indirect / Irrelevant), created the full thematic framework of 18 themes and subthemes, and produced the narrative and tactics analysis per market and per grantee.</p>
+            <p>ITAD used my analysis as one input layer into their broader mixed-methods evaluation — alongside surveys, interviews and country case studies.</p>
           </div>
         </div>
 
@@ -61,8 +62,14 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
-            <p>Used sentence-level sentiment classification to measure campaign resonance. Tracked entity mentions and narrative framing across Twitter/X and news media.</p>
+            <ol>
+              <li>Data collection — 43,282 posts scraped across Twitter, Facebook and Instagram from grantee accounts</li>
+              <li>Relevancy classification — three-tier system: Direct (explicitly about Global Fund replenishment), Indirect (related global health content), Irrelevant</li>
+              <li>Thematic framework design — 18 themes and subthemes including Pledges, COVID-19, Campaign Mobilisation, LMIC Voices, Promoting the Global Fund, Financial Aid, Key Events</li>
+              <li>Narrative analysis — per market (UK, US, France, EC, International) and per grantee organisation</li>
+              <li>Tactics breakdown — identifying inside track (direct government engagement) and outside track (public mobilisation) approaches</li>
+              <li>Synthesis — outputs fed into ITAD's country-level and grantee-level synthesis reports</li>
+            </ol>
           </div>
         </div>
 
@@ -70,31 +77,29 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
-            <p>Delivered a comprehensive evaluation report and dashboard. Findings informed campaign strategy adjustments and future advocacy planning at the funder level.</p>
+            <p>43,282 posts analysed across 5 markets. 18-theme framework designed and applied across all grantee accounts.</p>
+            <p>Narrative and tactics breakdown delivered per grantee and per market. Analysis fed into ITAD's published evaluation for the Gates Foundation.</p>
           </div>
         </div>
+
       </div>
 
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">Sentiment Analysis</span>
-          <span class="tag">Twitter API</span>
-          <span class="tag">transformers</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">Matplotlib</span>
+          <span class="tag">Social Media APIs</span>
           <span class="tag">NLP</span>
-          <span class="tag">spaCy</span>
+          <span class="tag">Topic Modelling</span>
+          <span class="tag">Thematic Analysis</span>
+          <span class="tag">Pandas</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
         </ul>
       </div>
 
