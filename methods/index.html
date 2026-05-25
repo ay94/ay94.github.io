@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methods — Ahmed Younes</title>
+  <meta name="description" content="Analytical methods used by Ahmed Younes: topic modelling, NER evaluation, machine translation evaluation, and sentiment analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AY</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Toolkit</p>
+        <h1 class="page-title">Methods</h1>
+        <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">
+          The core analytical approaches applied across research and consulting engagements.
+        </p>
+      </div>
+
+      <!-- Method 1: Multilayered Topic Modelling -->
+      <div class="method-detail" id="topic-modelling">
+        <div class="method-detail-header">
+          <div class="method-icon" style="flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="method-detail-title">Multilayered Topic Modelling</h2>
+            <p class="method-detail-sub">Hierarchical narrative discovery at scale</p>
+          </div>
+        </div>
+        <div class="method-detail-body">
+          <p>Placeholder — describe this method in detail here. Explain the conceptual approach, the specific techniques used, and why this method is well-suited for the kinds of problems you apply it to.</p>
+          <p>Multilayered topic modelling uses a hierarchical approach to discover themes at multiple levels of granularity within a corpus. At the top level, broad thematic clusters are identified. Each cluster is then modelled independently to surface more granular sub-topics, enabling a structured view of discourse from macro-narratives down to specific talking points.</p>
+          <p>This approach is particularly valuable for large, heterogeneous corpora where both broad thematic mapping and fine-grained narrative analysis are required — for example, in disinformation research where understanding both the overarching campaign framing and the specific tactical sub-narratives is essential.</p>
+          <p>Placeholder — describe your preferred implementation: which libraries, hyperparameter choices, evaluation approach, and how you interpret and present results to non-technical stakeholders.</p>
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <div class="tags">
+            <span class="tag">BERTopic</span>
+            <span class="tag">Python</span>
+            <span class="tag">Sentence Transformers</span>
+            <span class="tag">UMAP</span>
+            <span class="tag">HDBSCAN</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Method 2: NER Evaluation Workflow -->
+      <div class="method-detail" id="ner-evaluation">
+        <div class="method-detail-header">
+          <div class="method-icon" style="flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="method-detail-title">NER Evaluation Workflow</h2>
+            <p class="method-detail-sub">Three-stage benchmarking across low and high resource languages</p>
+          </div>
+        </div>
+        <div class="method-detail-body">
+          <p>Placeholder — describe this method in detail here. Explain the three stages of the workflow and what each stage produces.</p>
+          <p>The NER evaluation workflow comprises three stages: baseline measurement, error taxonomy classification, and comparative cross-language analysis. In stage one, standard precision, recall, and F1 metrics are computed across entity types and datasets. In stage two, errors are classified into a structured taxonomy — distinguishing boundary errors, type confusion, spurious entities, and missed entities.</p>
+          <p>Stage three positions a model's performance within a comparative landscape by benchmarking against reference models on the same data, with results stratified by language resource level (high-resource vs. low-resource), script type, and entity category. This three-stage structure moves evaluation from a single aggregate number to an actionable diagnostic profile.</p>
+          <p>Placeholder — describe how this workflow was formalised in your PhD research (DeformAr) and how it has been applied in applied projects such as FAST.</p>
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">seqeval</span>
+            <span class="tag">HuggingFace</span>
+            <span class="tag">spaCy</span>
+            <span class="tag">Error Taxonomy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Method 3: Machine Translation Evaluation -->
+      <div class="method-detail" id="mt-evaluation">
+        <div class="method-detail-header">
+          <div class="method-icon" style="flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="method-detail-title">Machine Translation Evaluation</h2>
+            <p class="method-detail-sub">Comparative metric framework with BERTScore as primary signal</p>
+          </div>
+        </div>
+        <div class="method-detail-body">
+          <p>Placeholder — describe this method in detail here. Why is BERTScore used as the primary metric, and how does it complement other evaluation signals?</p>
+          <p>The machine translation evaluation framework uses BERTScore as the primary automated metric, supplemented by BLEU and chrF as secondary signals. BERTScore is preferred because it captures semantic similarity through contextualised embeddings rather than surface-level n-gram overlap, making it more robust for morphologically rich languages and domain-specific text.</p>
+          <p>The framework also incorporates structured human evaluation on a sampled subset, using a rubric that assesses adequacy and fluency independently. Results from automated and human evaluation are compared to identify systematic discrepancies and calibrate the automated metrics against human judgement.</p>
+          <p>Placeholder — describe specific languages, domains, or use cases where this evaluation framework has been applied in your work.</p>
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <div class="tags">
+            <span class="tag">BERTScore</span>
+            <span class="tag">BLEU</span>
+            <span class="tag">chrF</span>
+            <span class="tag">Python</span>
+            <span class="tag">sacrebleu</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Method 4: Sentence-level Sentiment Analysis -->
+      <div class="method-detail" id="sentiment">
+        <div class="method-detail-header">
+          <div class="method-icon" style="flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="method-detail-title">Sentence-level Sentiment Analysis</h2>
+            <p class="method-detail-sub">Fine-grained investment sentiment detection and driver classification</p>
+          </div>
+        </div>
+        <div class="method-detail-body">
+          <p>Placeholder — describe this method in detail here. How does sentence-level granularity differ from document-level sentiment, and why does it matter for the use cases you apply it to?</p>
+          <p>Sentence-level sentiment analysis operates at the level of individual sentences rather than entire documents, allowing sentiment to be attributed to specific claims, entities, or events within a longer text. This granularity is essential for financial and geopolitical text, where a single document may express positive sentiment toward one actor and negative sentiment toward another.</p>
+          <p>The workflow involves sentence segmentation, sentiment classification (positive / negative / neutral), and driver classification — identifying the specific topic or entity driving the sentiment in each sentence. Results are aggregated to produce entity-level sentiment profiles, time-series sentiment trends, and comparison across sources or regions.</p>
+          <p>Placeholder — describe how this method was applied in the FCDO/BII and Gates Foundation projects, including any domain-specific fine-tuning or annotation work undertaken.</p>
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">transformers</span>
+            <span class="tag">HuggingFace</span>
+            <span class="tag">FinBERT</span>
+            <span class="tag">Sentence Transformers</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

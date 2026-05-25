@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofcom — Ahmed Younes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AY</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="../methods/index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">Ofcom</p>
+        <h1 class="page-title">Disinformation Landscape Mapping &amp; Actor Profiling</h1>
+        <span class="status-badge badge-pilot">Pilot</span>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+        <div class="section-card">
+          <p class="section-card-label">The Project</p>
+          <h2 class="section-card-title">Context &amp; Objectives</h2>
+          <div class="section-card-body">
+            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
+            <p>A pilot study commissioned by Ofcom to map the UK disinformation landscape, identify key spreading actors, and develop a scalable profiling methodology for regulatory intelligence purposes.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">My Role</p>
+          <h2 class="section-card-title">Contributions</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
+            <p>Led the design of the actor profiling framework and topic modelling pipeline. Developed the NER-based entity extraction layer to link narratives to identifiable actors and organisations.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Method</p>
+          <h2 class="section-card-title">Approach &amp; Pipeline</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
+            <p>Multilayered topic modelling was used to identify disinformation narrative clusters. Actor profiling combined NER output with network analysis to produce ranked influence scores for identified spreaders.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Outcomes</p>
+          <h2 class="section-card-title">Results &amp; Impact</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
+            <p>Delivered a pilot report and methodology documentation to Ofcom. The framework was assessed for potential integration into Ofcom's ongoing Online Safety Act monitoring capabilities.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">BERTopic</span>
+          <span class="tag">NER</span>
+          <span class="tag">NetworkX</span>
+          <span class="tag">spaCy</span>
+          <span class="tag">Actor Profiling</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Plotly</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
+          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

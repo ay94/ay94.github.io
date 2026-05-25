@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FCDO / BII — Ahmed Younes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AY</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="../methods/index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">FCDO / BII</p>
+        <h1 class="page-title">Investor Sentiment in South African Energy</h1>
+        <span class="status-badge badge-completed">Completed</span>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+        <div class="section-card">
+          <p class="section-card-label">The Project</p>
+          <h2 class="section-card-title">Context &amp; Objectives</h2>
+          <div class="section-card-body">
+            <p>Placeholder — add project background here. Describe the commissioning organisation, the problem context, and what the project set out to achieve.</p>
+            <p>Commissioned by the UK Foreign, Commonwealth &amp; Development Office and British International Investment, this project analysed investor sentiment in the South African energy sector to inform development finance decisions.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">My Role</p>
+          <h2 class="section-card-title">Contributions</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe your specific responsibilities, what you built or designed, and how you contributed to the project outcomes.</p>
+            <p>Built and fine-tuned the domain-specific sentiment classifier. Designed the NER pipeline to extract sector entities, investment vehicles, and risk actors from financial news and reports.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Method</p>
+          <h2 class="section-card-title">Approach &amp; Pipeline</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the technical approach: data collection, preprocessing, modelling choices, evaluation strategy, and tooling.</p>
+            <p>Applied sentence-level financial sentiment analysis with driver classification. NER was used to link sentiment to specific companies, projects, and policy actors in the South African energy landscape.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Outcomes</p>
+          <h2 class="section-card-title">Results &amp; Impact</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the key findings, deliverables, publications, or policy impact that resulted from this project.</p>
+            <p>Produced a detailed sentiment landscape report with entity-level breakdowns. Insights were used to support BII investment decision-making and FCDO policy briefings.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Financial NLP</span>
+          <span class="tag">NER</span>
+          <span class="tag">Sentiment Analysis</span>
+          <span class="tag">transformers</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Plotly</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub ↗</a></li>
+          <li><a href="#" class="btn btn-outline">Report (placeholder)</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

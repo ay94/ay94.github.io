@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeformAr — Ahmed Younes</title>
+  <meta name="description" content="DeformAr: A diagnostic framework for NER evaluation across Arabic and English. PhD doctoral output, University of Sussex, 2025.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AY</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="deformar.html">Research</a></li>
+      <li><a href="../methods/index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">PhD Doctoral Output — University of Sussex, 2025</p>
+        <h1 class="page-title">DeformAr</h1>
+        <p style="font-size: 1.1rem; color: var(--text-muted); font-style: italic; font-family: 'Playfair Display', serif; margin-top: 0.5rem; margin-bottom: 1rem;">
+          A diagnostic framework for NER evaluation across Arabic and English
+        </p>
+        <span class="status-badge badge-published">Published</span>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <!-- GitHub links -->
+      <div class="links-card" style="margin-bottom: 1.5rem;">
+        <h3>Repositories</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94" class="btn btn-primary" target="_blank" rel="noopener">deformar-extraction ↗</a></li>
+          <li><a href="https://github.com/ay94" class="btn btn-primary" target="_blank" rel="noopener">deformar-dashboard ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="sections-grid">
+        <div class="section-card">
+          <p class="section-card-label">The Project</p>
+          <h2 class="section-card-title">Context &amp; Motivation</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the research context here. What gap in the literature does DeformAr address? What are the limitations of existing NER evaluation approaches for Arabic?</p>
+            <p>Existing NER evaluation for Arabic relies heavily on aggregate F1 scores, which obscure systematic failure modes specific to morphologically complex languages. DeformAr was developed to provide a richer, diagnostic picture of model behaviour.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">My Role</p>
+          <h2 class="section-card-title">Research Contributions</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe your specific research contributions. What novel ideas, frameworks, or experiments did you design and lead?</p>
+            <p>Sole researcher and developer. Conceived the diagnostic framework, designed the error taxonomy, built the extraction and evaluation pipeline, and developed the interactive dashboard for result exploration.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Method</p>
+          <h2 class="section-card-title">Framework &amp; Approach</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the technical methodology in detail. How does DeformAr work? What datasets, models, and evaluation protocols were used?</p>
+            <p>DeformAr introduces an entity-level error taxonomy for Arabic NER, classifying errors into categories such as boundary errors, type confusion, and morphological decomposition failures. Cross-lingual benchmarking protocols compare Arabic model performance against English baselines on parallel corpora.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Outcomes</p>
+          <h2 class="section-card-title">Findings &amp; Impact</h2>
+          <div class="section-card-body">
+            <p>Placeholder — describe the key findings from the research. What did DeformAr reveal about Arabic NER model behaviour? What are the implications for practitioners?</p>
+            <p>DeformAr surfaces that the majority of Arabic NER errors are boundary-related rather than type errors — a finding obscured by aggregate metrics. The diagnostic dashboard enables practitioners to identify model weaknesses on specific entity types and domains.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">transformers</span>
+          <span class="tag">Arabic NLP</span>
+          <span class="tag">NER Evaluation</span>
+          <span class="tag">seqeval</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Plotly</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Further Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">GitHub Profile ↗</a></li>
+          <li><a href="#" class="btn btn-outline">Thesis (placeholder)</a></li>
+          <li><a href="#" class="btn btn-outline">Paper (placeholder)</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

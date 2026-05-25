@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahmed Younes — AI Engineer & NLP Researcher</title>
+  <meta name="description" content="Ahmed Younes is an AI Engineer and NLP Researcher based in London, specialising in multilingual text analysis, disinformation research, and NER evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-brand">AY</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="research/deformar.html">Research</a></li>
+      <li><a href="methods/index.html">Methods</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ── Hero ──────────────────────────────────── -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <span class="hero-pill">AI Engineer &bull; NLP Researcher &bull; PhD</span>
+            <h1 class="hero-title">Ahmed Younes</h1>
+            <p class="hero-subtitle">Turning language and data into decisions</p>
+            <p class="hero-bio">
+              I build NLP systems and AI pipelines that extract meaning from messy, multilingual
+              text — from Telegram disinformation networks to financial sentiment analysis.
+              Based in London, with a PhD in Arabic NER evaluation from the University of Sussex.
+              I work at the intersection of research rigour and real-world deployment.
+            </p>
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary">View Projects</a>
+              <a href="#contact" class="btn btn-outline">Get in Touch</a>
+            </div>
+            <p class="hero-availability">Available for consulting &amp; research roles</p>
+          </div>
+          <div class="hero-photo">
+            <div class="hero-photo-circle">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4.5" fill="#A89880"/>
+                <path d="M3.5 21c0-4.7 3.8-8 8.5-8s8.5 3.3 8.5 8" fill="#A89880"/>
+              </svg>
+              <span class="hero-photo-label">Photo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Stats ─────────────────────────────────── -->
+    <section id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">7</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">26</div>
+            <div class="stat-label">Languages</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8M+</div>
+            <div class="stat-label">Data Points</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8</div>
+            <div class="stat-label">Clients</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projects ──────────────────────────────── -->
+    <section id="projects">
+      <div class="container">
+        <p class="section-label">Selected Work</p>
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">EMIF / ISD</p>
+            <h3 class="project-title">Pro-Kremlin Influence Network Mapping</h3>
+            <p class="project-desc">Mapping pro-Kremlin influence networks across 7.8M Telegram posts using multilayered topic modelling and coordinated-behaviour detection.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Topic Modelling</span>
+              <span class="tag">Network Analysis</span>
+              <span class="tag">Telegram API</span>
+            </div>
+            <a href="projects/emif.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">Gates Foundation</p>
+            <h3 class="project-title">Global Health Advocacy Evaluation</h3>
+            <p class="project-desc">Social media evaluation of global health advocacy campaigns, measuring reach, resonance, and sentiment across platforms and regions.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Sentiment Analysis</span>
+              <span class="tag">Social Media APIs</span>
+              <span class="tag">NLP</span>
+            </div>
+            <a href="projects/gates.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">FCDO / BII</p>
+            <h3 class="project-title">Investor Sentiment in South African Energy</h3>
+            <p class="project-desc">Investor sentiment analysis across the South African energy sector, classifying sentiment drivers, risk signals, and named entities.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Financial NLP</span>
+              <span class="tag">NER</span>
+              <span class="tag">Sentiment Analysis</span>
+            </div>
+            <a href="projects/fcdo.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">Swedish Institute</p>
+            <h3 class="project-title">Multilingual Disinformation Image Analysis</h3>
+            <p class="project-desc">Multilingual disinformation image analysis across 6 language communities, combining visual and textual signals to surface coordinated narratives.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Multilingual NLP</span>
+              <span class="tag">Computer Vision</span>
+              <span class="tag">6 Languages</span>
+            </div>
+            <a href="projects/swedish.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">Ofcom</p>
+            <h3 class="project-title">Disinformation Landscape Mapping</h3>
+            <p class="project-desc">Disinformation landscape mapping and actor profiling pilot — identifying key spreaders, coordinated inauthentic behaviour, and narrative clusters.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Topic Modelling</span>
+              <span class="tag">Actor Profiling</span>
+              <span class="tag">NER</span>
+            </div>
+            <a href="projects/ofcom.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">BBC Monitoring</p>
+            <h3 class="project-title">Broadcast Transcript NER Pipeline</h3>
+            <p class="project-desc">Broadcast transcript analysis and NER extraction pipeline, structuring intelligence from unstructured broadcast media at scale.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">NER</span>
+              <span class="tag">spaCy</span>
+              <span class="tag">Transcript Analysis</span>
+            </div>
+            <a href="projects/bbcm.html" class="card-link">View Details →</a>
+          </div>
+
+          <div class="card project-card">
+            <div class="project-banner"></div>
+            <p class="project-client">FAST</p>
+            <h3 class="project-title">Multilingual NER Benchmarking</h3>
+            <p class="project-desc">Multilingual NER benchmarking across 26 languages, evaluating model performance on low- and high-resource language pairs with systematic error analysis.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">HuggingFace</span>
+              <span class="tag">26 Languages</span>
+              <span class="tag">Benchmarking</span>
+            </div>
+            <a href="projects/fast.html" class="card-link">View Details →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Research ───────────────────────────────── -->
+    <section id="research" style="background: linear-gradient(180deg, var(--bg) 0%, #ede7df 100%);">
+      <div class="container">
+        <p class="section-label">Doctoral Output</p>
+        <h2 class="section-title">Research</h2>
+        <div class="card research-card">
+          <p class="research-subtitle">PhD Doctoral Output — University of Sussex, 2025</p>
+          <h3 class="research-title">DeformAr</h3>
+          <p class="research-desc">
+            A diagnostic framework for NER evaluation across Arabic and English — introducing an
+            entity-level error taxonomy and cross-lingual benchmarking protocols to surface where
+            and why NER models fail on morphologically complex languages. DeformAr moves beyond
+            aggregate F1 scores to provide actionable diagnostics for low-resource Arabic NER.
+          </p>
+          <div class="research-actions">
+            <a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">deformar-extraction ↗</a>
+            <a href="https://github.com/ay94" class="btn btn-outline" target="_blank" rel="noopener">deformar-dashboard ↗</a>
+          </div>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">HuggingFace</span>
+            <span class="tag">Arabic NLP</span>
+            <span class="tag">NER Evaluation</span>
+          </div>
+          <div style="margin-top: 1.5rem;">
+            <a href="research/deformar.html" class="card-link">Full Research Page →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Methods ────────────────────────────────── -->
+    <section id="methods">
+      <div class="container">
+        <p class="section-label">Analytical Toolkit</p>
+        <h2 class="section-title">Methods</h2>
+        <div class="methods-grid">
+
+          <div class="card">
+            <div class="method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              </svg>
+            </div>
+            <h3 class="method-title">Multilayered Topic Modelling</h3>
+            <p class="method-desc">Hierarchical topic discovery from broad themes to granular sub-topics, enabling scalable narrative analysis across large corpora.</p>
+            <div style="margin-top: 1rem;">
+              <a href="methods/index.html#topic-modelling" class="card-link">Learn more →</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="method-title">NER Evaluation Workflow</h3>
+            <p class="method-desc">Three-stage benchmarking framework across low and high resource languages, surfacing systematic error patterns at entity level.</p>
+            <div style="margin-top: 1rem;">
+              <a href="methods/index.html#ner-evaluation" class="card-link">Learn more →</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h3 class="method-title">Machine Translation Evaluation</h3>
+            <p class="method-desc">Comparative metric framework using BERTScore as primary signal, combining automatic and human evaluation for robust translation quality assessment.</p>
+            <div style="margin-top: 1rem;">
+              <a href="methods/index.html#mt-evaluation" class="card-link">Learn more →</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <h3 class="method-title">Sentence-level Sentiment Analysis</h3>
+            <p class="method-desc">Fine-grained investment sentiment detection and driver classification, calibrated for domain-specific financial and geopolitical text.</p>
+            <div style="margin-top: 1rem;">
+              <a href="methods/index.html#sentiment" class="card-link">Learn more →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contact ────────────────────────────────── -->
+    <section id="contact">
+      <div class="container">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-grid">
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value"><a href="mailto:ahmedy2501@gmail.com">ahmedy2501@gmail.com</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Location</div>
+              <div class="contact-value">London, UK</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">GitHub</div>
+              <div class="contact-value"><a href="https://github.com/ay94" target="_blank" rel="noopener">github.com/ay94</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-value"><a href="https://linkedin.com/in/ahmedyounesai" target="_blank" rel="noopener">linkedin.com/in/ahmedyounesai</a></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      })
+    );
+  </script>
+
+</body>
+</html>
