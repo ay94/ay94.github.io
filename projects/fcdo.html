@@ -12,7 +12,7 @@
 <body>
 
   <nav>
-    <a href="../index.html" class="nav-brand">AY</a>
+    <a href="../index.html" class="nav-brand">AYD</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -32,7 +32,7 @@
 
       <div class="page-header">
         <p class="page-client">FCDO / British International Investment (BII, formerly CDC)</p>
-        <h1 class="page-title">Investor Sentiment Index: South African Energy Sector</h1>
+        <h1 class="page-title">Investor Sentiment Index: South African Various Sectors</h1>
         <span class="status-badge badge-completed">Completed · 2022</span>
       </div>
 
@@ -44,7 +44,7 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>FCDO and BII (British International Investment) commissioned ITAD to evaluate their efforts to mobilise private investment in South Africa's energy sector. CASM Technology built the NLP analysis module — a sentence-level sentiment index tracking how investor sentiment in South Africa's energy market shifted over 25 years, and identifying the key drivers of those shifts.</p>
+            <p>FCDO and BII (British International Investment) commissioned ITAD to evaluate their efforts to mobilise private investment in South Africa's various sectors. CASM Technology built the NLP analysis module — a sentence-level sentiment index tracking how investor sentiment in South Africa's energy market shifted over 25 years, and identifying the key drivers of those shifts.</p>
           </div>
         </div>
 
@@ -61,12 +61,15 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
+            <p><strong>Phase 1 — Pipeline Architecture:</strong></p>
+            <p>Designed a multi-stage classification pipeline combining keyword annotators, ML classifiers and transformer-based models (BERT) with active learning to identify investment sentiment and key drivers across multiple filter stages.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — Implementation &amp; Validation:</strong></p>
             <ol>
               <li>Data collection — 80,622 articles from 17 online news sources (1996–2022)</li>
               <li>Keyword annotators — 7 keyword filters for South Africa relevance and investment relevance</li>
               <li>Investment relevance classifier — articles split into chunks, transformer classifier trained (F1: 71%)</li>
               <li>Sentiment relevance classifier — trained on investment chunks (F1: 68%)</li>
-              <li>Energy sector filtering — energy keyword annotators applied to relevant chunks</li>
+              <li>Various sectors filtering — sector keyword annotators applied to relevant chunks</li>
               <li>Sentence splitting — articles split to sentence level for fine-grained analysis</li>
               <li>Positive sentiment classifier — trained on 500 manually annotated sentences (F1: 89%)</li>
               <li>Negative sentiment classifier — trained on 500 manually annotated sentences (F1: 80%)</li>
@@ -84,6 +87,7 @@
             <p>Sentiment index covering 25 years of South African energy investment discourse. 7 classifiers trained across relevance, sentiment and driver detection.</p>
             <p>Key finding: the sentiment index is predictive of net investment flows — the strongest validation signal across all markets studied in the evaluation.</p>
             <p>5 primary drivers and 14 sub-drivers of investment sentiment identified. Work referenced in a published ITAD blog post (March 2023).</p>
+            <p>Built Streamlit dashboard to visualise sentiment trends, driver distributions and volumetric analysis over time.</p>
           </div>
         </div>
 

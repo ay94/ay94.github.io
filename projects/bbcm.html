@@ -12,7 +12,7 @@
 <body>
 
   <nav>
-    <a href="../index.html" class="nav-brand">AY</a>
+    <a href="../index.html" class="nav-brand">AYD</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -32,8 +32,8 @@
 
       <div class="page-header">
         <p class="page-client">BBC Monitoring</p>
-        <h1 class="page-title">Broadcast Transcript Analysis &amp; NER Pipeline</h1>
-        <span class="status-badge badge-completed">Completed · 2023</span>
+        <h1 class="page-title">China's Public Diplomacy &amp; Broadcast Intelligence</h1>
+        <span class="status-badge badge-completed">Completed · 2020—2023</span>
       </div>
 
       <div class="project-page-banner"></div>
@@ -44,7 +44,7 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>BBC Monitoring tracks and analyses broadcast media globally — including Arabic language television and radio. CASM Technology was commissioned to build a pipeline that could process AWS Transcribe outputs (automatic speech recognition transcripts) and extract structured intelligence from them — specifically named entities, speaker attribution, and machine translation for non-English content.</p>
+            <p>A multi-phase engagement with BBC Monitoring spanning keyword-based discovery, full ML classification and broadcast transcript analysis. Phase 1 and 2 studied China's diplomatic social media activity across Twitter and Facebook covering 400,000+ messages from 370+ diplomatic accounts. Phase 3 built a production-grade transcript analysis pipeline for multilingual broadcast content including Indonesian, Iraqi Arabic and Farsi.</p>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Technical Lead and sole builder. I designed and built the full transcript analysis pipeline from scratch, packaged it as an installable Python library (<em>transcript_analysis v0.2.1</em>), and built a Streamlit dashboard for analysts to explore and query the outputs.</p>
+            <p>Technical Lead across all three phases. Phase 1—2: built data collection infrastructure, engineered account master file parsing 13 handle types across 370+ diplomatic accounts, designed keyword-to-theme pipeline across 5 themes, trained 34 ML classifiers across English, Arabic, French and Spanish (average F1: 80.5%), coordinated 4 language annotation teams. Named contributor on the published BBC Monitoring / CASM Technology report. Phase 3: designed and built full transcript ingestion, preprocessing, speaker diarisation and NER extraction pipeline — packaged as installable Python library with Streamlit dashboard for quality validation.</p>
           </div>
         </div>
 
@@ -60,6 +60,19 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
+            <p><strong>Phase 1 — Diplomatic Discovery &amp; Keyword Analysis:</strong></p>
+            <ol>
+              <li>Account master file — parsed 370+ diplomatic accounts across 13 handle types (embassy, ambassador, consulate accounts etc.)</li>
+              <li>Data collection — Twitter and Facebook data collection via Twitter Stream API, CrowdTangle and Method52</li>
+              <li>Keyword-to-theme pipeline — 5 themes designed and applied as keyword annotators across 400,000+ posts</li>
+            </ol>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — ML Classification (400,000+ posts, 4 languages):</strong></p>
+            <ol>
+              <li>Annotation — coordinated 4 language annotation teams (English, Arabic, French, Spanish)</li>
+              <li>Classifier training — 34 binary ML classifiers trained across languages and themes (average F1: 80.5%)</li>
+              <li>Reporting — classified posts aggregated to produce China public diplomacy landscape analysis</li>
+            </ol>
+            <p style="margin-top:0.75rem;"><strong>Phase 3 — Broadcast Transcript Pipeline:</strong></p>
             <ol>
               <li>Transcript parsing — AWS Transcribe JSON outputs parsed and structured</li>
               <li>Speaker diarisation — speaker segments identified and attributed (spk_0, spk_1 etc.)</li>
@@ -75,8 +88,7 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Production-grade NER extraction pipeline built and deployed. Packaged as reusable Python library (<em>transcript_analysis v0.2.1</em>).</p>
-            <p>Streamlit dashboard enabling analysts to explore transcripts, speakers and entities interactively. Full Arabic NER support via CamelBERT integration.</p>
+            <p>Published BBC Monitoring / CASM Technology report on China's public diplomacy. 34 classifiers trained across 4 languages (average F1: 80.5%). Production-grade transcript pipeline deployed as installable Python library (<em>transcript_analysis v0.2.1</em>) with multilingual support.</p>
           </div>
         </div>
 
@@ -93,6 +105,9 @@
           <span class="tag">Streamlit</span>
           <span class="tag">Plotly</span>
           <span class="tag">Pandas</span>
+          <span class="tag">Twitter Stream API</span>
+          <span class="tag">CrowdTangle</span>
+          <span class="tag">Method52</span>
         </div>
       </div>
 
