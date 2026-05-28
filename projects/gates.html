@@ -142,35 +142,40 @@
       <!-- Model Evaluation -->
       <div class="stack-card">
         <h3>Model Evaluation</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1.25rem;">Validated against 300 manually annotated samples by human reviewers. Separate evaluation conducted for French-language content.</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1.25rem; max-width: 820px;">Validated against manually annotated samples by human reviewers across both English and French corpora. Two relevancy approaches were evaluated — a topic-mapping method and a zero-shot classification method — with the zero-shot approach producing a material accuracy improvement.</p>
         <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
           <thead>
             <tr style="border-bottom: 1px solid var(--border);">
-              <th style="text-align:left; padding:0.5rem 1rem 0.5rem 0; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Class</th>
-              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Precision</th>
-              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Recall</th>
+              <th style="text-align:left; padding:0.5rem 1rem 0.5rem 0; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Evaluation</th>
+              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">English</th>
+              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">French</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Directly Relevant</td>
-              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">76%</td>
-              <td style="text-align:center; padding:0.6rem 1rem;">62%</td>
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Relevancy — topic-mapping</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">82%</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--text-muted);">—</td>
             </tr>
             <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Indirectly Relevant</td>
-              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">79%</td>
-              <td style="text-align:center; padding:0.6rem 1rem;">83%</td>
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Relevancy — zero-shot <span style="font-weight:400; color:var(--text-muted); font-size:0.82rem;">(improved approach)</span></td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">93%</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--text-muted);">~92%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Direct themes</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">84%</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">83%</td>
             </tr>
             <tr>
-              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Irrelevant</td>
-              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">88%</td>
-              <td style="text-align:center; padding:0.6rem 1rem;">95%</td>
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Indirect themes</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">78%</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">79%</td>
             </tr>
           </tbody>
           <tfoot>
             <tr style="border-top: 1px solid var(--border);">
-              <td style="padding:0.75rem 1rem 0 0; color:var(--text-muted); font-size:0.85rem;" colspan="3">Overall relevancy accuracy: <strong style="color:var(--accent);">82%</strong> &nbsp;·&nbsp; Direct theme accuracy: <strong style="color:var(--accent);">84%</strong> &nbsp;·&nbsp; n = 300 annotated samples</td>
+              <td style="padding:0.75rem 0 0; color:var(--text-muted); font-size:0.85rem;" colspan="3">Evaluated on 100–300 manually annotated samples per evaluation. Lower performance on indirect themes reflects the inherently broader, more ambiguous category — expected and consistent across both languages.</td>
             </tr>
           </tfoot>
         </table>
