@@ -19,6 +19,8 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="../index.html">Home</a></li>
       <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#industries">Industries</a></li>
       <li><a href="../research/deformar.html">Research</a></li>
       <li><a href="../methods/index.html">Methods</a></li>
       <li><a href="../index.html#contact">Contact</a></li>
@@ -31,7 +33,7 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">Bill &amp; Melinda Gates Foundation (via ITAD)</p>
+        <p class="page-client">Bill &amp; Melinda Gates Foundation · via ITAD</p>
         <h1 class="page-title">Global Health Advocacy Evaluation</h1>
         <span class="status-badge badge-completed">Completed · 2022</span>
       </div>
@@ -44,8 +46,9 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>The Gates Foundation commissioned ITAD to evaluate the effectiveness of its Global Fund Advocacy Portfolio (GFAP) — a network of NGO grantees working to influence governments to increase contributions to the Global Fund for AIDS, TB and Malaria ahead of the 7th replenishment.</p>
-            <p>CASM Technology provided the social media analysis module, collecting and analysing 43,282 posts across Twitter, Facebook and Instagram from grantee accounts in the UK, US, France, EC and International markets.</p>
+            <p>The Gates Foundation commissioned ITAD to evaluate the effectiveness of its Global Fund Advocacy Portfolio (GFAP) — a network of NGO grantees working to influence governments to increase contributions to the Global Fund for AIDS, TB and Malaria ahead of the 7th replenishment conference.</p>
+            <p>CASM Technology provided the quantitative social media analysis module. The brief was to map what grantees were actually saying online, how their messaging varied by market and by organisation, and how advocacy tactics (inside track vs outside track) were distributed across the portfolio.</p>
+            <p>My analysis fed into ITAD's broader mixed-methods evaluation alongside country surveys, interviews and case studies — providing the systematic, large-scale view of advocacy content that qualitative methods alone could not produce.</p>
           </div>
         </div>
 
@@ -53,23 +56,49 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Technical Lead and sole designer of the thematic framework. I built the social media data pipeline, designed the relevancy classification system (Direct / Indirect / Irrelevant), created the full thematic framework of 18 themes and subthemes, and produced the narrative and tactics analysis per market and per grantee.</p>
-            <p>ITAD used my analysis as one input layer into their broader mixed-methods evaluation — alongside surveys, interviews and country case studies.</p>
+            <p>Technical Lead. I was responsible for the full pipeline design — from data architecture and collection through classification, analysis and synthesis.</p>
+            <p>I designed the three-tier relevancy framework (Direct / Indirect / Irrelevant), built and validated the 18-theme thematic framework from scratch, and produced all narrative and tactics analysis at both market and grantee level.</p>
+            <p>I also designed and ran the model evaluation — benchmarking classification performance against 300 manually annotated samples to validate the pipeline before it was used to analyse the full corpus.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Posts analysed:</strong> 43,282 across Twitter, Facebook and Instagram</li>
+              <li><strong>Markets:</strong> UK, US, EU/EC, France, International</li>
+              <li><strong>Languages:</strong> English and French</li>
+              <li><strong>Time period:</strong> 2020–2022 (covering COVID-19 pandemic period)</li>
+              <li><strong>Organisations:</strong> Gates Foundation grantee NGOs, GFAN (Gates Global Fund Advocacy Network) member accounts</li>
+              <li><strong>Media types:</strong> Social media (Twitter/Facebook/Instagram) and mainstream media (English and French press)</li>
+              <li><strong>Evaluation:</strong> 300-sample human annotation benchmark for relevancy and theme classification</li>
+            </ul>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">Method</p>
-          <h2 class="section-card-title">Approach &amp; Pipeline</h2>
+          <h2 class="section-card-title">Analysis Pipeline</h2>
           <div class="section-card-body">
-            <ol>
-              <li>Data collection — 43,282 posts scraped across Twitter, Facebook and Instagram from grantee accounts</li>
-              <li>Relevancy classification — three-tier system: Direct (explicitly about Global Fund replenishment), Indirect (related global health content), Irrelevant</li>
-              <li>Thematic framework design — 18 themes and subthemes including Pledges, COVID-19, Campaign Mobilisation, LMIC Voices, Promoting the Global Fund, Financial Aid, Key Events</li>
-              <li>Narrative analysis — per market (UK, US, France, EC, International) and per grantee organisation</li>
-              <li>Tactics breakdown — identifying inside track (direct government engagement) and outside track (public mobilisation) approaches</li>
-              <li>Synthesis — outputs fed into ITAD's country-level and grantee-level synthesis reports</li>
-            </ol>
+            <p><strong>Phase 0 — Foundation &amp; Architecture:</strong> system blueprint, data collection infrastructure, annotation guidelines and thematic framework design.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 1 — Data Collection:</strong> 43,282 posts scraped from grantee accounts across Twitter, Facebook and Instagram; English and French corpora prepared separately.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — Topic Extraction:</strong> zero-shot classification using <em>facebook/bart-large-mnli</em> to assign topic scores; batched inference with a custom PyTorch DataLoader for scale.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 3 — Theme Mapping &amp; Relevancy:</strong> raw topic scores mapped to the 18-theme framework; each post assigned Direct / Indirect / Irrelevant relevancy label. Validated against 300 human-annotated samples.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 4 — Market &amp; Network Analysis:</strong> per-market narrative breakdowns (UK, US, EC, France, International); GFAN advocacy network analysis using NetworkX; grantee-level thematic fingerprints; inside-track vs outside-track tactics breakdown.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 5 — Synthesis &amp; Delivery:</strong> country-level and grantee-level synthesis reports; cross-market comparative analysis; integration into ITAD's evaluation framework.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Analysis</p>
+          <h2 class="section-card-title">Network &amp; Market Analysis</h2>
+          <div class="section-card-body">
+            <p>A key analytical layer was mapping the GFAN (Gates Global Fund Advocacy Network) — identifying how accounts clustered thematically, who shared messaging with whom, and which organisations drove narrative cohesion across the network.</p>
+            <p>Network graphs were built for mentions, hashtag co-use and link-sharing using NetworkX, with node size weighted by degree centrality. This produced structural portraits of how advocacy coordinated (or failed to coordinate) across grantees.</p>
+            <p>Per-market analysis tracked volume over time, theme distribution, grantee engagement and advocacy tactics — producing both strategic overviews for ITAD and granular, grantee-specific breakdowns for country case leads.</p>
+            <p>The French-language corpus was analysed in parallel with an equivalent pipeline, with separate evaluation benchmarks confirming comparable performance on French content.</p>
           </div>
         </div>
 
@@ -77,22 +106,91 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>43,282 posts analysed across 5 markets. 18-theme framework designed and applied across all grantee accounts.</p>
-            <p>Narrative and tactics breakdown delivered per grantee and per market. Analysis fed into ITAD's published evaluation for the Gates Foundation.</p>
+            <p>43,282 posts analysed across 5 markets and 2 languages. Full thematic and relevancy classification applied to English and French corpora.</p>
+            <p>Country-level narrative synthesis delivered for the UK, US, EU/EC, France and International markets — each combining quantitative theme distributions with qualitative narrative analysis. Grantee-level advocacy portfolios built for each NGO in the network.</p>
+            <p>Cross-market synthesis identified divergences in how different markets framed the replenishment ask — with pledging language dominant in the US and UK, and health systems framing stronger in the EU.</p>
+            <p>Analysis was integrated into ITAD's published evaluation for the Gates Foundation and presented to stakeholders at the November 2022 advocacy workshop.</p>
           </div>
         </div>
 
+      </div>
+
+      <!-- Thematic Framework -->
+      <div class="stack-card">
+        <h3>Thematic Framework — 18 themes</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1rem;">Three-tier relevancy classification applied first (Direct / Indirect / Irrelevant), then each relevant post assigned to one of the themes below.</p>
+        <div class="tags">
+          <span class="tag">Pledges</span>
+          <span class="tag">Promoting the Global Fund</span>
+          <span class="tag">Campaigns &amp; Mobilisation</span>
+          <span class="tag">LMIC Voices</span>
+          <span class="tag">COVID-19</span>
+          <span class="tag">Vaccines</span>
+          <span class="tag">HIV Support</span>
+          <span class="tag">Strengthening Health Systems</span>
+          <span class="tag">Pandemic Preparedness</span>
+          <span class="tag">General Awareness Raising</span>
+          <span class="tag">Financial Aid</span>
+          <span class="tag">Aid Cuts</span>
+          <span class="tag">Personal Stories</span>
+          <span class="tag">Target Groups</span>
+          <span class="tag">Urgent Messaging</span>
+          <span class="tag">Virtual Events &amp; Webinars</span>
+          <span class="tag">Other Social / Political Agendas</span>
+          <span class="tag">Key Events</span>
+        </div>
+      </div>
+
+      <!-- Model Evaluation -->
+      <div class="stack-card">
+        <h3>Model Evaluation</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1.25rem;">Validated against 300 manually annotated samples by human reviewers. Separate evaluation conducted for French-language content.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align:left; padding:0.5rem 1rem 0.5rem 0; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Class</th>
+              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Precision</th>
+              <th style="text-align:center; padding:0.5rem 1rem; color:var(--text-muted); font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.75rem;">Recall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Directly Relevant</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">76%</td>
+              <td style="text-align:center; padding:0.6rem 1rem;">62%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Indirectly Relevant</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">79%</td>
+              <td style="text-align:center; padding:0.6rem 1rem;">83%</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 1rem 0.6rem 0; font-weight:600;">Irrelevant</td>
+              <td style="text-align:center; padding:0.6rem 1rem; color:var(--accent); font-weight:700;">88%</td>
+              <td style="text-align:center; padding:0.6rem 1rem;">95%</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr style="border-top: 1px solid var(--border);">
+              <td style="padding:0.75rem 1rem 0 0; color:var(--text-muted); font-size:0.85rem;" colspan="3">Overall relevancy accuracy: <strong style="color:var(--accent);">82%</strong> &nbsp;·&nbsp; Direct theme accuracy: <strong style="color:var(--accent);">84%</strong> &nbsp;·&nbsp; n = 300 annotated samples</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
 
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">Social Media APIs</span>
-          <span class="tag">NLP</span>
-          <span class="tag">Topic Modelling</span>
-          <span class="tag">Thematic Analysis</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">facebook/bart-large-mnli</span>
+          <span class="tag">NetworkX</span>
+          <span class="tag">Bokeh</span>
+          <span class="tag">Plotly</span>
           <span class="tag">Pandas</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">SciPy</span>
         </div>
       </div>
 
