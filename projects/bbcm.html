@@ -32,7 +32,7 @@
 
       <div class="page-header">
         <p class="page-client">BBC Monitoring</p>
-        <h1 class="page-title">China's Public Diplomacy &amp; Broadcast Intelligence</h1>
+        <h1 class="page-title">China's Public Diplomacy on Social Media</h1>
         <span class="status-badge badge-completed">Completed · 2020—2023</span>
       </div>
 
@@ -44,7 +44,8 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>A multi-phase engagement with BBC Monitoring spanning keyword-based discovery, full ML classification and broadcast transcript analysis. Phase 1 and 2 studied China's diplomatic social media activity across Twitter and Facebook covering 400,000+ messages from 370+ diplomatic accounts. Phase 3 built a production-grade transcript analysis pipeline for multilingual broadcast content including Indonesian, Iraqi Arabic and Farsi.</p>
+            <p>An engagement with BBC Monitoring to map China's diplomatic social media activity across Twitter and Facebook — 102,883 posts from 370+ diplomatic accounts across 6 global regions, classified across 9 themes in 4 languages.</p>
+            <p style="margin-top:0.75rem;">The aim was to give BBC Monitoring a systematic, scalable view of how Chinese diplomatic accounts framed narratives across regions and platforms — from COVID-19 and geopolitics to human rights and technology.</p>
           </div>
         </div>
 
@@ -52,7 +53,25 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Technical Lead across all three phases. Phase 1—2: built data collection infrastructure, engineered account master file parsing 13 handle types across 370+ diplomatic accounts, designed keyword-to-theme pipeline across 5 themes, trained 34 ML classifiers across English, Arabic, French and Spanish (average F1: 80.5%), coordinated 4 language annotation teams. Named contributor on the published BBC Monitoring / CASM Technology report. Phase 3: designed and built full transcript ingestion, preprocessing, speaker diarisation and NER extraction pipeline — packaged as installable Python library with Streamlit dashboard for quality validation.</p>
+            <p><strong>Phase 1 (2020):</strong> restructured and standardised the account seed list into a unified collection schema across 370+ diplomatic accounts (13 handle types). Set up and maintained the data collection pipeline — cron-based scheduling for ongoing ingestion and historic backfill. Led the keyword-based thematic pilot across all four languages to establish an agreed thematic breakdown. Named contributor on the published BBC Monitoring report.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 (2021):</strong> contributed to training and evaluating 34 binary classifiers across 4 languages and 9 themes. Supported annotation coordination across language specialist teams, running active learning cycles to iteratively improve model quality and refining the pipeline throughout.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Posts analysed:</strong> 102,883 across Twitter and Facebook</li>
+              <li><strong>Accounts monitored:</strong> 370+ diplomatic accounts (embassies, consulates, foreign ministry officials, Confucius Institutes)</li>
+              <li><strong>Regions:</strong> Asia-Pacific, Africa, Americas, Europe, Middle East, Eurasia</li>
+              <li><strong>Languages:</strong> English, Arabic, French, Spanish</li>
+              <li><strong>Time period:</strong> January 2020 – October 2022</li>
+              <li><strong>Themes:</strong> 9 (Geopolitics, Economy, COVID-19, Politics &amp; Society, Culture &amp; People, Military &amp; Security, Technology, Environment, Human Rights)</li>
+              <li><strong>Classifiers trained:</strong> 34 binary classifiers across themes and languages</li>
+              <li><strong>Evaluation:</strong> manually annotated gold-standard datasets per language and theme</li>
+            </ul>
           </div>
         </div>
 
@@ -60,27 +79,8 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p><strong>Phase 1 — Diplomatic Discovery &amp; Keyword Analysis:</strong></p>
-            <ol>
-              <li>Account master file — parsed 370+ diplomatic accounts across 13 handle types (embassy, ambassador, consulate accounts etc.)</li>
-              <li>Data collection — Twitter and Facebook data collection via Twitter Stream API, CrowdTangle and Method52</li>
-              <li>Keyword-to-theme pipeline — 5 themes designed and applied as keyword annotators across 400,000+ posts</li>
-            </ol>
-            <p style="margin-top:0.75rem;"><strong>Phase 2 — ML Classification (400,000+ posts, 4 languages):</strong></p>
-            <ol>
-              <li>Annotation — coordinated 4 language annotation teams (English, Arabic, French, Spanish)</li>
-              <li>Classifier training — 34 binary ML classifiers trained across languages and themes (average F1: 80.5%)</li>
-              <li>Reporting — classified posts aggregated to produce China public diplomacy landscape analysis</li>
-            </ol>
-            <p style="margin-top:0.75rem;"><strong>Phase 3 — Broadcast Transcript Pipeline:</strong></p>
-            <ol>
-              <li>Transcript parsing — AWS Transcribe JSON outputs parsed and structured</li>
-              <li>Speaker diarisation — speaker segments identified and attributed (spk_0, spk_1 etc.)</li>
-              <li>NER extraction — <em>NamedEntityExtractions</em> class built with HuggingFace model loading (supports any model including Arabic CamelBERT), batch processing via PyTorch DataLoader, subword token merging, and JSON schema output (PER, LOC, ORG, MISC)</li>
-              <li>Machine translation — translated text integrated alongside original for bilingual display</li>
-              <li>Streamlit dashboard — 4-tab interface: Transcript Viewer, Speaker Statistics, Speaker Data with highlighted NER, NER Analysis with filtering and top-entity charts</li>
-              <li>Packaging — delivered as <em>transcript_analysis v0.2.1</em>, installable Python library</li>
-            </ol>
+            <p><strong>Phase 1 — Keyword Discovery:</strong> account seed list compiled and unified into a consistent collection schema across 13 diplomatic handle types. Keyword-based thematic pilot run across all four languages to agree on a thematic framework before moving to supervised classification.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — ML Classification:</strong> 9 themes × 4 languages = 34 binary classifiers, each trained on manually annotated gold-standard data. Annotation coordinated across four language specialist teams with defined guidelines and positive/negative example documentation. Active learning cycles used to iteratively surface high-value training examples and improve performance. Pipeline maintained and refined throughout.</p>
           </div>
         </div>
 
@@ -88,7 +88,11 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Published BBC Monitoring / CASM Technology report on China's public diplomacy. 34 classifiers trained across 4 languages (average F1: 80.5%). Production-grade transcript pipeline deployed as installable Python library (<em>transcript_analysis v0.2.1</em>) with multilingual support.</p>
+            <ul>
+              <li><strong>Average F1:</strong> 80.5% across 34 classifiers — consistent performance across 4 languages and 9 themes</li>
+              <li><strong>Coverage:</strong> 102,883 posts classified; 6 global regions; English and Arabic corpora analysed in full</li>
+              <li><strong>Published report:</strong> "China's Public Diplomacy on Twitter and Facebook" — BBC Monitoring, May 2022</li>
+            </ul>
           </div>
         </div>
 
@@ -98,23 +102,18 @@
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">PyTorch</span>
-          <span class="tag">HuggingFace Transformers</span>
-          <span class="tag">AWS Transcribe</span>
-          <span class="tag">CamelBERT</span>
-          <span class="tag">Streamlit</span>
-          <span class="tag">Plotly</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">Twitter Stream API</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">Twitter API</span>
           <span class="tag">CrowdTangle</span>
-          <span class="tag">Method52</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Plotly</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Pipeline — private internal library</span></li>
+          <li><a href="https://www.academia.edu/80483985/Chinas_public_diplomacy_on_Twitter_and_Facebook" class="btn btn-outline" target="_blank" rel="noopener">Published Report — BBC Monitoring</a></li>
         </ul>
       </div>
 
