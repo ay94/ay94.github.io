@@ -68,11 +68,13 @@
           <div class="section-card-body">
             <ul>
               <li><strong>Posts analysed:</strong> 43,282 across Twitter, Facebook and Instagram</li>
+              <li><strong>Grantees:</strong> 16 NGO grantees monitored across all markets</li>
               <li><strong>Markets:</strong> UK, US, EU/EC, France, International</li>
               <li><strong>Languages:</strong> English and French</li>
-              <li><strong>Time period:</strong> 2020–2022 (covering COVID-19 pandemic period)</li>
-              <li><strong>Organisations:</strong> Gates Foundation grantee NGOs, GFAN (Gates Global Fund Advocacy Network) member accounts</li>
-              <li><strong>Media types:</strong> Social media (Twitter/Facebook/Instagram) and mainstream media (English and French press)</li>
+              <li><strong>Time period:</strong> January 2020 – October 2022, covering the COVID-19 pandemic period and the Seventh Replenishment Conference advocacy cycle</li>
+              <li><strong>Media types:</strong> Social media (Twitter, Facebook, Instagram) and mainstream media (websites, news outlets, blogs)</li>
+              <li><strong>Topics discovered:</strong> 380 (English corpus), 162 (French corpus) via unsupervised topic modeling</li>
+              <li><strong>Themes identified:</strong> 14 (English), 15 (French) covering narratives and advocacy tactics</li>
               <li><strong>Evaluation:</strong> 300-sample human annotation benchmark for relevancy and theme classification</li>
             </ul>
           </div>
@@ -82,22 +84,11 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Analysis Pipeline</h2>
           <div class="section-card-body">
-            <p><strong>Phase 0 — Foundation &amp; Architecture:</strong> system blueprint, data collection infrastructure, annotation guidelines and thematic framework design.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 1 — Data Collection:</strong> 43,282 posts scraped from grantee accounts across Twitter, Facebook and Instagram; English and French corpora prepared separately.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 2 — Topic Extraction:</strong> zero-shot classification using <em>facebook/bart-large-mnli</em> to assign topic scores; batched inference with a custom PyTorch DataLoader for scale.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 3 — Theme Mapping &amp; Relevancy:</strong> raw topic scores mapped to the 18-theme framework; each post assigned Direct / Indirect / Irrelevant relevancy label. Validated against 300 human-annotated samples.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 4 — Market &amp; Network Analysis:</strong> per-market narrative breakdowns (UK, US, EC, France, International); GFAN advocacy network analysis using NetworkX; grantee-level thematic fingerprints; inside-track vs outside-track tactics breakdown.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 5 — Synthesis &amp; Delivery:</strong> country-level and grantee-level synthesis reports; cross-market comparative analysis; integration into ITAD's evaluation framework.</p>
-            <div style="display:flex; gap:1rem; margin-top:1.25rem; flex-wrap:wrap;">
-              <div style="flex:1; min-width:280px;">
-                <p style="font-size:0.78rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin:0 0 0.5rem;">Full pipeline — scoping through analysis</p>
-                <img src="../assets/gates/pipeline-diagram.png" alt="Full analysis pipeline diagram" style="width:100%; border-radius:6px; border:1px solid var(--border);">
-              </div>
-              <div style="flex:1; min-width:280px;">
-                <p style="font-size:0.78rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin:0 0 0.5rem;">Message filtering pipeline</p>
-                <img src="../assets/gates/pipeline-filtering.png" alt="Message filtering pipeline diagram" style="width:100%; border-radius:6px; border:1px solid var(--border);">
-              </div>
-            </div>
+            <p><strong>Phase 1 — Data Collection:</strong> posts and mainstream media articles collected across grantee accounts in five markets; online articles segmented into coherent units for consistent processing across source types.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — Topic Modeling:</strong> text embedded using <em>all-mpnet-base-v2</em> for English and <em>paraphrase-multilingual-mpnet-base-v2</em> for French and other languages (sentence-transformers); embeddings reduced via UMAP and clustered using density-based clustering (HDBSCAN) to surface latent themes in the corpus without supervised labels.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 3 — Cluster Analysis:</strong> clusters interpreted across two analytical layers — a relevancy layer (Directly Relevant / Indirectly Relevant / Irrelevant) and a thematic layer (Themes and Subthemes representing narratives and advocacy tactics).</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 4 — Zero-Shot Refinement:</strong> zero-shot classification (<em>facebook/bart-large-mnli</em>, batched via PyTorch DataLoader) applied to both the relevancy and thematic layers to clean noisy cluster boundaries and improve accuracy — validated against a 300-sample human annotation benchmark.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 5 — Analysis &amp; Reporting:</strong> per-market narrative breakdowns, grantee-level thematic fingerprints, network analysis, and cross-market synthesis delivered across English and French corpora.</p>
           </div>
         </div>
 
@@ -123,6 +114,14 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Analysis Pipeline Diagram -->
+      <div class="stack-card">
+        <h3>Analysis Pipeline</h3>
+        <div style="margin-top:1rem; text-align:center;">
+          <img src="../assets/gates/gates-pipeline.png" alt="Full analysis pipeline diagram" style="width:100%; max-width:680px; border-radius:6px; border:1px solid var(--border);">
+        </div>
       </div>
 
       <!-- Thematic Framework -->
@@ -238,6 +237,9 @@
           <span class="tag">Python</span>
           <span class="tag">HuggingFace Transformers</span>
           <span class="tag">PyTorch</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">all-mpnet-base-v2</span>
+          <span class="tag">paraphrase-multilingual-mpnet-base-v2</span>
           <span class="tag">facebook/bart-large-mnli</span>
           <span class="tag">NetworkX</span>
           <span class="tag">Bokeh</span>
