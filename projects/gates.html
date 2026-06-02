@@ -88,6 +88,16 @@
             <p style="margin-top:0.75rem;"><strong>Phase 3 — Theme Mapping &amp; Relevancy:</strong> raw topic scores mapped to the 18-theme framework; each post assigned Direct / Indirect / Irrelevant relevancy label. Validated against 300 human-annotated samples.</p>
             <p style="margin-top:0.75rem;"><strong>Phase 4 — Market &amp; Network Analysis:</strong> per-market narrative breakdowns (UK, US, EC, France, International); GFAN advocacy network analysis using NetworkX; grantee-level thematic fingerprints; inside-track vs outside-track tactics breakdown.</p>
             <p style="margin-top:0.75rem;"><strong>Phase 5 — Synthesis &amp; Delivery:</strong> country-level and grantee-level synthesis reports; cross-market comparative analysis; integration into ITAD's evaluation framework.</p>
+            <div style="display:flex; gap:1rem; margin-top:1.25rem; flex-wrap:wrap;">
+              <div style="flex:1; min-width:280px;">
+                <p style="font-size:0.78rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin:0 0 0.5rem;">Full pipeline — scoping through analysis</p>
+                <img src="../assets/gates/pipeline-diagram.png" alt="Full analysis pipeline diagram" style="width:100%; border-radius:6px; border:1px solid var(--border);">
+              </div>
+              <div style="flex:1; min-width:280px;">
+                <p style="font-size:0.78rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin:0 0 0.5rem;">Message filtering pipeline</p>
+                <img src="../assets/gates/pipeline-filtering.png" alt="Message filtering pipeline diagram" style="width:100%; border-radius:6px; border:1px solid var(--border);">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -181,6 +191,47 @@
         </table>
       </div>
 
+      <!-- Interactive figures — generated from project data via gates-advocacy library, grantee names anonymised -->
+      <div class="stack-card">
+        <h3>Monthly Post Volume by Grantee</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">Post volume over time per grantee, 2019–2022 — tracking the ramp-up in advocacy activity ahead of the 7th replenishment conference.</p>
+        <div style="width:100%; overflow-x:auto;">
+          <iframe src="../assets/gates/grantee-volume.html"
+            style="width:100%; min-width:600px; height:430px; border:none; background:#eef2f7;"
+            loading="lazy" title="Monthly post volume by grantee"></iframe>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Grantee Theme Breakdown</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">Heatmap of post counts by grantee and theme — surfaces each organisation's thematic fingerprint and identifies which grantees drove specific narrative areas.</p>
+        <div style="width:100%; overflow-x:auto;">
+          <iframe src="../assets/gates/grantee-theme-heatmap.html"
+            style="width:100%; min-width:600px; height:420px; border:none; background:#eef2f7;"
+            loading="lazy" title="Grantee theme breakdown heatmap"></iframe>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Cross-Grantee Twitter Mentions</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">Directed mention matrix showing how frequently each grantee mentioned others — mapping coordination patterns and which organisations drove cross-network engagement.</p>
+        <div style="width:100%; overflow-x:auto;">
+          <iframe src="../assets/gates/mention-matrix.html"
+            style="width:100%; min-width:600px; height:430px; border:none; background:#eef2f7;"
+            loading="lazy" title="Cross-grantee Twitter mentions matrix"></iframe>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Grantee Hashtag Network</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">Bipartite network connecting each grantee to its most-used hashtags. Hub size reflects total hashtag activity; shared nodes (e.g. #GlobalFund, #GlobalHealth) reveal cross-grantee coordination around common campaign messaging.</p>
+        <div style="width:100%; overflow-x:auto;">
+          <iframe src="../assets/gates/hashtag-network.html"
+            style="width:100%; min-width:600px; height:680px; border:none; background:white;"
+            loading="lazy" title="Grantee hashtag co-use network"></iframe>
+        </div>
+      </div>
+
       <div class="stack-card">
         <h3>Tech Stack</h3>
         <div class="tags">
@@ -200,6 +251,7 @@
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
+          <li><a href="https://github.com/ay94/gates-advocacy-analysis" class="btn btn-outline" target="_blank" rel="noopener">GitHub — gates-advocacy-analysis</a></li>
           <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
         </ul>
       </div>
