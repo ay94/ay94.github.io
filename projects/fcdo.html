@@ -32,7 +32,7 @@
 
       <div class="page-header">
         <p class="page-client">FCDO / British International Investment (BII, formerly CDC)</p>
-        <h1 class="page-title">Investor Sentiment Index: South African Various Sectors</h1>
+        <h1 class="page-title">Investor Sentiment Index: South African Energy Sector</h1>
         <span class="status-badge badge-completed">Completed · 2022</span>
       </div>
 
@@ -44,7 +44,8 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>FCDO and BII (British International Investment) commissioned ITAD to evaluate their efforts to mobilise private investment in South Africa's various sectors. CASM Technology built the NLP analysis module — a sentence-level sentiment index tracking how investor sentiment in South Africa's energy market shifted over 25 years, and identifying the key drivers of those shifts.</p>
+            <p>FCDO and BII (British International Investment) commissioned ITAD to evaluate their efforts to mobilise private investment in South Africa. ITAD engaged CASM Technology to build the NLP analysis module — a sentence-level investor sentiment and driver index tracking how investor confidence in South Africa's energy sector shifted over 25 years (1996–2022) and identifying the key drivers of those shifts.</p>
+            <p style="margin-top:0.75rem;">The central methodological contribution was distinguishing genuine investor sentiment — explicit statements of intent to invest or disinvest — from general market commentary, enabling a cleaner and more predictive signal than article-level approaches.</p>
           </div>
         </div>
 
@@ -52,8 +53,26 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Technical Lead. I designed and built the full NLP pipeline from scratch — from investment relevance classification through to sentiment detection and driver identification. I also defined the sentiment framework, distinguishing genuine investor sentiment from stock market noise.</p>
-            <p>This was a technically novel approach: sentence-level rather than article-level analysis, which allowed finer-grained sentiment detection with fewer labelled instances.</p>
+            <p>Defined the sentiment framework — distinguishing positive and negative investor sentiment based on explicit investment actions and stated intent rather than general market tone. Designed the driver framework: 5 primary drivers and 14 sub-drivers (Economic, Political, Enabling Environment, Investor Priorities, COVID-19) grounded in domain knowledge and validated with subject matter experts.</p>
+            <p style="margin-top:0.75rem;">Trained and evaluated the classifier suite using active learning to generate high-quality training examples for transformer-based models — covering investment relevance, sentiment direction, and all driver categories. Led the annotation and evaluation strategy, coordinating domain experts throughout.</p>
+            <p style="margin-top:0.75rem;">Conducted all analysis — event detection, sentiment trends over time, driver attribution, volumetric analysis — and produced the findings and presentations delivered to FCDO and BII stakeholders.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Articles collected:</strong> 80,622 from 17 online news sources</li>
+              <li><strong>Sentences analysed:</strong> ~50,000 extracted and segmented from relevant articles</li>
+              <li><strong>Time period:</strong> May 1996 – January 2022</li>
+              <li><strong>Geography:</strong> South Africa — energy sector</li>
+              <li><strong>Language:</strong> English</li>
+              <li><strong>Sentiment classes:</strong> Positive / Negative (explicit investor actions and intent only)</li>
+              <li><strong>Drivers:</strong> 5 primary drivers, 14 sub-drivers</li>
+              <li><strong>Classifiers trained:</strong> 7 binary classifiers (relevance, sentiment, 5 drivers)</li>
+            </ul>
           </div>
         </div>
 
@@ -61,22 +80,14 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p><strong>Phase 1 — Pipeline Architecture:</strong></p>
-            <p>Designed a multi-stage classification pipeline combining keyword annotators, ML classifiers and transformer-based models (BERT) with active learning to identify investment sentiment and key drivers across multiple filter stages.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 2 — Implementation &amp; Validation:</strong></p>
+            <p><strong>Sentiment Framework:</strong> sentence-level rather than article-level analysis, isolating explicit investor statements — investments made, withdrawals, stated intent — from background market commentary. Positive and negative classified independently (not mutually exclusive) to capture divergence patterns.</p>
+            <p style="margin-top:0.75rem;"><strong>Classification Pipeline:</strong> a multi-stage pipeline covering investment relevance filtering, sentence splitting, and sentiment and driver classification. Contributions focused on the sentiment and driver layers:</p>
             <ol>
-              <li>Data collection — 80,622 articles from 17 online news sources (1996–2022)</li>
-              <li>Keyword annotators — 7 keyword filters for South Africa relevance and investment relevance</li>
-              <li>Investment relevance classifier — articles split into chunks, transformer classifier trained (F1: 71%)</li>
-              <li>Sentiment relevance classifier — trained on investment chunks (F1: 68%)</li>
-              <li>Various sectors filtering — sector keyword annotators applied to relevant chunks</li>
-              <li>Sentence splitting — articles split to sentence level for fine-grained analysis</li>
-              <li>Positive sentiment classifier — trained on 500 manually annotated sentences (F1: 89%)</li>
-              <li>Negative sentiment classifier — trained on 500 manually annotated sentences (F1: 80%)</li>
-              <li>Driver identification — 500 sentences manually analysed → 5 primary drivers: Economic, Political, Enabling Environment, Investor Priorities, COVID-19</li>
-              <li>Driver classifiers — 5 binary classifiers trained (Enabling Environment: 81%, Economics: 82%, Politics: 88%, Investor Priorities: 78%, COVID-19: 93%)</li>
-              <li>Validation — sentiment index validated as predictive of net investment flows in South Africa</li>
+              <li>Positive sentiment classifier — 500 annotated sentences (F1: 89%)</li>
+              <li>Negative sentiment classifier — 500 annotated sentences (F1: 80%)</li>
+              <li>Driver classifiers — 5 binary models: Economics (82%), Politics (88%), Enabling Environment (81%), Investor Priorities (78%), COVID-19 (93%)</li>
             </ol>
+            <p style="margin-top:0.75rem;"><strong>Active learning</strong> used throughout to iteratively select high-value training examples for transformer fine-tuning, reducing annotation effort while improving boundary precision.</p>
           </div>
         </div>
 
@@ -84,10 +95,10 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Sentiment index covering 25 years of South African energy investment discourse. 7 classifiers trained across relevance, sentiment and driver detection.</p>
-            <p>Key finding: the sentiment index is predictive of net investment flows — the strongest validation signal across all markets studied in the evaluation.</p>
-            <p>5 primary drivers and 14 sub-drivers of investment sentiment identified. Work referenced in a published ITAD blog post (March 2023).</p>
-            <p>Built Streamlit dashboard to visualise sentiment trends, driver distributions and volumetric analysis over time.</p>
+            <p>The analysis tracked positive and negative investor sentiment over time, attributed shifts to their underlying drivers, and identified the specific events that explain those shifts.</p>
+            <p style="margin-top:0.75rem;">Key analytical findings: the relationship between drivers and sentiment direction was mapped — Enabling Environment emerged as the strongest correlate of positive sentiment; Economic factors the dominant negative signal. Sentiment breakdown per driver revealed distinct contribution patterns across the time period.</p>
+            <p style="margin-top:0.75rem;">Key themes within positive and negative sentiment periods were identified and grounded in specific events — providing an interpretable, evidence-based narrative alongside the quantitative index.</p>
+            <p style="margin-top:0.75rem;">Sentiment index validated as predictive of net investment flows — the strongest validation signal across all markets in the evaluation. Referenced in a published ITAD blog post (March 2023).</p>
           </div>
         </div>
 
@@ -109,7 +120,7 @@
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://www.itad.com" class="btn btn-outline" target="_blank" rel="noopener">ITAD Blog — "Harnessing NLP for MEL" (March 2023) ↗</a></li>
+          <li><a href="https://www.itad.com/article/harnessing-the-potential-of-natural-language-processing-for-mel/" class="btn btn-outline" target="_blank" rel="noopener">ITAD — "Harnessing the Potential of NLP for MEL" ↗</a></li>
         </ul>
       </div>
 
