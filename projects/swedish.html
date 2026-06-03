@@ -44,8 +44,8 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>The Swedish Institute commissioned CASM Technology to analyse how two major international incidents were reshaping Sweden's global image — the Quran Burning protests and the LVU child welfare law controversy. Both incidents triggered significant disinformation campaigns across Muslim-majority countries, damaging Sweden's diplomatic relationships and threatening its international standing.</p>
-            <p>The project required analysing social media and mainstream media content across six language communities simultaneously: Arabic, English, Urdu, Farsi, Turkish and Indonesian.</p>
+            <p>The Swedish Institute commissioned CASM Technology to analyse the impact of two major international incidents on Sweden's image — the Quran Burning protests and the LVU child welfare law controversy. The analysis mapped how these events were covered and discussed across social media and mainstream media in nine countries across MENA, South Asia and Turkey.</p>
+            <p>The project required processing content across seven languages simultaneously: Arabic, English, Urdu, Turkish, Persian, Hindi and Indonesian.</p>
           </div>
         </div>
 
@@ -53,8 +53,23 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p>Technical Lead. I designed and built the full multilingual analysis pipeline — including a machine translation layer, a multilayered topic modelling framework, and separate analysis streams for each narrative.</p>
-            <p>I also wrote the machine translation evaluation framework used to validate translation quality before analysis — now documented as a reusable internal methodology.</p>
+            <p>Senior Data Scientist. Responsible for cleaning and structuring the multilingual dataset and designing the full analytical pipeline.</p>
+            <p>Built the layered topic modelling framework — the LVU corpus in particular presented as a single dense blob with little visible structure, requiring multiple successive BERTopic layers to unpack. SetFit contrastive learning was used between layers to steer the model toward analytically useful clusters, with positive and negative examples provided at each stage to shape the semantic structure before drilling further.</p>
+            <p>Also designed and implemented the machine translation pipeline (mBART and Helsinki-NLP) and the SetFit classification layer. All core library modules — topic modelling, translation, classification, preprocessing — are my own work.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Period:</strong> October 2020 – October 2023</li>
+              <li><strong>Countries:</strong> Egypt, India, Indonesia, Iraq, Iran, Morocco, Pakistan, Saudi Arabia, Turkey</li>
+              <li><strong>Platforms:</strong> YouTube, Facebook, Instagram, Telegram, 4chan and mainstream news sites</li>
+              <li><strong>Languages:</strong> Arabic, English, Urdu, Turkish, Persian, Hindi, Indonesian</li>
+              <li><strong>Focus:</strong> Understanding the impact of two major international incidents — the Quran Burning protests and the LVU child welfare controversy — on Sweden's image across Muslim-majority countries</li>
+            </ul>
           </div>
         </div>
 
@@ -62,15 +77,12 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <ol>
-              <li>Data collection — social media and mainstream media across 6 languages: Arabic, English, Urdu, Farsi, Turkish, Indonesian</li>
-              <li>Machine translation — all non-English content translated to English; quality validated using BERTScore as primary metric</li>
-              <li>Preprocessing — URL/hashtag/mention removal, deduplication, language filtering</li>
-              <li>Layer 1 topic model — generic BERTopic across full dataset → 5 broad themes</li>
-              <li>Layer 2 topic models — per-theme BERTopic models → granular sub-topics within each theme, refined with SetFit few-shot classifiers</li>
-              <li>Layer 3 (LVU) — deep topic model for highly granular analysis of LVU narratives specifically</li>
-              <li>Three narrative streams analysed separately and comparatively: Quran Burning, LVU, Overlapping Narratives</li>
-            </ol>
+            <p>Data collected across 9 countries and 7 languages. Non-English content passed through a machine translation layer before analysis. Three-layer topic modelling pipeline applied to the translated corpus:</p>
+            <ul>
+              <li><strong>Layer 1</strong> — global topic model across the full corpus to surface broad thematic structure</li>
+              <li><strong>Layer 2</strong> — per-theme topic models for sub-topic discovery, refined with SetFit few-shot classifiers trained on positive and negative cluster examples</li>
+              <li><strong>Layer 3</strong> — deep topic model for LVU narratives specifically, which required further unpacking due to the density of the cluster structure</li>
+            </ul>
           </div>
         </div>
 
@@ -78,8 +90,9 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Full multilingual narrative landscape mapped across 6 language communities. Three narrative streams analysed separately and comparatively.</p>
-            <p>Multilayered topic modelling framework developed — reused in subsequent projects (Ofcom). Machine translation evaluation framework documented as reusable internal methodology.</p>
+            <p>Multilingual narrative landscape mapped across 9 countries and 7 languages. Three narrative streams — Quran Burning, LVU, and overlapping narratives — analysed separately and comparatively.</p>
+            <p>SetFit classifier performance (10-fold cross-validation): mean F1 0.85, mean accuracy 0.86 (range 0.82–0.93 across folds). Human validation agreement reached 0.90 accuracy.</p>
+            <p>Findings published as part of the Swedish Institute's April 2024 report <em>Sverigebilden efter koranbränningar och LVU-kampanjen</em>, with CASM named as the analytical contractor.</p>
           </div>
         </div>
 
@@ -94,17 +107,21 @@
           <span class="tag">HDBSCAN</span>
           <span class="tag">SetFit</span>
           <span class="tag">sentence-transformers</span>
-          <span class="tag">Machine Translation APIs</span>
+          <span class="tag">all-mpnet-base-v2</span>
+          <span class="tag">nomic-embed-text</span>
+          <span class="tag">UAE-Large-V1</span>
+          <span class="tag">facebook/mbart-large-50-many-to-many-mmt</span>
+          <span class="tag">Helsinki-NLP</span>
           <span class="tag">BERTScore</span>
           <span class="tag">Plotly</span>
-          <span class="tag">Google Colab</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
+          <li><a href="https://github.com/ay94/multilingual-topic-toolkit" class="btn btn-outline" target="_blank" rel="noopener">GitHub — multilingual-topic-toolkit ↗</a></li>
+          <li><a href="https://si.se/app/uploads/2024/04/sverigebilden-efter-koranbranningar-och-lvu-kampanjen-final-full-version-ink-bilagor.pdf" class="btn btn-outline" target="_blank" rel="noopener">Published Report — Swedish Institute (April 2024) ↗</a></li>
         </ul>
       </div>
 
