@@ -59,15 +59,29 @@
         </div>
 
         <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Platforms:</strong> Facebook, Twitter, Telegram, Instagram, 4chan, YouTube</li>
+              <li><strong>Scale:</strong> ~1M messages (stratified sample from a much larger corpus)</li>
+              <li><strong>Account list:</strong> pre-curated list of known disinformation-adjacent accounts provided by ISD (Institute for Strategic Dialogue)</li>
+              <li><strong>Partners:</strong> ISD acted as domain experts; CASM and ISD delivered jointly to Ofcom</li>
+              <li><strong>Themes:</strong> 5 dominant themes selected by the client for deeper investigation (e.g. Health → COVID conspiracy, vaccine hesitancy, pharma narratives)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-card">
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p>Starting from a curated list of accounts already identified as disinformation-adjacent, content was processed through a two-layer topic modelling pipeline:</p>
+            <p>The full corpus was too large to process directly — a stratified ~1M message sample was drawn first. Content then passed through a two-layer pipeline:</p>
             <ul>
-              <li><strong>Layer 1</strong> — global BERTopic across the full corpus to surface broad narrative themes</li>
-              <li><strong>Layer 2</strong> — per-theme BERTopic models to surface granular sub-narratives within each theme</li>
+              <li><strong>Layer 1</strong> — global BERTopic across the sampled corpus to surface broad narrative themes, annotated into a general thematic breakdown</li>
+              <li><strong>Layer 2</strong> — the client selected 5 dominant themes for deeper investigation; per-theme BERTopic models then surfaced granular sub-narratives within each (e.g. Health → COVID conspiracy, vaccination, pharmaceutical narratives)</li>
             </ul>
-            <p style="margin-top:0.75rem;">Domain experts reviewed stratified samples from each cluster, with an annotation pipeline built around structured spreadsheet workflows. Annotated outputs were cleaned and used to refine topic assignments before final statistical analysis.</p>
+            <p style="margin-top:0.75rem;">Each iteration ran on a two-week cycle. ISD domain experts reviewed stratified samples from each cluster via structured annotation workflows. Outputs were consolidated, cleaned and quality-checked before statistical analysis and stakeholder reporting.</p>
           </div>
         </div>
 
