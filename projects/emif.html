@@ -81,7 +81,7 @@
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
             <p>Given the scale of the data (7.7M posts across three languages), a stratified sample of ~500k messages was drawn first — capped at 300 messages per account to maintain broad coverage. The sample was processed with <em>paraphrase-multilingual-mpnet-base-v2</em> for embeddings, then UMAP for dimensionality reduction and HDBSCAN for clustering, producing 162 raw clusters.</p>
-            <p>Language teams reviewed samples from each cluster using a granular annotation scheme, producing a taxonomy of 22 themes and 113 subthemes. After annotation, KNN classification (via ChromaDB) was applied to the full corpus to extend the thematic labels across all 4.9M posts — enabling the cross-community overlap analysis that was the primary research objective.</p>
+            <p>Language teams reviewed samples from each cluster using a structured annotation scheme, producing a taxonomy of 22 themes and 113 subthemes. After annotation, KNN classification (via ChromaDB) was applied to the full corpus to extend the thematic labels across all 4.9M deduplicated posts — enabling the cross-community overlap analysis that was the primary research objective.</p>
           </div>
         </div>
 
