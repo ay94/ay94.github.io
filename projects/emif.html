@@ -89,8 +89,8 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>A key methodological finding was that multilingual topic modelling tends to produce clusters formed around language-specific artefacts rather than conceptual themes — for example, clusters driven by a specific German word rather than the underlying topic, or clusters that were either too coarse or too dense to be analytically useful. Applying contrastive learning provided a mechanism to unpack and reorient badly formed clusters, improving semantic coherence across languages.</p>
-            <p>KNN classification proved effective for scaling thematic labels to the full corpus — achieving F1: 0.87 on the annotated validation set. The structured annotation scheme provided a well-organised tracking framework across three language teams and 162 clusters, with entropy-based ambiguity metrics used to monitor progress and prioritise review.</p>
+            <p>Multilingual topic modelling generally produced coherent, meaningful clusters across languages. A subset of clusters required further attention — some formed around language-specific artefacts (e.g. driven by a single German term rather than a broader concept), others were too dense to be useful as-is and needed unpacking, or overlapped in ways better represented as a single consolidated theme. Contrastive learning provided a mechanism to reorient these clusters and improve semantic coherence.</p>
+            <p>KNN classification was applied using the annotated topic model clusters as labelled exemplars — querying the full 7.7M post corpus against these to assign thematic labels at scale, achieving F1: 0.87. The granular annotation scheme provided a well-organised tracking framework across three language teams and 162 clusters, with entropy-based ambiguity metrics used to monitor progress and prioritise review.</p>
             <p>Analytical findings are published in the public report — see link below.</p>
           </div>
         </div>
