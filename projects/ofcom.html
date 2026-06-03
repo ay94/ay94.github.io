@@ -31,9 +31,9 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">Ofcom</p>
-        <h1 class="page-title">Disinformation Landscape Mapping &amp; Actor Profiling</h1>
-        <span class="status-badge badge-pilot">Pilot · Jan 2023 — Mar 2023</span>
+        <p class="page-client">Ofcom (UK Communications Regulator)</p>
+        <h1 class="page-title">Disinformation Narrative Mapping on Social Media</h1>
+        <span class="status-badge badge-pilot">Pilot · 2023</span>
       </div>
 
       <div class="project-page-banner"></div>
@@ -44,15 +44,17 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>A pilot project for Ofcom — the UK's communications regulator — to map the disinformation landscape on social media and build detailed behavioural profiles of key actors. Rather than simply identifying what topics exist, the goal was to understand who talks about what, how actors cluster thematically, and what each actor's specific contribution to the disinformation ecosystem looks like.</p>
+            <p>A pilot project for Ofcom — the UK's communications regulator — to map disinformation narratives across social media platforms from a curated list of known accounts. The goal was to understand what narratives existed, how they clustered thematically, and what each account's contribution to the broader disinformation ecosystem looked like.</p>
+            <p>A layered topic modelling approach was used — similar to the Swedish Institute project — with a first pass across the full corpus followed by theme-specific models to surface granular sub-narratives.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">My Role</p>
-          <h2 class="section-card-title">Contributions</h2>
+          <h2 class="section-card-title">Data Scientist</h2>
           <div class="section-card-body">
-            <p>Technical Lead. I co-designed and executed the multilayered topic modelling architecture specifically for actor profiling — adapting the framework first developed on the Swedish Institute project to produce account-level thematic fingerprints rather than just corpus-level themes.</p>
+            <p>Responsible for running the topic modelling pipeline, streamlining the workflow from initial topic generation through to sampling and annotation. This included preparing samples for domain expert review, managing the annotation process, cleaning annotated outputs and feeding results back into the pipeline.</p>
+            <p>Also responsible for running the statistical analysis on the final classified data. The data collection pipeline and account list were pre-existing — my contribution focused on the analytical and annotation workflow stages.</p>
           </div>
         </div>
 
@@ -60,13 +62,12 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <ol>
-              <li>Data collection — curated list of social media accounts identified as disinformation-adjacent actors</li>
-              <li>Layer 1 topic model — generic BERTopic across full dataset → 5 broad themes (Health, Politics, and others)</li>
-              <li>Layer 2 topic models — separate BERTopic per theme → granular sub-topics (e.g. Health → COVID, Vaccines, Pharma conspiracy; Politics → Elections, Deep State)</li>
-              <li>Actor profiling — each account mapped to its dominant themes and sub-topics</li>
-              <li>Behavioural fingerprinting — accounts characterised by: dominant themes, specific sub-topics, actor interactions, and unique contribution to the ecosystem</li>
-            </ol>
+            <p>Starting from a curated list of accounts already identified as disinformation-adjacent, content was processed through a two-layer topic modelling pipeline:</p>
+            <ul>
+              <li><strong>Layer 1</strong> — global BERTopic across the full corpus to surface broad narrative themes</li>
+              <li><strong>Layer 2</strong> — per-theme BERTopic models to surface granular sub-narratives within each theme</li>
+            </ul>
+            <p style="margin-top:0.75rem;">Domain experts reviewed stratified samples from each cluster, with an annotation pipeline built around structured spreadsheet workflows. Annotated outputs were cleaned and used to refine topic assignments before final statistical analysis.</p>
           </div>
         </div>
 
@@ -74,9 +75,8 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Multilayered disinformation landscape map produced. Account-level thematic profiles built for curated actor list.</p>
-            <p>Framework demonstrated the viability of moving beyond simple topic classification to behavioural actor profiling. Pilot delivered — further phases pending.</p>
-            <p>Presented findings and methodology directly to Ofcom stakeholders.</p>
+            <p>Multilayered disinformation narrative map produced across the curated account set. Account-level thematic profiles built from the classified corpus.</p>
+            <p>Internal pilot deliverable — no published output. Further phases pending at time of completion.</p>
           </div>
         </div>
 
@@ -93,13 +93,6 @@
           <span class="tag">Pandas</span>
           <span class="tag">Plotly</span>
         </div>
-      </div>
-
-      <div class="links-card">
-        <h3>Links</h3>
-        <ul class="links-list">
-          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">Report — confidential client deliverable</span></li>
-        </ul>
       </div>
 
     </div>
