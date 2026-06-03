@@ -31,9 +31,9 @@
       <a href="../index.html" class="back-link">← Back to Portfolio</a>
 
       <div class="page-header">
-        <p class="page-client">Institute for Strategic Dialogue (ISD) / European Media and Information Fund (EMIF)</p>
-        <h1 class="page-title">Pro-Kremlin Influence Network Mapping</h1>
-        <span class="status-badge badge-published">Published · 2024</span>
+        <p class="page-client">ISD · via European Media and Information Fund (EMIF)</p>
+        <h1 class="page-title">Pro-Kremlin Influence Networks on Telegram</h1>
+        <span class="status-badge badge-published">Published · 2025</span>
       </div>
 
       <div class="project-page-banner"></div>
@@ -44,17 +44,35 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>A joint research project between ISD and CASM Technology, funded by the European Media and Information Fund. The study investigated how pro-Kremlin, conspiracy, far-right and far-left communities interact on Telegram across France, Germany and Italy — mapping influence networks, identifying key actors, and tracking narrative spread over a two-year period (January 2022 to February 2024).</p>
-            <p>The findings were published in a public report: <em>"Behind the Curtain: Unveiling Pro-Kremlin Ecosystems in Europe"</em> (ISD, 2025).</p>
+            <p>A joint research project between ISD (Institute for Strategic Dialogue) and CASM Technology, funded by the European Media and Information Fund. The study investigated how pro-Kremlin, conspiracy, far-right and far-left communities interact on Telegram across France, Germany and Italy — mapping influence networks, identifying key actors, and tracking how narratives spread over two years (January 2022 – February 2024).</p>
+            <p>Published as <em>"Behind the Curtain: Unveiling Pro-Kremlin Ecosystems in Europe"</em> (ISD, 2025).</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">My Role</p>
-          <h2 class="section-card-title">Contributions</h2>
+          <h2 class="section-card-title">Senior Data Scientist</h2>
           <div class="section-card-body">
-            <p>Technical Lead. I designed and built the entire analytical pipeline — from data preprocessing through semantic mapping to classification. I also wrote the methodology section of the published report.</p>
-            <p>The contrastive learning fine-tuning library (<em>emif-pk</em>) was my own independent initiative, built and tested on top of the project data to improve embedding quality across clusters.</p>
+            <p>Co-designed the analytical methodology — including the decision to use a multilingual topic model rather than per-language models, to preserve cross-community overlap. Responsible for the sampling strategy at scale (account-stratified, Vaex and Parquet for large data processing), building the topic model, and designing a granular annotation scheme used across all three language teams.</p>
+            <p>Coordinated multilingual annotation — running 1:1 meetings with each language team, tracking progress using entropy-based ambiguity metrics, and facilitating consolidated sessions where teams aligned themes across languages.</p>
+            <p>Identified and solved the overlap classification problem: after topic modelling on a sample, applied KNN classification (backed by ChromaDB) to label the full 7.7M post corpus — enabling the cross-community overlap analysis. Also adapted and extended the Streamlit reporting dashboard to suit the analytical questions. Wrote the methodology section of the published report.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Project Scope</h2>
+          <div class="section-card-body">
+            <ul>
+              <li><strong>Platform:</strong> Telegram</li>
+              <li><strong>Countries:</strong> France, Germany, Italy</li>
+              <li><strong>Languages:</strong> French, German, Italian (+ English-language channels)</li>
+              <li><strong>Period:</strong> January 2022 – February 2024</li>
+              <li><strong>Channels:</strong> 1,162 seed channels across 4 community types — pro-Kremlin, conspiracy, far-right, far-left</li>
+              <li><strong>Posts collected:</strong> 7,784,669</li>
+              <li><strong>Posts classified:</strong> 4,936,025 (after deduplication and sampling)</li>
+              <li><strong>Taxonomy:</strong> 22 themes, 113 subthemes</li>
+            </ul>
           </div>
         </div>
 
@@ -62,18 +80,8 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <ol>
-              <li>Data collection — 7,784,669 posts from 1,162 Telegram channels across France, Germany and Italy</li>
-              <li>Preprocessing — deduplication, hashtag/URL/mention removal → 4,910,302 unique messages</li>
-              <li>Sampling — stratified sampling to 353,778 messages (max 400 per channel)</li>
-              <li>Embedding — paraphrase-multilingual-mpnet-base-v2 sentence transformer</li>
-              <li>Dimensionality reduction — UMAP applied to embeddings</li>
-              <li>Clustering — HDBSCAN density-based clustering → 162 topic clusters</li>
-              <li>Manual coding — analysts reviewed 100 random samples per cluster → taxonomy of 22 themes and 113 subthemes</li>
-              <li>Validation — random stratified sample reviewed per subtheme</li>
-              <li>Classification — KNN classifier applied to full dataset (F1: 0.87)</li>
-              <li>Contrastive fine-tuning — built <em>emif-pk</em> library using contrastive loss to improve embedding homogeneity across clusters</li>
-            </ol>
+            <p>Given the scale of the data (7.7M posts across three languages), a stratified sample of ~500k messages was drawn first — capped at 300 messages per account to maintain broad coverage. The sample was processed with <em>paraphrase-multilingual-mpnet-base-v2</em> for embeddings, then UMAP for dimensionality reduction and HDBSCAN for clustering, producing 162 raw clusters.</p>
+            <p>Language teams reviewed samples from each cluster using a granular annotation scheme, producing a taxonomy of 22 themes and 113 subthemes. After annotation, KNN classification (via ChromaDB) was applied to the full corpus to extend the thematic labels across all 4.9M posts — enabling the cross-community overlap analysis that was the primary research objective.</p>
           </div>
         </div>
 
@@ -81,9 +89,9 @@
           <p class="section-card-label">Outcomes</p>
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
-            <p>Thematic taxonomy of 22 themes and 113 subthemes applied across 4.9M classified posts.</p>
-            <p>Key finding: 77% of conspiracy channels interacted directly with pro-Kremlin communities.</p>
-            <p>Published report available at isdglobal.org. Contrastive learning library (<em>emif-pk</em>) built as reusable internal tool, available on request.</p>
+            <p>Taxonomy of 22 themes and 113 subthemes applied across 4.9M classified posts. KNN classifier achieved F1: 0.87 on the annotated validation set.</p>
+            <p>Key finding: 77% of conspiracy channels interacted directly with pro-Kremlin communities — with conspiracy communities acting as a primary amplification pathway for pro-Kremlin narratives across all three countries.</p>
+            <p>Findings published as a public report. CASM named as research partner. Methodology section written by me.</p>
           </div>
         </div>
 
@@ -93,23 +101,23 @@
         <h3>Tech Stack</h3>
         <div class="tags">
           <span class="tag">Python</span>
-          <span class="tag">HuggingFace</span>
-          <span class="tag">sentence-transformers</span>
+          <span class="tag">paraphrase-multilingual-mpnet-base-v2</span>
           <span class="tag">UMAP</span>
           <span class="tag">HDBSCAN</span>
-          <span class="tag">scikit-learn</span>
+          <span class="tag">ChromaDB</span>
           <span class="tag">KNN</span>
-          <span class="tag">Contrastive Learning</span>
+          <span class="tag">Vaex</span>
+          <span class="tag">Parquet</span>
           <span class="tag">Streamlit</span>
-          <span class="tag">Google Colab</span>
+          <span class="tag">Pandas</span>
         </div>
       </div>
 
       <div class="links-card">
         <h3>Links</h3>
         <ul class="links-list">
-          <li><a href="https://www.isdglobal.org" class="btn btn-outline" target="_blank" rel="noopener">"Behind the Curtain" — ISD, 2025 ↗</a></li>
-          <li><span class="btn btn-outline" style="opacity:0.6; cursor:default;">emif-pk library — private, available on request</span></li>
+          <li><a href="https://www.isdglobal.org/publication/behind-the-curtain-unveiling-pro-kremlin-ecosystems-in-europe-2/" class="btn btn-outline" target="_blank" rel="noopener">Published Report — ISD, 2025 ↗</a></li>
+          <li><a href="https://github.com/ay94/semantic-knn" class="btn btn-outline" target="_blank" rel="noopener">GitHub — semantic-knn ↗</a></li>
         </ul>
       </div>
 
