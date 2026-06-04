@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NER Evaluation — Ahmed Younes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Multilingual Named Entity Recognition</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Three-stage benchmarking and extraction across 26 languages</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Overview</p>
+          <h2 class="section-card-title">Context &amp; Challenge</h2>
+          <div class="section-card-body">
+            <p>Named Entity Recognition in multilingual NLP projects requires careful model selection — annotation schemes differ across languages and datasets, low-resource languages have few pre-trained options, and models that perform well on news benchmarks often degrade on social media or broadcast data.</p>
+            <p>This workflow was developed to make model selection systematic and reproducible across any language, from high-resource (English, French) to low-resource (Hausa, Twi, Xhosa). It separates benchmark performance from project-specific performance, treating them as distinct validation stages.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Three-Stage Evaluation</h2>
+          <div class="section-card-body">
+            <p><strong>Stage 1 — Model identification:</strong> Candidate models sourced from HuggingFace model hub and leaderboards for each target language. For low-resource languages, cross-lingual transfer models (XLM-RoBERTa, multilingual BERT) are evaluated alongside any language-specific models available. Licensing and annotation scheme compatibility checked at this stage.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 2 — Benchmark evaluation:</strong> Each candidate evaluated against standard datasets (CoNLL-2003, Wikiann, MasakhaNER, language-specific corpora). Evaluation uses seqeval for entity-level F1 (PER, LOC, ORG, MISC) and sklearn for token-level metrics. Results tabulated for ranked comparison per entity type.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 3 — Project-specific validation:</strong> Top-ranked models applied to a sample of actual project data and reviewed using the NER validation tool. Catches domain mismatch that benchmark scores obscure — a model scoring well on news may perform poorly on social media or broadcast transcripts.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Coverage</p>
+          <h2 class="section-card-title">Language Coverage</h2>
+          <div class="section-card-body">
+            <p>26 languages benchmarked. Four have standard evaluation datasets included; 15 have full benchmark notebooks with model comparisons.</p>
+            <ul style="margin-top:0.75rem; columns:2; column-gap:1.5rem;">
+              <li>Arabic</li>
+              <li>English</li>
+              <li>French</li>
+              <li>Russian</li>
+              <li>German</li>
+              <li>Turkish</li>
+              <li>Indonesian</li>
+              <li>Farsi</li>
+              <li>Hindi</li>
+              <li>Swahili</li>
+              <li>Hausa</li>
+              <li>Xhosa</li>
+              <li>Zulu</li>
+              <li>Twi</li>
+              <li>Urdu</li>
+              <li>Czech</li>
+              <li>Slovak</li>
+              <li>Greek</li>
+              <li>Bulgarian</li>
+              <li>Serbo-Croatian</li>
+              <li>Mandarin Chinese</li>
+              <li>Japanese</li>
+              <li>Thai</li>
+              <li>Romanian</li>
+              <li>Vietnamese</li>
+              <li>Malay</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Tooling</p>
+          <h2 class="section-card-title">Extraction &amp; Validation</h2>
+          <div class="section-card-body">
+            <p>Beyond benchmarking, the workflow includes two production-facing tools:</p>
+            <p style="margin-top:0.75rem;"><strong>Extraction pipeline</strong> — the <code>NamedEntityExtractions</code> class runs a selected NER model on unlabelled project data at scale using HuggingFace pipelines with batched inference, subword token merging, and structured JSON output (PER, LOC, ORG, MISC).</p>
+            <p style="margin-top:0.75rem;"><strong>Validation app</strong> — a Dash-based tool for qualitative review of extraction outputs. Uploads extraction results, displays colour-coded entity spans, and lets reviewers annotate mistakes and missing entities — capturing error type (entity type mismatch, boundary error, truncation) and saving annotations to JSON.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Workflow diagrams -->
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Used across multiple projects requiring multilingual entity extraction — including social media analysis, mainstream media monitoring, and broadcast transcript processing.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">seqeval</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">XLM-RoBERTa</span>
+          <span class="tag">Masakhane / AfroxLMR</span>
+          <span class="tag">Dash</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Pandas</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/multilingual-ner" class="btn btn-outline" target="_blank" rel="noopener">GitHub — multilingual-ner ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
