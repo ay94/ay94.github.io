@@ -33,7 +33,7 @@
       <div class="page-header">
         <p class="page-client">Analytical Method</p>
         <h1 class="page-title">Multilingual Named Entity Recognition</h1>
-        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Three-stage benchmarking and extraction across 26 languages</p>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Three-stage benchmarking and extraction across a multilingual resource spectrum</p>
       </div>
 
       <div class="project-page-banner"></div>
@@ -44,8 +44,8 @@
           <p class="section-card-label">Overview</p>
           <h2 class="section-card-title">Context &amp; Challenge</h2>
           <div class="section-card-body">
-            <p>Named Entity Recognition in multilingual NLP projects requires careful model selection — annotation schemes differ across languages and datasets, low-resource languages have few pre-trained options, and models that perform well on news benchmarks often degrade on social media or broadcast data.</p>
-            <p>This workflow was developed to make model selection systematic and reproducible across any language, from high-resource (English, French) to low-resource (Hausa, Twi, Xhosa). It separates benchmark performance from project-specific performance, treating them as distinct validation stages.</p>
+            <p>The projects that drove this workflow spanned many languages across a wide resource spectrum — from high-resource languages with established evaluation datasets to severely low-resource African and Central Asian languages where finding any benchmarking data was itself part of the challenge. The challenge was twofold: first, discovering what fine-tuned transformer models even existed for each language on HuggingFace; second, finding what datasets and benchmarks existed to evaluate them against. For low-resource African and Central Asian languages, neither was a given.</p>
+            <p>This needed to move fast — languages were scoped and evaluated in weekly iterations, not months-long research cycles. The workflow was built to make that rapid, repeatable: scope the landscape for a new language, benchmark the candidate models against whatever evaluation data existed, then test on real project data. In most cases, the top benchmark model was also the strongest on real project data — but not always. Several lower-ranked models proved better aligned with the actual data distribution, which benchmark scores alone would not have predicted.</p>
           </div>
         </div>
 
@@ -61,47 +61,23 @@
 
         <div class="section-card">
           <p class="section-card-label">Coverage</p>
-          <h2 class="section-card-title">Language Coverage</h2>
+          <h2 class="section-card-title">Language Scope</h2>
           <div class="section-card-body">
-            <p>26 languages benchmarked. Four have standard evaluation datasets included; 15 have full benchmark notebooks with model comparisons.</p>
-            <ul style="margin-top:0.75rem; columns:2; column-gap:1.5rem;">
-              <li>Arabic</li>
-              <li>English</li>
-              <li>French</li>
-              <li>Russian</li>
-              <li>German</li>
-              <li>Turkish</li>
-              <li>Indonesian</li>
-              <li>Farsi</li>
-              <li>Hindi</li>
-              <li>Swahili</li>
-              <li>Hausa</li>
-              <li>Xhosa</li>
-              <li>Zulu</li>
-              <li>Twi</li>
-              <li>Urdu</li>
-              <li>Czech</li>
-              <li>Slovak</li>
-              <li>Greek</li>
-              <li>Bulgarian</li>
-              <li>Serbo-Croatian</li>
-              <li>Mandarin Chinese</li>
-              <li>Japanese</li>
-              <li>Thai</li>
-              <li>Romanian</li>
-              <li>Vietnamese</li>
-              <li>Malay</li>
-            </ul>
+            <p>The framework was designed to work across the full resource spectrum. Stage 1 begins by scoping what models and benchmarks actually exist for a given language — never assuming they do.</p>
+            <p style="margin-top:0.75rem;"><strong>High-resource</strong> (e.g. English, French, German) — established benchmarks, multiple fine-tuned options, rich evaluation datasets. Model selection is competitive rather than exploratory.</p>
+            <p style="margin-top:0.75rem;"><strong>Medium-resource</strong> (e.g. Arabic, Turkish, Indonesian) — reasonable model coverage, some language-specific benchmarks, more variation in annotation quality and domain fit.</p>
+            <p style="margin-top:0.75rem;"><strong>Low-resource</strong> (e.g. Hausa, Twi, Xhosa) — sparse fine-tuned options, evaluation often limited to Wikiann or MasakhaNER, cross-lingual transfer models (XLM-RoBERTa, AfroxLMR) evaluated as the primary candidates.</p>
+            <p style="margin-top:0.75rem;">Arabic is the primary worked example in the repo — benchmark evaluation notebook, extraction pipeline run, and validation tool output included.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">Tooling</p>
-          <h2 class="section-card-title">Extraction &amp; Validation</h2>
+          <h2 class="section-card-title">Benchmarking, Extraction &amp; Validation</h2>
           <div class="section-card-body">
-            <p>Beyond benchmarking, the workflow includes two production-facing tools:</p>
-            <p style="margin-top:0.75rem;"><strong>Extraction pipeline</strong> — the <code>NamedEntityExtractions</code> class runs a selected NER model on unlabelled project data at scale using HuggingFace pipelines with batched inference, subword token merging, and structured JSON output (PER, LOC, ORG, MISC).</p>
-            <p style="margin-top:0.75rem;"><strong>Validation app</strong> — a Dash-based tool for qualitative review of extraction outputs. Uploads extraction results, displays colour-coded entity spans, and lets reviewers annotate mistakes and missing entities — capturing error type (entity type mismatch, boundary error, truncation) and saving annotations to JSON.</p>
+            <p><strong>Benchmarking evaluation</strong> — each candidate model is first checked for license and then assessed against available datasets for that language — identifying which benchmark datasets exist and whether the model's annotation scheme aligns with them. Labels are mapped to a standard scheme (PER, LOC, ORG, MISC) before evaluation runs. Results are produced at two levels: entity span (seqeval F1 by entity type) and token level (sklearn), giving a ranked comparison across models.</p>
+            <p style="margin-top:0.75rem;"><strong>Extraction pipeline</strong> — the <code>NamedEntityExtractions</code> class runs the selected model on unlabelled project data at scale using HuggingFace pipelines with batched inference, subword token merging, and structured JSON output.</p>
+            <p style="margin-top:0.75rem;"><strong>Validation app</strong> — a Dash-based tool for qualitative review of extraction outputs. Displays colour-coded entity spans, lets reviewers annotate mistakes and missing entities, and captures error type (entity type mismatch, boundary error, truncation) to JSON.</p>
           </div>
         </div>
 
@@ -120,11 +96,10 @@
         <div class="tags">
           <span class="tag">Python</span>
           <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">HuggingFace datasets</span>
           <span class="tag">seqeval</span>
           <span class="tag">scikit-learn</span>
-          <span class="tag">XLM-RoBERTa</span>
-          <span class="tag">Masakhane / AfroxLMR</span>
-          <span class="tag">Dash</span>
+<span class="tag">Dash</span>
           <span class="tag">PyTorch</span>
           <span class="tag">Pandas</span>
         </div>

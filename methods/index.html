@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Methods — Ahmed Younes</title>
-  <meta name="description" content="Analytical methods used by Ahmed Younes: multilayered topic modelling, NER evaluation, machine translation evaluation, and sentence-level sentiment analysis.">
+  <meta name="description" content="Core analytical methods developed and applied by Ahmed Younes across NLP research and consulting: topic modelling, NER evaluation, machine translation evaluation, and sentiment analysis.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,135 +34,93 @@
       <div class="page-header">
         <p class="page-client">Analytical Toolkit</p>
         <h1 class="page-title">Methods</h1>
-        <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">
-          Core analytical approaches developed and applied across research and consulting engagements.
+        <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem; max-width: 560px;">
+          Core analytical approaches developed and validated across research and consulting engagements.
         </p>
       </div>
 
-      <!-- Method 1 -->
-      <div class="method-detail" id="topic-modelling">
-        <div class="method-detail-header">
-          <div class="method-icon" style="flex-shrink:0;">
+      <div class="projects-grid">
+
+        <!-- Topic Modelling -->
+        <div class="card project-card">
+          <div class="method-icon" style="margin-bottom: 1rem;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
             </svg>
           </div>
-          <div>
-            <h2 class="method-detail-title">Multilayered Topic Modelling</h2>
-            <p class="method-detail-sub">Hierarchical narrative discovery at scale</p>
-          </div>
-        </div>
-        <div class="method-detail-body">
-          <p>A hierarchical topic discovery framework developed across multiple projects. Rather than running a single topic model on a dataset, the approach starts with a generic layer to survey the broad landscape, then runs separate topic models within each identified theme to expose granular sub-conversations.</p>
-          <p>At Layer 1, a BERTopic model is run across the full corpus — producing 5–10 broad thematic clusters that orient the analysis. At Layer 2, each cluster is modelled independently to surface the granular sub-topics and specific talking points that live inside it. Where needed, a Layer 3 model can be run on a single sub-topic to achieve highly granular analysis of specific narratives.</p>
-          <p>This architecture is particularly valuable for large, heterogeneous corpora where both strategic overview and tactical-level analysis are required — such as disinformation research, where understanding both the overarching campaign framing and specific tactical sub-narratives is essential.</p>
-          <p>Used in the Swedish Institute, Ofcom and EMIF projects. Produces thematic taxonomies that are both broad enough to orient decision-makers and specific enough to be analytically useful. The framework was developed iteratively across projects and is now documented as a reusable internal methodology.</p>
-        </div>
-        <div style="margin-top: 1.25rem;">
+          <p class="project-client">Text Analysis</p>
+          <h3 class="project-title">Multilayered Topic Modelling</h3>
+          <p class="project-desc">Hierarchical narrative discovery at scale. A layered BERTopic framework that moves from broad thematic clusters down to granular sub-topics, enabling both strategic overview and tactical narrative analysis within a single pipeline.</p>
           <div class="tags">
             <span class="tag">BERTopic</span>
-            <span class="tag">Python</span>
             <span class="tag">sentence-transformers</span>
+            <span class="tag">SetFit</span>
             <span class="tag">UMAP</span>
             <span class="tag">HDBSCAN</span>
-            <span class="tag">SetFit</span>
           </div>
+          <a href="topic-modeling.html" class="card-link">View method →</a>
         </div>
-      </div>
 
-      <!-- Method 2 -->
-      <div class="method-detail" id="ner-evaluation">
-        <div class="method-detail-header">
-          <div class="method-icon" style="flex-shrink:0;">
+        <!-- NER Evaluation -->
+        <div class="card project-card">
+          <div class="method-icon" style="margin-bottom: 1rem;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
             </svg>
           </div>
-          <div>
-            <h2 class="method-detail-title">NER Evaluation Workflow</h2>
-            <p class="method-detail-sub">Three-stage benchmarking across low and high resource languages</p>
-          </div>
-        </div>
-        <div class="method-detail-body">
-          <p>A three-stage framework for selecting and validating NER models in multilingual projects. Designed to work even for low-resource languages where benchmarks and pre-trained models are scarce. Documented as a reusable internal methodology and applied in the FAST and BBC Monitoring projects.</p>
-          <p><strong>Stage 1 — Model identification:</strong> Candidate models are identified on HuggingFace model hub and leaderboards (e.g. BERT LANG STREET) for each target language. For low-resource languages, cross-lingual transfer models (XLM-RoBERTa, multilingual BERT) are evaluated alongside any language-specific models available.</p>
-          <p><strong>Stage 2 — Benchmark evaluation:</strong> Each candidate model is evaluated against standard benchmarks — CoNLL-2003, xtreme/PAN-X, and language-specific datasets where available. Evaluation uses seqeval for entity-level F1 scores (by entity type: PER, LOC, ORG, MISC) and sklearn for boundary-level flat F1. Results are tabulated to produce a ranked model comparison per entity type and overall.</p>
-          <p><strong>Stage 3 — Project-specific validation:</strong> Top-ranked models are applied to a sample of actual project data and reviewed by an analyst. This stage catches domain mismatch that benchmark scores can obscure — a model may score well on news benchmarks but poorly on social media data. Only models that pass analyst review at Stage 3 are used in production.</p>
-          <p>The framework was formalised through my PhD research (DeformAr) and is directly connected to the diagnostic evaluation approach developed there.</p>
-        </div>
-        <div style="margin-top: 1.25rem;">
+          <p class="project-client">Information Extraction</p>
+          <h3 class="project-title">Multilingual NER Evaluation</h3>
+          <p class="project-desc">Three-stage benchmarking framework for selecting and validating NER models across 26 languages, from high-resource to low-resource. Separates benchmark performance from project-specific domain validation.</p>
           <div class="tags">
-            <span class="tag">Python</span>
+            <span class="tag">XLM-RoBERTa</span>
             <span class="tag">seqeval</span>
             <span class="tag">HuggingFace</span>
-            <span class="tag">spaCy</span>
-            <span class="tag">XLM-RoBERTa</span>
             <span class="tag">CoNLL</span>
+            <span class="tag">spaCy</span>
           </div>
+          <a href="ner.html" class="card-link">View method →</a>
         </div>
-      </div>
 
-      <!-- Method 3 -->
-      <div class="method-detail" id="mt-evaluation">
-        <div class="method-detail-header">
-          <div class="method-icon" style="flex-shrink:0;">
+        <!-- MT Evaluation -->
+        <div class="card project-card">
+          <div class="method-icon" style="margin-bottom: 1rem;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
             </svg>
           </div>
-          <div>
-            <h2 class="method-detail-title">Machine Translation Evaluation</h2>
-            <p class="method-detail-sub">Comparative metric framework with BERTScore as primary signal</p>
-          </div>
-        </div>
-        <div class="method-detail-body">
-          <p>A comparative framework for selecting the right translation approach for NLP projects that require cross-lingual analysis. Developed for the Swedish Institute project and formalised in the FAST project's MT evaluation framework.</p>
-          <p><strong>Why BERTScore as primary metric:</strong> BERTScore captures semantic similarity through contextualised embeddings rather than surface-level n-gram overlap. This makes it significantly more robust for morphologically rich languages (Arabic, Turkish, Urdu) where the same meaning can be expressed with very different surface forms, and where BLEU scores systematically underestimate translation quality.</p>
-          <p><strong>Secondary metrics:</strong> BLEU and chrF are retained as secondary signals. BLEU provides a baseline for comparison with existing literature. chrF is more sensitive than BLEU for character-level morphological variation. Divergences between BERTScore and BLEU/chrF are informative — they often point to fluency issues that semantic metrics overlook.</p>
-          <p><strong>Error analysis protocol:</strong> A structured error analysis examines three dimensions: named entity preservation (are person names, locations and organisations translated, transliterated or dropped?), tokenisation and sequence length (does the translated text preserve sentence boundaries?), and information loss (are key claims or qualifiers dropped in translation?).</p>
-          <p>The framework also incorporates structured human evaluation on a sampled subset, using a rubric that assesses adequacy and fluency independently. Results from automated and human evaluation are compared to identify systematic discrepancies and calibrate the automated metrics.</p>
-        </div>
-        <div style="margin-top: 1.25rem;">
+          <p class="project-client">Cross-lingual NLP</p>
+          <h3 class="project-title">Machine Translation Evaluation</h3>
+          <p class="project-desc">Comparative framework using BERTScore as the primary quality signal, alongside BLEU and chrF. Includes structured error analysis covering named entity preservation, tokenisation, and information loss across morphologically rich languages.</p>
           <div class="tags">
             <span class="tag">BERTScore</span>
             <span class="tag">BLEU</span>
             <span class="tag">chrF</span>
-            <span class="tag">Python</span>
             <span class="tag">sacrebleu</span>
+            <span class="tag">Python</span>
           </div>
+          <a href="mt-evaluation.html" class="card-link">View method →</a>
         </div>
-      </div>
 
-      <!-- Method 4 -->
-      <div class="method-detail" id="sentiment">
-        <div class="method-detail-header">
-          <div class="method-icon" style="flex-shrink:0;">
+        <!-- Sentiment -->
+        <div class="card project-card">
+          <div class="method-icon" style="margin-bottom: 1rem;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
-          <div>
-            <h2 class="method-detail-title">Sentence-level Sentiment Analysis</h2>
-            <p class="method-detail-sub">Fine-grained investment sentiment detection and driver classification</p>
-          </div>
-        </div>
-        <div class="method-detail-body">
-          <p>A fine-grained approach to investment sentiment detection developed for the FCDO/BII South Africa project. The core insight is that document-level sentiment classification loses signal in long, mixed-sentiment texts. A news article might express positive sentiment about renewable energy investment and negative sentiment about political risk in the same paragraph — a document-level model returns a muddled average; a sentence-level model captures both.</p>
-          <p><strong>Why sentence-level:</strong> Splitting articles to sentence level before classification produces higher precision sentiment signals with fewer labelled examples. It also allows sentiment to be attributed to specific claims, entities or events within a longer document — enabling entity-level sentiment profiling that document-level approaches cannot produce.</p>
-          <p><strong>The pipeline:</strong> Articles are segmented into sentences. Two binary classifiers — positive and negative — are trained separately on manually annotated sentence samples (typically 500 sentences each). Separate classifiers outperform a single three-class model in this domain. A driver classification layer then attributes each sentiment-bearing sentence to one of several predefined drivers (Economic, Political, Enabling Environment, etc.).</p>
-          <p><strong>Distinguishing investor sentiment from market noise:</strong> A critical design decision is distinguishing genuine investor sentiment — claims about investment decisions, risk appetite, capital allocation — from stock market reporting, which responds to different signals. A relevance classifier trained before sentiment classification filters out stock price reporting and market movement news before sentiment analysis begins.</p>
-          <p>The approach was validated as predictive of net investment flows in South Africa — the strongest validation signal across all markets studied in the FCDO/BII evaluation.</p>
-        </div>
-        <div style="margin-top: 1.25rem;">
+          <p class="project-client">Sentiment / Finance</p>
+          <h3 class="project-title">Sentence-level Sentiment Analysis</h3>
+          <p class="project-desc">Fine-grained investment sentiment detection and driver classification. Splits documents to sentence level before classification to preserve mixed-sentiment signals and enable entity-level sentiment profiling that document-level approaches cannot produce.</p>
           <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">HuggingFace Transformers</span>
-            <span class="tag">PyTorch</span>
-            <span class="tag">scikit-learn</span>
             <span class="tag">FinBERT</span>
             <span class="tag">sentence-transformers</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">HuggingFace</span>
+            <span class="tag">scikit-learn</span>
           </div>
+          <a href="sentiment.html" class="card-link">View method →</a>
         </div>
+
       </div>
 
     </div>
