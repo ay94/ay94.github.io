@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Translation Evaluation — Ahmed Younes</title>
+  <meta name="description" content="Machine translation evaluation methodology — BERTScore and METEOR as primary metrics, structured error analysis, and computational benchmarking across morphologically rich languages.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Machine Translation Evaluation</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Comparative metric framework with BERTScore and METEOR as primary signals</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Overview</p>
+          <h2 class="section-card-title">Context &amp; Challenge</h2>
+          <div class="section-card-body">
+            <p>Multilingual NLP projects require translation for two distinct purposes. The first is facilitating annotator analysis — translating source text into a language the analyst reads, so they can characterise topics while the model still runs on the original. The second is unifying data across languages into a single target language (typically English) for backend processing such as topic modelling or NER, where the source language lacks strong transformer support.</p>
+            <p>The core evaluation challenge is that standard n-gram metrics like BLEU systematically underestimate quality for morphologically rich languages — Arabic, Turkish, Urdu, Farsi — where the same meaning can be expressed with very different surface forms. A robust evaluation framework needs metrics that capture semantic similarity, not just lexical overlap.</p>
+            <p>A further complication is gold standard quality. Evaluation corpora vary significantly in how literally they were translated — scores computed against a loosely translated reference will diverge from scores against a literal one, even if the model output is identical. Manual spot-checking of low-scoring examples is always part of the process.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Three-Stage Workflow</h2>
+          <div class="section-card-body">
+            <p><strong>Stage 1 — Exploratory:</strong> Identify a parallel benchmark corpus that represents the text type in the project. Confirm it was not used in training the candidate models. Investigate available translation models on HuggingFace for the target language pair — noting model type (one-to-one, many-to-many), language code format, and hosting requirements.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 2 — Translation:</strong> Run candidate models on the benchmark dataset. Record translations alongside computational performance — time per instance at different batch sizes in both CPU and GPU settings. This determines whether a model is feasible for production-scale data.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 3 — Evaluation:</strong> Score translations using METEOR and BERTScore. Sample across score ranges for manual error analysis. Flag systematic patterns — named entity preservation, idiomatic language, code switching, tokenisation and truncation issues, domain mismatch.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Metrics</p>
+          <h2 class="section-card-title">Evaluation Metrics</h2>
+          <div class="section-card-body">
+            <p><strong>BERTScore (primary):</strong> Uses contextualised embeddings to measure semantic similarity between the translation and the gold standard. For each token in the candidate, finds the best-matching token in the reference by cosine similarity (greedy matching), then computes F1 from precision and recall. Robust to paraphrase and morphological variation — substantially more reliable than BLEU for Arabic, Turkish, Urdu, and other morphologically rich languages.</p>
+            <p style="margin-top:0.75rem;"><strong>mBERTScore:</strong> Multilingual variant applied when comparing source text directly against translation, without a monolingual gold standard. Used to assess semantic preservation across languages.</p>
+            <p style="margin-top:0.75rem;"><strong>METEOR (primary):</strong> Combines precision and recall with stemming, synonymy, and word order alignment. Handles paraphrases and partial matches — better calibrated to semantic accuracy than BLEU for most translation tasks. Primary metric when the goal is capturing the general content and context of source text rather than exact matches.</p>
+            <p style="margin-top:0.75rem;"><strong>BLEU / chrF (secondary):</strong> Retained as secondary signals and for comparison with literature. BLEU provides n-gram precision baseline; chrF is more sensitive for morphological variation. Divergences between BERTScore and BLEU often point to fluency issues that semantic metrics alone do not surface.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Tooling</p>
+          <h2 class="section-card-title">Models &amp; Implementation</h2>
+          <div class="section-card-body">
+            <p><strong>Translation models:</strong> Evaluations use <code>facebook/mbart-large-50-many-to-many-mmt</code> as the primary many-to-many model. Helsinki-NLP OPUS models are evaluated for specific language pairs — they are smaller and significantly faster, making them more viable for CPU-only deployments. <code>jbochi/madlad400-3b-mt</code> was also evaluated but showed inconsistencies on some language pairs.</p>
+            <p style="margin-top:0.75rem;"><strong>Computational benchmarking:</strong> Each model is timed at multiple batch sizes in both CPU and GPU settings. GPU (A100) reduces mbart translation of 100,000 records from 5–23 days on CPU to approximately 5 hours — GPU is required for any production-scale run.</p>
+            <p style="margin-top:0.75rem;"><strong>Evaluation pipeline:</strong> METEOR computed via <code>nltk.translate.meteor_score</code>. BERTScore via the <code>bert_score</code> library. Error analysis samples drawn across score distribution quartiles for manual review.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Applied in projects requiring cross-lingual analysis — both for annotator-facing translation and as a pre-processing step for multilingual topic modelling and NER pipelines.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">bert_score</span>
+          <span class="tag">NLTK</span>
+          <span class="tag">METEOR</span>
+          <span class="tag">mBERTScore</span>
+          <span class="tag">sacrebleu</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Pandas</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/multilingual-mt" class="btn btn-outline" target="_blank" rel="noopener">GitHub — multilingual-mt ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
