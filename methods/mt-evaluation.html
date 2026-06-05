@@ -77,8 +77,8 @@
           <p class="section-card-label">Tooling</p>
           <h2 class="section-card-title">Models &amp; Implementation</h2>
           <div class="section-card-body">
-            <p><strong>Translation models:</strong> Evaluations use <code>facebook/mbart-large-50-many-to-many-mmt</code> as the primary many-to-many model. Helsinki-NLP OPUS models are evaluated for specific language pairs — they are smaller and significantly faster, making them more viable for CPU-only deployments. <code>jbochi/madlad400-3b-mt</code> was also evaluated but showed inconsistencies on some language pairs.</p>
-            <p style="margin-top:0.75rem;"><strong>Computational benchmarking:</strong> Each model is timed at multiple batch sizes in both CPU and GPU settings. GPU (A100) reduces mbart translation of 100,000 records from 5–23 days on CPU to approximately 5 hours — GPU is required for any production-scale run.</p>
+            <p><strong>Translation models:</strong> Model selection is language-specific. Where a dedicated one-to-one model exists for the target language pair (Helsinki-NLP OPUS family), it is evaluated first — these models are smaller and faster, making them more viable for CPU-only deployments. Many-to-many models (e.g. mbart-large-50) provide broader language coverage but are slower and require GPU for production-scale runs.</p>
+            <p style="margin-top:0.75rem;"><strong>Computational benchmarking:</strong> Each model is timed at multiple batch sizes in both CPU and GPU settings. The difference is substantial — a dataset of 100,000 records that takes 5–23 days on CPU takes approximately 5 hours on an A100 GPU. Computational feasibility is assessed alongside translation quality before a model is recommended for a project.</p>
             <p style="margin-top:0.75rem;"><strong>Evaluation pipeline:</strong> METEOR computed via <code>nltk.translate.meteor_score</code>. BERTScore via the <code>bert_score</code> library. Error analysis samples drawn across score distribution quartiles for manual review.</p>
           </div>
         </div>
@@ -88,7 +88,7 @@
       <div class="stack-card">
         <h3>Applied in</h3>
         <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
-          Applied in projects requiring cross-lingual analysis — both for annotator-facing translation and as a pre-processing step for multilingual topic modelling and NER pipelines.
+          Used in multilingual projects where cross-lingual analysis required a principled approach to model selection and translation quality assessment.
         </p>
       </div>
 
