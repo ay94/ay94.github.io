@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic Allocation Workflow — Ahmed Younes</title>
+  <meta name="description" content="Five-stage topic modelling workflow for large-scale narrative discovery — sentence-transformer embeddings, UMAP dimensionality reduction, HDBSCAN clustering, thematic mapping, and evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Topic Allocation Workflow</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Five-stage pipeline for large-scale narrative discovery — sentence transformers, UMAP, and HDBSCAN at its core</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Overview</p>
+          <h2 class="section-card-title">Context &amp; Challenge</h2>
+          <div class="section-card-body">
+            <p>Topic Allocation is a bottom-up approach to narrative discovery: it starts by dividing a corpus into semantically similar clusters, then studies and characterises each cluster, organising them into sub-themes and themes to produce a structured thematic breakdown. The result is a topic theme map — a document that assigns every message and topic to a position in a hierarchical analytical framework. While it has been applied primarily to social media and mainstream media corpora, the method is generic to any textual data.</p>
+            <p>The original motivation was to replace a slow, supervised classification workflow that was consistently blocking analysis at scale. The previous approach required identifying training examples on large datasets, training classifiers, iterating, and evaluating — a cycle that could take weeks per project with no guarantee of a useful output at the end. It was effectively waterfall: all the work up front, then a long wait to find out whether the direction had been right.</p>
+            <p>Topic Allocation was designed and evolved to make this process agile. Because it is unsupervised, it does not require labelled training data before analysis can begin. An analyst can have a workable thematic output within a day of data arriving, and a full analytical output produced collaboratively within a week. The evaluation and precision achieved through this approach has been on par with — and in some cases better than — the supervised pipelines it replaced, at a fraction of the iteration cost.</p>
+            <p>A further advantage is language coverage. Because the method relies on off-the-shelf multilingual sentence transformers rather than custom-trained classifiers, a single pipeline can be applied across languages without needing a separately fine-tuned model for each language, domain, or client question. This removes one of the most significant bottlenecks in multilingual research programmes.</p>
+            <p>The core of the approach is the combination of sentence-transformer embeddings, UMAP dimensionality reduction, and HDBSCAN clustering — these three components can be assembled directly or via a library like BERTopic that bundles them together conveniently. The choice of tooling is secondary; what matters is the pipeline design and how each stage is configured. Because the model's output is determined entirely by data distribution and density, any change to the underlying dataset — adding new sources, expanding a time window, correcting a collection bug — typically requires rerunning the full pipeline, making data collection decisions upstream of topic modelling unusually consequential.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Architecture</p>
+          <h2 class="section-card-title">Five-Stage Pipeline</h2>
+          <div class="section-card-body">
+            <p><strong>Stage 1 — Preprocessing:</strong> Text is cleaned to ensure that topic keyword representations are meaningful. Operations include removing links, mention signs, hashtag signs, emojis, encoding artefacts, and stopwords, followed by deduplication. Without this step, links and handles appear as top keywords, masking the actual topic content. Deduplication prevents HDBSCAN from creating artificial dense clusters around repeated messages.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 2 — Semantic Representation:</strong> Each message is encoded into a contextualised embedding using a sentence-transformer model. The choice of model is a key decision — not all sentence transformers produce embeddings suited to the specific analytical need, and the model's <code>max_seq_length</code> determines how much of each message is encoded. For datasets with long documents, truncation can significantly affect cluster quality.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 3 — Topic Modelling:</strong> The embeddings are reduced to a lower-dimensional space using UMAP, then HDBSCAN identifies dense areas — each area is a topic. HDBSCAN assigns a <code>-1</code> label to messages that don't fall within any dense area. These fringe messages are not noise; they represent peripheral discussions that typically align with one core topic. Parameter tuning (UMAP dimensions, HDBSCAN minimum cluster size) is the most time-intensive part of the pipeline. Once topics are identified, c-TF-IDF is used to extract representative keywords for each.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 4 — Thematic Allocation:</strong> An analyst samples messages from each topic and writes a description. Topics are then organised into sub-themes, which are grouped into broader themes. The resulting topic theme map becomes the reference document for analysis and evaluation. For quantitative projects, 10 messages per topic is the standard starting point; for qualitative exploration, 5 is typical. A more rigorous proportional sampling approach with entropy-based stopping criteria is documented separately — see <a href="topic-annotation.html">Granular Annotation Scheme</a>.</p>
+            <p style="margin-top:0.75rem;"><strong>Stage 5 — Evaluation:</strong> A representative sample of annotated messages is reviewed to assess precision and recall of the thematic allocation. Evaluation can be done in review mode (analyst can see the topic model annotations) or blind mode (annotations hidden). General sampling applies when themes are balanced; stratified sampling is used when specific sub-themes are underrepresented and analytically important.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Design Decisions</p>
+          <h2 class="section-card-title">Key Considerations</h2>
+          <div class="section-card-body">
+            <p><strong>Data collection timing:</strong> Topic models are highly sensitive to data distribution. Adding new accounts, expanding a date range, or correcting a collection bug after the model has been trained typically requires a full pipeline rerun. In practice, this means the data collection scope must be agreed and finalised before topic modelling begins — mid-project additions are expensive.</p>
+            <p style="margin-top:0.75rem;"><strong>Sentence transformer selection:</strong> Models trained on sentence similarity tasks are used rather than general-purpose encoders. The choice depends on the domain, language, and the analytical goal — a model that produces good general-purpose clusters may not distinguish the specific narratives a project requires. Guided topic modelling, where a sentence transformer is fine-tuned using contrastive learning on project-labelled examples, is used when the default embedding space is insufficient.</p>
+            <p style="margin-top:0.75rem;"><strong>Parameter tuning vs. reproducibility:</strong> UMAP and HDBSCAN are both sensitive to their hyperparameters, and the relationship between parameters and output topics is not always predictable. Tuning is an iterative process — adjust, rerun, sample, assess. Embeddings are saved after Stage 2 so that parameter sweeps in Stage 3 do not require recomputing embeddings, which is the most computationally expensive part of the pipeline.</p>
+            <p style="margin-top:0.75rem;"><strong>UMAP extrapolation limitation:</strong> When the topic model is trained on a sample of a large dataset and then applied to the full dataset, UMAP's projections can shift substantially — topics that were tightly defined on the sample can expand and drift when projected for the full corpus. This is a fundamental limitation of UMAP's <a href="https://umap-learn.readthedocs.io/en/latest/transform.html" target="_blank" rel="noopener">transform mode</a> rather than a tuning problem, and it means that training-on-sample strategies require careful validation before deployment at scale.</p>
+            <p style="margin-top:0.75rem;"><strong>UMAP parameter sensitivity:</strong> UMAP's performance is particularly sensitive to <code>n_components</code>, which determines the complexity of its latent representation. A higher number of components is recommended for larger datasets and vice versa. However, when training on a 100K sample drawn from a 1M-point dataset, the chosen <code>n_components</code> may not capture the richer structure present at full scale — selecting 5 components during training, for instance, can leave complex structure in the unseen data unrepresented. There is also <code>n_neighbors</code>, which controls the trade-off between local and global structure: smaller values preserve fine-grained local relationships while higher values emphasise broader global patterns (see this <a href="https://pair-code.github.io/understanding-umap/" target="_blank" rel="noopener">interactive tutorial</a>).</p>
+            <p style="margin-top:0.75rem;"><strong>HDBSCAN and new data points:</strong> HDBSCAN constructs a <a href="https://hdbscan.readthedocs.io/en/latest/prediction_tutorial.html" target="_blank" rel="noopener">condensed tree</a> representation of the clustering hierarchy, which is used to extract clusters at different density levels. This design creates a challenge when assigning new data points: because new points have the potential to alter the underlying clustering, HDBSCAN's approach is to fix the existing clustering and determine where a new point falls within the condensed tree — treating the tree as unchanged. In practice, this means predictions on new data are approximations, and large distributional shifts between training and inference data can produce unreliable assignments.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Variants</p>
+          <h2 class="section-card-title">Workflow Adaptations</h2>
+          <div class="section-card-body">
+            <p><strong>Multilayered topic modelling:</strong> When an initial round of topic modelling produces heterogeneous topics — clusters that are semantically broad or that mix distinct narratives — a second layer of topic modelling is applied to those specific topics. This produces finer-grained sub-topics, which are then integrated into the annotation schema alongside the first-layer topics. Each layer maintains its own UMAP semantic map to keep visualisations coherent.</p>
+            <p style="margin-top:0.75rem;"><strong>Guided topic modelling:</strong> When the analytical goal is to find topics aligned with specific predefined categories rather than whatever naturally emerges from the data, sentence transformers can be fine-tuned using contrastive learning. Positive and negative example pairs are used to adjust the embedding space so that it reflects the project's analytical distinctions. This converts topic modelling from purely unsupervised to a form of active learning — useful when a client has a specific thematic framework they need to validate against the data.</p>
+            <p style="margin-top:0.75rem;"><strong>Multilingual pipelines:</strong> For datasets spanning multiple languages, two strategies are used: embedding the source text directly using a multilingual sentence transformer (if a suitable model exists), or translating to English first and running a monolingual model. The translation approach introduces quality risk — translation errors propagate into topic definitions — and requires a structured evaluation of the translation model before use. See <a href="mt-evaluation.html">Machine Translation Evaluation</a> for the full framework used in these decisions.</p>
+            <p style="margin-top:0.75rem;"><strong>Outlier mitigation:</strong> The HDBSCAN -1 cluster can contain 40–60% of the data in some datasets. Two approaches — soft clustering (using the membership probability vector to assign fringe messages to nearby core topics) and k-means (applied to the -1 cluster using the HDBSCAN topic count as k) — have been experimentally evaluated. See <a href="topic-outlier-mitigation.html">Outlier Mitigation in HDBSCAN</a> for the full investigation.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Used across multiple social media analysis and mainstream media monitoring projects — including advocacy tracking, disinformation analysis, and economic discourse analysis — spanning English and multilingual corpora in Arabic, Turkish, and Farsi.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Related Methods</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
+          <a href="topic-outlier-mitigation.html" class="btn btn-outline">Outlier Mitigation in HDBSCAN →</a>
+          <a href="topic-annotation.html" class="btn btn-outline">Granular Annotation Scheme →</a>
+          <a href="mt-evaluation.html" class="btn btn-outline">Machine Translation Evaluation →</a>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">BERTopic</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">SetFit</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/multilingual-topic-modeling" class="btn btn-outline" target="_blank" rel="noopener">GitHub — multilingual-topic-modeling ↗</a></li>
+          <li><a href="https://github.com/ay94/topic-modeling-recipes/tree/main/docs" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

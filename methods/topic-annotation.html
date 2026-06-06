@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Granular Annotation Scheme — Ahmed Younes</title>
+  <meta name="description" content="Entropy-based stopping criteria for topic annotation — a proportional sampling and per-message description approach that replaces fixed-sample annotation in topic modelling workflows.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Granular Annotation Scheme</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Entropy-based stopping criteria for topic annotation — replacing fixed-sample approaches with proportional, per-message description</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">The Problem</p>
+          <h2 class="section-card-title">Limits of Fixed-Sample Annotation</h2>
+          <div class="section-card-body">
+            <p>The standard approach to topic annotation selects a fixed number of messages per topic — typically 10 for quantitative projects, 5 for exploratory ones — and asks an analyst to characterise each topic from that sample. This fixed-sample approach has worked well across multiple projects, but it has structural weaknesses that become visible at more granular levels of analysis.</p>
+            <p>The first is methodological: a fixed sample size assumes equal statistical representativeness across all topics regardless of size. A topic with 50 messages and one with 5,000 messages both receive the same 10-message sample. This is hard to justify when the goal is to make quantitative claims about sub-theme volumes. When clients or reviewers ask why 10 was chosen, the honest answer is that it worked — not that it was derived from principled sampling theory.</p>
+            <p>The second is analytical: the analyst must characterise the topic from the sample as a whole, balancing homogeneity, analytical relevance, and any noise in a single judgement. In practice, topics are not uniformly homogeneous — some have a dominant narrative with minor peripheral messages, others are genuinely mixed. A fixed-sample approach does not surface this distinction; it surfaces whatever happened to be in the 10-message draw.</p>
+            <p>Performance degradation at sub-theme level — consistently observed across projects — is a direct consequence: the topic description is approximated from a small sample, and that approximation loses accuracy as the analytical unit gets smaller.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Granular Annotation Procedure</h2>
+          <div class="section-card-body">
+            <p><strong>Sampling strategy:</strong> Rather than a fixed count, the sample size is proportional to the topic — approximately 10% of the topic's total messages, subject to minimum and maximum bounds. This aligns the annotation effort with the topic's size and produces a sample that can be more robustly defended as representative.</p>
+            <p style="margin-top:0.75rem;"><strong>Annotation strategy:</strong> Instead of characterising the topic as a whole from a batch of messages, the analyst reviews messages individually. Each message receives a single short description. A description can apply to multiple messages if they share the same content, but the annotation decision is made at the message level rather than the topic level. Once the annotation pass is complete, the most frequently occurring description is designated as the overall topic description.</p>
+            <p style="margin-top:0.75rem;">This unpacks a cognitive task that the fixed-sample approach collapses together: rather than holding homogeneity, relevance, and topic characterisation in mind simultaneously, the analyst makes one decision per message — "what is this about?" — and the topic description emerges from the aggregation.</p>
+            <p style="margin-top:0.75rem;"><strong>Outcome:</strong> Topics are categorised as either homogeneous (the dominant description accounts for most messages) or heterogeneous (no clear dominant description). Heterogeneous topics are candidates for further treatment — multilayered topic modelling, keyword filtering, or explicit splitting — rather than being forced into a single characterisation that poorly fits their content.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Stopping Criteria</p>
+          <h2 class="section-card-title">Entropy-Based Early Stopping</h2>
+          <div class="section-card-body">
+            <p>For small topics (sample under 20 messages), all messages are reviewed without a stopping criterion. For larger samples, annotation proceeds in batches of 10 messages, and entropy is calculated after each batch to determine whether to continue.</p>
+            <p style="margin-top:0.75rem;"><strong>Entropy calculation:</strong> Given the set of descriptions assigned so far, Shannon entropy measures the distribution of descriptions across messages. A topic where every message receives the same description has entropy of zero — perfectly homogeneous. A topic where descriptions are uniformly distributed has maximum entropy — completely heterogeneous. The threshold used: a topic is considered heterogeneous if its normalised entropy exceeds 0.5 (i.e. entropy is greater than 50% of the maximum possible entropy for that number of unique descriptions).</p>
+            <p style="margin-top:0.75rem;"><strong>Annotation patience:</strong> The key hyperparameter is <em>annotation patience</em> — the number of consecutive stable batches required before early stopping triggers. If entropy stabilises across iterations (the distribution of descriptions is not changing as more messages are reviewed), annotation stops after reaching the patience threshold. If entropy fluctuates — new descriptions keep appearing — annotation extends by one additional batch beyond the patience threshold before stopping. This prevents premature stopping on topics that appear stable early but have structural complexity deeper in the sample.</p>
+            <p style="margin-top:0.75rem;"><strong>Rationale:</strong> The stopping criterion makes the annotation process empirically grounded rather than time-bounded. Rather than stopping when the analyst is tired or when a fixed count is reached, stopping is tied to information-theoretic stability in the emerging topic description.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Tradeoffs</p>
+          <h2 class="section-card-title">Advantages &amp; Limitations</h2>
+          <div class="section-card-body">
+            <p><strong>Advantages:</strong></p>
+            <p>Proportional sampling is methodologically defensible in a way that fixed-sample sizes are not — the sample size scales with the topic, making representativeness claims more robust.</p>
+            <p style="margin-top:0.5rem;">Per-message annotation produces richer topic definitions. When topics are subsequently used to generate supervised training data (e.g. for a classifier), the definition is already at message level rather than needing to be reverse-engineered from a topic-level characterisation.</p>
+            <p style="margin-top:0.5rem;">Topics from different models or pipeline runs can be more easily merged, since each is defined by individual message descriptions rather than a holistic characterisation that may not transfer.</p>
+            <p style="margin-top:0.5rem;">The entropy-based evaluation is more tractable than previous evaluation rounds — because topic homogeneity is already known from the annotation pass, the evaluation phase can be streamlined rather than requiring multiple iterations.</p>
+            <p style="margin-top:1rem;"><strong>Limitations:</strong></p>
+            <p>Initial annotation takes longer than fixed-sample approaches. The time saving comes in evaluation — fewer iterations are needed — but the upfront cost is higher and harder to scope without knowing the entropy distribution in advance.</p>
+            <p style="margin-top:0.5rem;">The hyperparameters (sample proportion, patience threshold, entropy acceptance threshold) require empirical validation. Current values are based on experience across a limited number of projects and will need refinement as more data accumulates. A regression model that predicts expected annotation accuracy from topic entropy is a natural future development but requires more project runs to train.</p>
+            <p style="margin-top:0.5rem;">The scheme requires an interactive tool to implement effectively — annotators need to see messages, assign descriptions, and monitor entropy values in real time. Manual spreadsheet-based implementation is feasible but cumbersome for large topics.</p>
+            <p style="margin-top:0.5rem;">Entropy is sensitive to annotation quality: it is calculated over the descriptions analysts write, so inconsistent phrasing — two annotators describing the same content differently, or the same annotator varying their wording across a session — artificially inflates entropy and can misclassify a homogeneous topic as heterogeneous. Ensuring consistent writing conventions, and potentially applying a normalisation or deduplication layer to descriptions before entropy is calculated, is a prerequisite for reliable stopping decisions.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Developed as a proposed replacement for the fixed-sample annotation workflow used in quantitative topic modelling projects. Designed to address performance degradation at sub-theme level and to provide a more defensible sampling methodology for client-facing analysis.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Related Methods</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
+          <a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a>
+          <a href="topic-outlier-mitigation.html" class="btn btn-outline">Outlier Mitigation in HDBSCAN →</a>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">SciPy</span>
+          <span class="tag">Shannon Entropy</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/topic-modeling-recipes/tree/main/docs" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

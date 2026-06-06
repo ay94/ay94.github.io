@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic Model Evaluation — Ahmed Younes</title>
+  <meta name="description" content="Evaluation methodology for thematic allocation in topic modelling — review vs blind mode, stratified vs general sampling, and a hybrid approach that balances bias control with analytical efficiency.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Topic Model Evaluation</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Review vs blind evaluation of thematic allocation — sampling strategies, bias tradeoffs, and a hybrid resolution</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Overview</p>
+          <h2 class="section-card-title">Purpose &amp; Challenge</h2>
+          <div class="section-card-body">
+            <p>Evaluation in topic modelling is not a single task — it serves two distinct purposes simultaneously. The first is performance measurement: assessing precision and recall of the thematic allocation, confirming that messages are correctly assigned to their themes and sub-themes. The second is review: giving analysts a structured pass through the data to identify labelling inconsistencies, noise in the annotations, and unstable thematic categories that need corrective action.</p>
+            <p>These dual purposes are in tension. A rigorous evaluation designed purely for performance measurement would be conducted blind — analysts assess the data without seeing the topic model's own annotations, eliminating the risk that they anchor to the model's output rather than forming independent judgements. But a fully blind evaluation foregoes the review function, requiring analysts to go through the same sample multiple times: once to evaluate, and again to identify what needs fixing.</p>
+            <p>The evaluation can be run at two hierarchical levels — theme and sub-theme — and with two sampling strategies: general sampling when themes are balanced, and stratified sampling when specific sub-themes are underrepresented but analytically important. The choice between these is typically determined at the project scoping stage based on the analytical objectives.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Modes</p>
+          <h2 class="section-card-title">Review vs Blind Evaluation</h2>
+          <div class="section-card-body">
+            <p><strong>Review mode:</strong> The sample presented to analysts includes the topic model annotations — the theme and sub-theme assigned to each message. Analysts agree or disagree with each assignment, flagging misallocations. Because analysts can see the model's output, they develop a clear picture of where the thematic breakdown is solid and where it is noisy, and they can immediately identify what corrective action is needed. This was the standard approach in the majority of projects.</p>
+            <p style="margin-top:0.75rem;"><strong>Blind mode:</strong> Annotations are hidden. Analysts read the message and independently assign a theme and sub-theme, then their assignments are compared against the model's. This eliminates anchoring bias — analysts cannot defer to the model's output. However, if performance is low, analysts must then review the same sample a second time to identify the specific misallocations and understand what went wrong. In practice this means going through the same sample two or three times before corrective action can be taken.</p>
+            <p style="margin-top:0.75rem;"><strong>When the bias concern emerged:</strong> During the BMJV project, concerns were raised that showing analysts the topic model annotations was influencing their evaluation judgements — they were more likely to agree with the model's assignment than to flag it as incorrect, inflating apparent precision. This prompted a reconsideration of review as the default approach. The tradeoff is real: review mode risks anchoring bias; blind mode risks analytical inefficiency.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Hybrid Evaluation</h2>
+          <div class="section-card-body">
+            <p>The proposed resolution is a hybrid approach that allocates the evaluation sample across two subsets rather than choosing between review and blind evaluation entirely.</p>
+            <p style="margin-top:0.75rem;"><strong>Validation subset (review mode):</strong> A portion of the sample is shown to analysts with annotations visible. This is the review pass — analysts check for labelling inconsistencies, identify noise, and build their understanding of the topic structure. If performance on this subset is satisfactory, it indicates the thematic breakdown is robust enough to proceed to blind testing.</p>
+            <p style="margin-top:0.75rem;"><strong>Test subset (blind mode):</strong> The remaining portion is evaluated without annotations. This is the performance measurement pass — producing an unbiased precision and recall estimate at theme or sub-theme level.</p>
+            <p style="margin-top:0.75rem;">The key decision variable is analyst confidence in the topic theme map. If the map is clear and homogeneous topics are well-characterised, moving to blind evaluation on the test subset is low-risk. If there is uncertainty about annotation robustness, increasing the validation subset size before moving to blind mode reduces the risk of a low-performance result that requires a full re-evaluation.</p>
+            <p style="margin-top:0.75rem;">This hybrid approach is more efficient than a fully blind evaluation because the review pass means that corrective actions are identified concurrently with the evaluation, rather than requiring an additional pass through the data afterward.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Sampling</p>
+          <h2 class="section-card-title">General vs Stratified</h2>
+          <div class="section-card-body">
+            <p><strong>General sampling</strong> draws a representative sample proportional to the theme and sub-theme distribution in the full annotated dataset. This is appropriate when themes are balanced — when no single theme dominates the corpus to the point that a proportional sample would underrepresent the rest. It produces a precision and recall estimate that reflects overall performance across the thematic breakdown.</p>
+            <p style="margin-top:0.75rem;"><strong>Stratified sampling</strong> oversamples from specific themes or sub-themes — typically the smaller or less-represented ones. This is appropriate when the analytical focus of the project is on those underrepresented sub-themes, or when a balanced evaluation is needed for reporting purposes even if the underlying distribution is skewed. Stratified evaluation answers the question of whether the model performs consistently across the full thematic breakdown, not just well on the largest themes.</p>
+            <p style="margin-top:0.75rem;">The choice of sampling strategy should be agreed with analysts and, where relevant, with clients before evaluation begins. Changing the sampling strategy after initial results have been produced makes it difficult to compare across evaluation rounds.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Applied across quantitative and qualitative topic modelling projects. The review vs blind bias concern was specifically surfaced during the BMJV project; the hybrid approach was developed as a response and applied in subsequent work.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Related Methods</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
+          <a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a>
+          <a href="topic-annotation.html" class="btn btn-outline">Granular Annotation Scheme →</a>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/topic-modeling-recipes/tree/main/docs" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guided Topic Modelling — Ahmed Younes</title>
+  <meta name="description" content="Steering topic modelling toward specific analytical objectives by fine-tuning sentence transformer embeddings using contrastive learning — bridging unsupervised clustering and predefined analytical frameworks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-extended="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Guided Topic Modelling</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Steering clustering toward specific analytical objectives by fine-tuning the embedding space with contrastive learning</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Motivation</p>
+          <h2 class="section-card-title">The Limitation of Standard Embeddings</h2>
+          <div class="section-card-body">
+            <p>Standard topic modelling is fully unsupervised: clusters emerge from whatever structure exists in the embedding space, and the analyst discovers what the data contains after the fact. This is powerful for open-ended exploration but is a poor fit for projects where the analytical framework is defined in advance — where a client asks not "what is in this data?" but "how much of this data is about X, Y, and Z?"</p>
+            <p>The embedding model is the root of this limitation. Sentence transformers are trained on general-purpose tasks — sentence similarity, paraphrase detection — and the resulting embedding space reflects broad semantic similarity. Two sentences that discuss different aspects of the same topic may cluster together because they share vocabulary, while two sentences that are analytically distinct may sit close together because they are stylistically similar. The model has no knowledge of the project's analytical distinctions.</p>
+            <p>Guided topic modelling addresses this by fine-tuning the sentence transformer on the specific distinctions that matter for the project, before clustering is run. The result is an embedding space shaped around the analytical framework, not just general semantic similarity — clusters that emerge from UMAP and HDBSCAN are then more likely to align with the categories the project is trying to find.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Contrastive Learning</h2>
+          <div class="section-card-body">
+            <p>Contrastive learning fine-tunes the sentence transformer by training it on pairs of sentences labelled as positive (should be close in the embedding space) or negative (should be far apart). For a topic modelling project, positive pairs are drawn from messages that represent the same analytically relevant category; negative pairs are drawn from messages that the model should distinguish — either because they are in different relevant categories, or because one is relevant and one is noise.</p>
+            <p style="margin-top:0.75rem;">This fine-tuning process adjusts the embedding space so that the dimensions that matter for the project's analytical distinctions become more prominent. Two messages discussing the same client-defined narrative will land closer together; messages from different narratives will be pushed further apart. UMAP and HDBSCAN then operate on this adjusted space, producing clusters that are shaped by the analytical framework rather than general semantic similarity alone.</p>
+            <p style="margin-top:0.75rem;">The key requirement is labelled examples — positive and negative pairs drawn from the actual project data. These can come from prior annotation rounds, from keyword-based pre-filtering, or from an initial unsupervised run used to generate candidate examples for a human to label. The approach is well-suited to active learning workflows: each annotation round produces examples that refine the embedding space, which produces better clusters, which make the next annotation round more efficient.</p>
+            <p style="margin-top:0.75rem;">Few-shot learning frameworks can substantially reduce the number of labelled examples required. Rather than training from scratch, a pre-trained sentence transformer is fine-tuned on a small number of contrastive pairs — in practice, a few dozen examples per category can be sufficient to meaningfully shift the embedding space toward the project's analytical distinctions.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">When to Use</p>
+          <h2 class="section-card-title">Applicability</h2>
+          <div class="section-card-body">
+            <p><strong>Predefined analytical framework:</strong> When the client has specified in advance the narratives or categories they want to identify, and the standard unsupervised approach produces topics that do not align cleanly with those categories, guided topic modelling provides a way to steer the embedding space toward the predefined framework without requiring a full supervised classifier.</p>
+            <p style="margin-top:0.75rem;"><strong>Active learning:</strong> When the goal is to iteratively build a classification capability from few labelled examples, guided topic modelling functions as an active learning loop — each annotation pass refines the model, which improves the candidate examples presented for the next pass. The output is not just a thematic breakdown but a progressively improving embedding model tailored to the domain.</p>
+            <p style="margin-top:0.75rem;"><strong>When not to use:</strong> If the analytical goal is genuinely exploratory — discovering what narratives exist rather than confirming predefined ones — guided topic modelling will bias the clustering toward the analyst's prior assumptions. The unsupervised approach is more appropriate in that case. Guided modelling is also more expensive: it requires labelled examples, a fine-tuning run, and careful validation that the adjusted embedding space has not collapsed distinct narratives into a single cluster.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Tradeoffs</p>
+          <h2 class="section-card-title">Advantages &amp; Limitations</h2>
+          <div class="section-card-body">
+            <p><strong>Advantages:</strong></p>
+            <p>Produces clusters that align more closely with the project's analytical objectives than a purely unsupervised approach, without requiring a fully labelled dataset for a supervised classifier.</p>
+            <p style="margin-top:0.5rem;">Works within the existing pipeline — the fine-tuned model replaces the standard sentence transformer at Stage 2, and the rest of the pipeline (UMAP, HDBSCAN, thematic allocation, evaluation) runs unchanged.</p>
+            <p style="margin-top:0.5rem;">Few-shot capable: meaningful improvements in cluster alignment can be achieved with relatively small numbers of labelled examples, making it practical within project timelines.</p>
+            <p style="margin-top:1rem;"><strong>Limitations:</strong></p>
+            <p>Requires labelled examples — the quality and representativeness of the positive/negative pairs directly determines the quality of the fine-tuned embedding space. Poorly chosen pairs can bias the model in unexpected ways.</p>
+            <p style="margin-top:0.5rem;">Risk of collapsing the embedding space: overly aggressive fine-tuning on a narrow set of distinctions can reduce the model's sensitivity to other dimensions of variation in the data, producing clusters that are analytically coherent on the target categories but blind to everything else.</p>
+            <p style="margin-top:0.5rem;">Validation is more complex than for unsupervised topic modelling: the standard qualitative checks on topic homogeneity need to be supplemented with confirmation that the guided categories are being correctly separated and that the clusters are not simply memorising the training examples.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Applied in projects where clients specified predefined analytical categories and standard unsupervised clustering did not produce sufficient alignment. Also used within active learning pipelines where iterative annotation was used to progressively refine the embedding model.
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Related Methods</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
+          <a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a>
+          <a href="multilayered-topic-modeling.html" class="btn btn-outline">Multilayered Topic Modelling →</a>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">contrastive learning</span>
+          <span class="tag">SetFit</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">PyTorch</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/multilingual-topic-modeling" class="btn btn-outline" target="_blank" rel="noopener">GitHub — multilingual-topic-modeling ↗</a></li>
+          <li><a href="https://github.com/ay94/topic-modeling-recipes/tree/main/docs" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>

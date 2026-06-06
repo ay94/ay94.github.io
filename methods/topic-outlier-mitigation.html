@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outlier Mitigation in HDBSCAN — Ahmed Younes</title>
+  <meta name="description" content="Empirical investigation into the HDBSCAN -1 cluster — comparing soft clustering and k-means approaches for recovering fringe topic content from density-based clustering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Research Investigation</p>
+        <h1 class="page-title">Outlier Mitigation in HDBSCAN</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Empirical comparison of soft clustering and k-means for recovering fringe topic content from the HDBSCAN -1 cluster</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">The Problem</p>
+          <h2 class="section-card-title">The -1 Cluster</h2>
+          <div class="section-card-body">
+            <p>BERTopic relies on HDBSCAN — a density-based clustering algorithm — to identify topic clusters. HDBSCAN groups messages into dense areas of the embedding space and assigns a <code>-1</code> label to any message that does not fall within or close to a dense area. These are not random noise: they are fringe discussions that sit at the periphery of the data distribution, often capturing nuanced or interdisciplinary content.</p>
+            <p>The problem is scale. In practice, the -1 cluster consistently accounted for 40–60% of the data across multiple projects. Discarding it means discarding a substantial portion of the corpus. Retaining it as a single undifferentiated bucket is analytically useless — it is too heterogeneous to describe or assign to a theme.</p>
+            <p>Two mitigation strategies were investigated: <strong>soft clustering</strong>, which uses HDBSCAN's own membership probability vectors to reassign fringe messages to nearby core topics; and <strong>k-means</strong>, applied exclusively to the -1 cluster using the HDBSCAN topic count as <em>k</em>. Both were evaluated on South African economic discourse data — a domain with enough structure for domain-expert validation of the resulting clusters.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Background</p>
+          <h2 class="section-card-title">How HDBSCAN Assigns -1</h2>
+          <div class="section-card-body">
+            <p>HDBSCAN constructs a minimum spanning tree over the dataset and applies single-linkage clustering, condensing the resulting hierarchy to find stable dense regions. The key concept is <em>density reachability</em> — clusters form where messages are tightly packed in the embedding space, regardless of shape. This flexibility is what makes HDBSCAN well-suited to topic modelling, where clusters are rarely spherical.</p>
+            <p>Every message in a BERTopic run is assigned a <strong>membership vector</strong> — a set of scores indicating the probability of association with each discovered cluster. For core topic messages, the vector peaks sharply at their assigned topic. For -1 messages, the vector is typically diffuse, with low scores distributed across multiple topics, reflecting genuine semantic ambiguity or peripheral position.</p>
+            <p>Crucially, these membership scores are not probabilities in the traditional sense. They represent the stability of a message's cluster membership across levels of the condensed dendrogram. A high score means the message consistently appeared in the same cluster as density thresholds varied; a low score means it was borderline. The -1 label is assigned when no cluster claims the message with sufficient stability.</p>
+            <p>The membership vector is what makes soft clustering viable — it encodes information about which core topics a fringe message is most related to, even if it was not assigned to any of them.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach 1</p>
+          <h2 class="section-card-title">Soft Clustering</h2>
+          <div class="section-card-body">
+            <p>Soft clustering uses the membership vector to assign each -1 message to one or more core topics. Rather than forcing a single hard assignment, a message can be associated with up to five topics if its membership scores exceed a specified threshold. This reflects the actual analytical situation — fringe discussions are often genuinely relevant to more than one theme.</p>
+            <p>The approach introduces what we term <em>fringe topics</em>: new topic-like groupings formed by messages that share a dominant core topic association despite not being dense enough to form a cluster in HDBSCAN.</p>
+            <p><strong>Key findings:</strong> Fringe topics were analytically distinct from core topics — they captured more peripheral or nuanced discussions rather than duplicating what HDBSCAN had already found. Contrary to expectation, the majority of fringe topics aligned primarily with a single core topic rather than spanning multiple. The multiplicity predicted by the membership vector often did not materialise as analytically meaningful cross-topic content; domain experts could see it, but it was not the norm.</p>
+            <p><strong>Tradeoffs:</strong> Soft clustering provides interpretability advantages — working with membership vectors is far more tractable than tuning UMAP and HDBSCAN parameters to reduce the -1 rate. However, the soft clusterer itself requires parameter tuning, and the addition of fringe topics increases the annotation burden substantially. Each fringe topic still needs to be sampled and described by an analyst.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach 2</p>
+          <h2 class="section-card-title">K-Means on the -1 Cluster</h2>
+          <div class="section-card-body">
+            <p>K-means is applied exclusively to the messages in the -1 cluster. The value of <em>k</em> is set to the number of dense topics identified by HDBSCAN — the reasoning being that the -1 cluster often reflects the same underlying structure as the core data, just at lower density. If HDBSCAN found 20 topics, the fringe content likely also spans roughly 20 themes.</p>
+            <p>Unlike HDBSCAN, k-means forces every message into a bucket — there is no residual -1 cluster. This is both its advantage and its limitation: full coverage, but at the cost of potentially coarse assignments for messages that are genuinely ambiguous.</p>
+            <p><strong>Comparison with soft clustering:</strong> The two methods identified overlapping but not identical topic structures within the -1 cluster. Many high-level themes were shared — both found economic policy, corporate activity, and sectoral discussions — but the specific groupings differed. K-means surfaced some distinct topics not visible in the soft clustering output, likely corresponding to messages that soft clustering had assigned to the outlier residual. Conversely, some soft clustering fringe topics had no k-means equivalent.</p>
+            <p><strong>Tradeoffs:</strong> K-means results are less interpretable than soft clustering because they are driven purely by centroid proximity rather than by the learned topic structure of the BERTopic run. There is no continuity with the core topic semantic map. However, k-means provides full coverage with a single annotation pass, which is operationally simpler.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Conclusion</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">
+          Neither approach fully resolves the annotation overhead introduced by the -1 cluster — both require additional sampling and description work. Soft clustering is the preferred approach when interpretability matters and when fringe topics need to be traceable back to core topic structure. K-means is viable when full coverage is required and the additional fringe topics can be processed independently of the core topic map. In either case, the analyst overhead must be scoped into the project timeline before choosing to address the -1 cluster rather than discarding it.
+        </p>
+        <p style="color:var(--text-muted); font-size:0.9rem;">
+          A consistent finding across both approaches: fringe content is rarely true noise. The -1 cluster captures peripheral but coherent discourse — the kind of nuanced, interdisciplinary discussion that clients are often most interested in once the main themes are established.
+        </p>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/topic-modeling-recipes/tree/main/docs" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="stack-card">
+        <h3>Related Methods</h3>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
+          <a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a>
+          <a href="topic-annotation.html" class="btn btn-outline">Granular Annotation Scheme →</a>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">BERTopic</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Pandas</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
