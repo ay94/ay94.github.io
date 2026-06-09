@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Broadcast Transcript Analysis — Ahmed Younes</title>
+  <meta name="description" content="A pipeline for parsing, diarising, and extracting structured data from multilingual broadcast transcripts — covering speaker attribution, named entity recognition, and duplicate detection, with a Streamlit dashboard for exploration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-extended="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Broadcast Transcript Analysis</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Parsing, speaker attribution, named entity extraction, and duplicate detection across multilingual broadcast transcripts — with a Streamlit dashboard for data exploration</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Context</p>
+          <h2 class="section-card-title">From Raw STT to Structured Data</h2>
+          <div class="section-card-body">
+            <p>Broadcast media monitoring at scale produces a continuous stream of speech-to-text (STT) transcripts — one JSON file per channel per broadcast window, across multiple languages. The raw output from a provider like AWS Transcribe includes the full transcript text, word-level timing, confidence scores, and speaker diarisation labels, but it is not in a form amenable to analysis: speakers are identified only by generic labels, word items are not yet attributed to turns, and there is no structure that maps entities to speakers or detects when the same broadcast appears more than once.</p>
+            <p style="margin-top:0.75rem;">This pipeline was developed across several broadcast monitoring projects, initially for Arabic-language channels and later extended to Indonesian and English. The same core processing logic applies regardless of language; language-specific handling (such as Arabic prefix merging) is layered on top of the shared base.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Parsing</p>
+          <h2 class="section-card-title">Diarisation and Speaker Attribution</h2>
+          <div class="section-card-body">
+            <p>The STT JSON format separates word-level items (with start/end timestamps and confidence scores) from speaker label segments (which identify who was speaking across each time window). Attributing words to speakers requires aligning these two structures by timestamp — a word item is assigned to the speaker segment that contains its time range.</p>
+            <p style="margin-top:0.75rem;">Each speaker turn is then reconstructed as a sentence: the word items for that segment are joined in sequence, punctuation is inserted where present, and the result is stored alongside channel name, filename, broadcast time window, speaker label, and segment start/end times. This produces one row per speaker turn — a format that downstream NER extraction and dashboard filtering can operate on directly.</p>
+            <p style="margin-top:0.75rem;">For Arabic, AWS Transcribe frequently introduces a space between proclitic prefixes (و, ف, ب, ل, ال, and compound forms like وال, فال, بال) and the word they attach to. A regex merge step removes these spaces before the sentence is finalised, preventing incorrect tokenisation in downstream NLP.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Extraction</p>
+          <h2 class="section-card-title">Named Entity Recognition</h2>
+          <div class="section-card-body">
+            <p>Entity extraction runs over the structured speaker sentence data using a HuggingFace token classification model. The model is run in batch mode over the speaker sentences for each channel, with a configurable batch size and maximum sequence length. Outputs are decoded using the model's label vocabulary (B-I-O tagging scheme), with subword tokens merged back into full entity spans.</p>
+            <p style="margin-top:0.75rem;">Post-processing collapses B- and I- tagged tokens into a single entity record with a text string and label. An optional label remapping allows project-specific entity type normalisation. The final output is an <code>entities</code> column on the speaker sentence DataFrame, with each row holding a list of extracted entities — and a parallel <code>entity_schema</code> column giving a dict of entity type to unique values for that sentence.</p>
+            <p style="margin-top:0.75rem;">NER extraction runs as a separate processing step and is model-agnostic: any HuggingFace token classification model can be used, making it straightforward to swap in a language-appropriate NER model per channel.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Quality</p>
+          <h2 class="section-card-title">Duplicate Detection</h2>
+          <div class="section-card-body">
+            <p>Broadcast monitoring data frequently contains near-duplicate transcripts: the same broadcast captured from multiple sources, overlapping recording windows, or repeated segments. Deduplication needs to be fuzzy rather than exact — minor transcription differences or partial overlaps mean that exact hashing on the full transcript text misses most true duplicates.</p>
+            <p style="margin-top:0.75rem;">The duplicate detector uses rapidfuzz token-based string similarity to compare transcripts pairwise within a channel. Any pair above a configurable similarity threshold (default 80%) is flagged as a candidate duplicate. The result is a report that annotates each transcript with the list of transcripts it is near-identical to, which the analyst can use to decide whether to deduplicate before downstream processing.</p>
+            <p style="margin-top:0.75rem;">A content hash (MD5 of the full transcript text) is generated at parse time, providing a fast exact-match signal before the more expensive pairwise comparison runs.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Pipeline</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">Four sequential stages. Parse and Extract run on the raw data directory; Detect runs on the parse outputs; Explore reads the processed outputs from the dashboard.</p>
+
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Stage</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Class / Module</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">Parse</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>Channel</code> / <code>Transcript</code> / <code>Speaker</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Reads <code>.stt.json</code> files, aligns word items to speaker segments by timestamp, reconstructs speaker sentences with Arabic prefix merging, writes structured CSVs to <code>outputs/&lt;ChannelName&gt;/</code>.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">Extract</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>NamedEntityExtractions</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Runs a HuggingFace token classification model over speaker sentences in batch. Merges B-I-O spans into entity records. Adds <code>entities</code> and <code>entity_schema</code> columns to the parsed DataFrame.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">Detect</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>DuplicateDetector</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Pairwise rapidfuzz similarity across all transcripts within a channel. Flags pairs above threshold as candidates. Returns a report DataFrame with a <code>duplicates</code> column listing near-identical transcripts per row.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">Explore</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>dashboard/Load.py</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Streamlit dashboard. Reads parsed CSVs from <code>outputs/</code>. Provides per-channel/transcript/speaker views and entity filtering. Start with <code>streamlit run dashboard/Load.py</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="color:var(--text-muted); font-size:0.88rem; margin:0 0 0.5rem;"><strong style="color:var(--heading);">Input format</strong> — <code>.stt.json</code> files produced by AWS Transcribe (or a compatible provider), with filenames encoding the broadcast window: <code>"2024-06-11 07-00-00-000 to 2024-06-11 08-00-00-000.stt.json"</code>. Channel subfolders under <code>data/</code> determine how transcripts are grouped.</p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Dashboard</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">A three-page Streamlit dashboard (<code>streamlit run dashboard/Load.py</code>) built on an MVC architecture. Reads processed CSVs from <code>outputs/</code> — run the parse stage first to populate them. Supports Iraqi Arabic (<code>ar-IQ</code>), Indonesian (<code>id-ID</code>), and English (<code>en-GB</code>), as well as any other language covered by the chosen NER model.</p>
+
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1.25rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Page</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">What it shows</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Load</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Top-level metrics: total channels, transcripts, sentences, and average words per sentence. Per-channel expanders with individual transcript/sentence/speaker counts.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Speaker Data</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Select a channel, then a specific transcript. Shows all diarised speaker turns in sequence with speaker labels. A statistics panel shows the sentence and word count breakdown per speaker.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">NER Analysis</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Multi-channel, multi-transcript, and multi-speaker selection. Entity type filter (PER, ORG, LOC, etc.) and free-text search. Two tabs: top entity frequency distribution across the selection; speaker data with in-line entity highlighting. Populated once NER extraction has been run.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-top:0.5rem;">
+          <div>
+            <img src="../assets/transcript-analysis/dashboard-load.png" alt="Dashboard Load page — 3 channels, 35 sentences, channel summaries" style="width:100%; border-radius:6px; border:1px solid var(--border, #e8e0d0);">
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; text-align:center;">Load — channel metrics overview</p>
+          </div>
+          <div>
+            <img src="../assets/transcript-analysis/dashboard-speaker-data.png" alt="Speaker Data page — diarised speaker segments for an English broadcast" style="width:100%; border-radius:6px; border:1px solid var(--border, #e8e0d0);">
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; text-align:center;">Speaker Data — diarised turns per transcript</p>
+          </div>
+          <div>
+            <img src="../assets/transcript-analysis/dashboard-ner.png" alt="NER Analysis page — channel/transcript/entity type filters" style="width:100%; border-radius:6px; border:1px solid var(--border, #e8e0d0);">
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; text-align:center;">NER Analysis — entity filters across channels</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Languages</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0.75rem;">The dummy dataset in the repository covers three language tracks. Arabic includes prefix merging; Indonesian and English run through the standard pipeline without language-specific post-processing.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Language</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">STT lang code</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Iraqi Arabic</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);"><code>ar-IQ</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Regex prefix merging applied (و، ف، ب، ل، ال and compound forms)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Indonesian</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);"><code>id-ID</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Standard pipeline; NER model selected per deployment</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">English</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);"><code>en-GB</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Standard pipeline; NER model selected per deployment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">pandas</span>
+          <span class="tag">rapidfuzz</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">AWS Transcribe (STT format)</span>
+          <span class="tag">Arabic NLP</span>
+          <span class="tag">Speaker Diarisation</span>
+          <span class="tag">Named Entity Recognition</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Library &amp; Pipeline</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/transcript-analysis" class="btn btn-outline" target="_blank" rel="noopener">GitHub — transcript-analysis ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Dashboard</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/transcript-analysis/tree/main/dashboard" class="btn btn-outline" target="_blank" rel="noopener">GitHub — dashboard source ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Related Methods</p>
+        <ul class="links-list">
+          <li><a href="classification.html" class="btn btn-outline">Classification Approaches →</a></li>
+          <li><a href="contrastive-finetuning.html" class="btn btn-outline">Contrastive Fine-tuning →</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
