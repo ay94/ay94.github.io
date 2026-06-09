@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrastive Fine-tuning for Classification — Ahmed Younes</title>
+  <meta name="description" content="Using contrastive learning to reshape sentence transformer embedding spaces and evaluate the impact on k-NN classification accuracy — a standalone experiment on population-scale annotated data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-extended="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Contrastive Fine-tuning for Classification</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Reshaping the embedding space with contrastive learning to improve k-NN classification accuracy on population-scale annotated data</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Context</p>
+          <h2 class="section-card-title">From Sample to Population</h2>
+          <div class="section-card-body">
+            <p>Earlier projects had shown that modifying the sentence transformer embedding space could improve how topic clusters aligned with analytical objectives. That work — <a href="guided-topic-modeling.html" style="color:var(--accent);">guided topic modelling</a> — operated on the clustering side of the pipeline: reshape the space so that UMAP and HDBSCAN produce better-aligned topics.</p>
+            <p style="margin-top:0.75rem;">This experiment arose from a different problem. A project required scaling analysis from a representative sample to the full population of documents, which meant moving from thematic labelling on a subset to classifying the entire corpus. The chosen approach was k-NN classification using a small set of annotated exemplars — practical because it requires no additional supervised training and generalises well when exemplars are representative.</p>
+            <p style="margin-top:0.75rem;">The problem was that the general-purpose embedding space had semantic entanglement: categories the project needed to distinguish were sitting too close together in vector space. The hypothesis was that contrastive fine-tuning — the same technique used in guided topic modelling, but now applied with classification accuracy as the target metric — could untangle this and produce a measurable improvement.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Input</p>
+          <h2 class="section-card-title">Annotated Data, Not Raw Text</h2>
+          <div class="section-card-body">
+            <p>Unlike the topic modelling pipeline, which begins with unannotated text, this experiment takes already-annotated data as its input — documents that had been labelled through a prior topic modelling and annotation process. This makes it a standalone classification evaluation experiment, entirely decoupled from the clustering pipeline.</p>
+            <p style="margin-top:0.75rem;">Three data splits are required:</p>
+            <ul style="margin-top:0.5rem; padding-left:1.2rem; color:var(--text-muted); font-size:0.95rem;">
+              <li style="margin-bottom:0.4rem;"><strong style="color:var(--heading);">Train</strong> — used for contrastive pair generation and fine-tuning</li>
+              <li style="margin-bottom:0.4rem;"><strong style="color:var(--heading);">Validation</strong> — held-out set for classification evaluation</li>
+              <li><strong style="color:var(--heading);">Exemplars</strong> — a small labelled set used as reference points by the k-NN classifier</li>
+            </ul>
+            <p style="margin-top:0.75rem;">The exemplar set is kept small by design — the value of the approach is that meaningful classification can be achieved with few labelled examples when the embedding space is well-structured for the task.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Contrastive Pair Strategies</h2>
+          <div class="section-card-body">
+            <p>The fine-tuning process trains the sentence transformer on pairs of documents with a supervision signal: same-class pairs should be close in the embedding space, different-class pairs should be far apart. Two pair strategies were tested:</p>
+            <p style="margin-top:0.75rem;"><strong>Contrastive</strong> — positive pairs (same class, label=1) and negative pairs (different class, label=0), trained with <code>ContrastiveLoss</code>. Provides an explicit push/pull signal: same class closer, different class further apart.</p>
+            <p style="margin-top:0.75rem;"><strong>Positive only</strong> — same-class pairs only, trained with cosine similarity loss. Pulls same-class embeddings together without an explicit repulsion signal for different classes.</p>
+            <p style="margin-top:0.75rem;">Each strategy was tested with two sampling methods: exhaustive (all pairwise combinations, practical only for small datasets) and stratified (fixed number of pairs sampled per class, balanced across the label set). Each training configuration is hashed and stored as a separate experiment directory, so multiple variants can be run and compared without overwriting prior results.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Evaluation</p>
+          <h2 class="section-card-title">k-NN as the Probe</h2>
+          <div class="section-card-body">
+            <p>The k-NN classifier is not the deliverable — it is the measurement instrument. Its role is to provide a consistent, training-free probe of embedding space quality: because k-NN relies entirely on distances between embeddings, any improvement in classification performance is attributable to the embedding space, not to classifier-specific training.</p>
+            <p style="margin-top:0.75rem;">The same classifier is applied to the baseline model and to each saved checkpoint of the fine-tuned model. Comparing performance across checkpoints shows how classification accuracy changes as the embedding space is progressively reshaped — and whether there is a point at which further fine-tuning begins to degrade performance by over-compressing the space.</p>
+            <p style="margin-top:0.75rem;">Outputs per checkpoint: per-class precision, recall, and F1; intra-class cosine similarity distributions; cross-class similarity matrices; and UMAP projections of the embedding space, which give a visual indicator of how cluster separation changes across training steps.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Pipeline</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">The experiment is structured as five sequential stages, each implemented as an independently runnable workflow class. Stages can be run individually — useful when iterating on a single step without rerunning the full experiment — or end-to-end via a single script.</p>
+
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Stage</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Workflow</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">1</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>TrainWorkflow</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Generates contrastive pairs from the labelled training set and fine-tunes the sentence transformer. Each config is hashed; results stored under the hash directory so multiple configs can be run without collision.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">2</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>EmbeddingExtractionWorkflow</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Encodes train, validation, and exemplar splits using both the baseline model and every saved checkpoint from Stage 1.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">3</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>ValidationWorkflow</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Produces per-class intra-class cosine similarity scores, cross-class similarity matrices, and UMAP projections for each model and split.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">4</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>ClassificationWorkflow</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Runs the k-NN classifier on the validation set for the baseline and each checkpoint. Outputs per-class precision, recall, F1, prediction confidence scores, and annotated documents with predicted labels.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--accent); font-weight:600;">5</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted); white-space:nowrap;"><code>ResultsWorkflow</code></td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Aggregates all per-checkpoint outputs into a single consolidated results directory. This is what the dashboard reads.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0 0 0.5rem;"><strong style="color:var(--heading);">Running the pipeline</strong> — two modes:</p>
+        <ul style="color:var(--text-muted); font-size:0.88rem; padding-left:1.2rem; margin-bottom:0;">
+          <li style="margin-bottom:0.5rem;"><strong style="color:var(--heading);">Notebooks (00–05)</strong> — each stage is a separate Jupyter notebook, runnable locally or on Colab. Configs are loaded by name from the <code>configs/</code> directory — no inline parameter editing required. Suited to iterative runs where individual stages need re-examination.</li>
+          <li><strong style="color:var(--heading);">Script</strong> — <code>python scripts/run_pipeline.py</code> runs all five stages end-to-end from a single command. Useful for clean reproducible runs once a config is finalised.</li>
+        </ul>
+      </div>
+
+      <div class="stack-card">
+        <h3>Dashboard</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">A Streamlit dashboard (<code>streamlit run dashboard/Load.py</code>) reads from the consolidated results and provides seven pages for comparing the baseline model against any fine-tuned checkpoint. The model and config are selected once on the first page and carried through all subsequent views.</p>
+
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1.25rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Page</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">What it shows</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Choose Model</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Combined metrics table across all experiments and configs. Sort by any metric column; scatter plot of any metric coloured by config. Starting point for identifying which checkpoint to investigate.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Classification Report</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Per-class precision, recall, and F1 for the selected model vs baseline, plotted on the same axes. A second filtered view lets you isolate a specific config. The primary view for answering whether fine-tuning improved classification.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Average Similarity</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Intra-class cosine similarity per class label — how tightly packed each class is in the embedding space. An increase post-fine-tuning indicates the space has become more coherent for that class.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Similarity Matrix</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Cross-class cosine similarity heatmap. Select model, config, and split. Shows which classes are semantically entangled — high off-diagonal values indicate pairs the classifier is likely to confuse.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Semantic Map</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">UMAP projection of the embedding space for a selected model, config, and split. Generated on demand. Colour-coded by class label — the visual indicator of whether contrastive fine-tuning has produced cleaner cluster separation.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Class Metrics</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Aggregated per-class view combining classification F1, intra-class similarity, mean UMAP cohesion score, and mean prediction confidence — all on one chart coloured by metric. Useful for spotting classes that are structurally hard regardless of the fine-tuning approach.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500; white-space:nowrap;">Unmasked Data</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">The full annotated dataset with predicted labels attached. Supports group-by slicing (labelled by, document type, source) and generates a classification report for each slice. Used for diagnosing where errors cluster — by annotator, data source, or document type.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <img src="../assets/contrastive-finetuning/classification-report.png" alt="Dashboard — Classification Report comparing baseline vs fine-tuned model precision per class" style="width:100%; border-radius:6px; border:1px solid var(--border, #e8e0d0);">
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;">Classification Report page — baseline vs fine-tuned model precision per class</p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Relationship to Guided Topic Modelling</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">Both methods use contrastive learning to reshape a sentence transformer embedding space, but they address different problems at different points in the analytical workflow. <a href="guided-topic-modeling.html" style="color:var(--accent);">Guided topic modelling</a> operates upstream — it reshapes the embedding space before clustering, so that UMAP and HDBSCAN produce topics that align more closely with a predefined analytical framework. That work sits inside the topic modelling library and was first applied when unsupervised clustering was producing topics that did not cleanly separate analytically distinct categories.</p>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.75rem 0 0;">This experiment operates downstream — it takes already-annotated data and asks whether contrastive fine-tuning can improve the accuracy of a k-NN classifier applied to the full document population. There is no clustering here. The shared technique is contrastive learning; the goal, the input, and the evaluation are entirely different.</p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">contrastive learning</span>
+          <span class="tag">k-NN classification</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Plotly</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Library &amp; Pipeline</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/contrastive-finetuning" class="btn btn-outline" target="_blank" rel="noopener">GitHub — contrastive-finetuning ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Dashboard</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/contrastive-finetuning/tree/main/dashboard" class="btn btn-outline" target="_blank" rel="noopener">GitHub — dashboard source ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Related Methods</p>
+        <ul class="links-list">
+          <li><a href="guided-topic-modeling.html" class="btn btn-outline">Guided Topic Modelling →</a></li>
+          <li><a href="https://github.com/ay94/topic-modeling-recipes" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
