@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic Modelling Recipes — Ahmed Younes</title>
+  <meta name="description" content="A practitioner's guide to topic modelling at scale — accumulated documentation, methodological checklists, and stage-specific investigations developed across multiple multilingual NLP projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-extended="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Documentation Project</p>
+        <h1 class="page-title">Topic Modelling Recipes</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">A practitioner's guide accumulated across multiple projects — methodological checklists, stage-specific investigations, and hard-won decisions from running topic modelling in production</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">What This Is</p>
+          <h2 class="section-card-title">Documentation as a Deliverable</h2>
+          <div class="section-card-body">
+            <p>Running topic modelling in production across multiple projects, languages, and client contexts surfaces a consistent set of problems — many of them non-obvious the first time you encounter them. This repo is the written record of those problems and the solutions that held up across projects.</p>
+            <p style="margin-top:0.75rem;">It is not a library. It is a structured body of documentation: methodological guides, decision frameworks, investigation write-ups, and a stage-by-stage checklist. Each document is self-contained and cross-referenced, so a new project can be started from the relevant section without re-reading everything from scratch.</p>
+            <p style="margin-top:0.75rem;">The documents were originally internal working documents, revised and extended as new projects introduced new problems. The repo makes them available as a reference for anyone doing similar work.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">What It Covers</h2>
+          <div class="section-card-body">
+            <p>The documentation spans the full topic modelling workflow — from data collection decisions through to analysis — and covers the integration of machine translation for multilingual projects. It is organised into three tiers:</p>
+            <ul style="margin-top:0.75rem; padding-left:1.2rem; color:var(--text-muted); font-size:0.95rem;">
+              <li style="margin-bottom:0.5rem;"><strong style="color:var(--heading);">General documents</strong> — the overall workflow and a cross-cutting methodological guide that addresses stage-specific challenges and evolves as new projects add new considerations</li>
+              <li style="margin-bottom:0.5rem;"><strong style="color:var(--heading);">Specific investigations</strong> — each focused on a single real problem: the sampling issue on large datasets, the -1 outlier topic, annotation granularity, and blind vs review evaluation</li>
+              <li><strong style="color:var(--heading);">Machine translation</strong> — the workflow for integrating MT into topic modelling pipelines and the metrics used to evaluate translation quality</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Document Index</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1.25rem;">Each document is self-contained. Cross-references within documents point to related sections for those who want deeper investigation into specific areas.</p>
+
+        <p style="font-size:0.8rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">General</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1.5rem;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; width:38%; vertical-align:top;">Topic Allocation General Workflow</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">Overview of the end-to-end topic modelling workflow and the types of projects it supports — embedding, dimensionality reduction, clustering, annotation, and evaluation. The entry point for new projects.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; vertical-align:top;">Methodological Considerations</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">Cross-project guide segmented by pipeline stage. Addresses challenges and solutions that recur across projects: seed list completeness, tokenisation decisions, model parameter tradeoffs, annotation alignment, evaluation split design. An evolving document updated as new projects contribute new lessons.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-size:0.8rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">Specific Investigations</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:1.5rem;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; width:38%; vertical-align:top;">Sampling Bug</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">The specific failure mode that emerges when the topic modelling sampling approach is applied to large datasets. Documents the problem, the conditions under which it surfaces, and the solutions that resolve it without degrading cluster quality.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; vertical-align:top;">Outlier Mitigation</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">Investigation into the HDBSCAN -1 cluster, which consistently captures 40–60% of data. Compares soft clustering membership vectors and k-means reassignment as recovery strategies.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; vertical-align:top;">Granular Annotation Scheme</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">A proposed refinement to the standard topic annotation approach — entropy-based stopping criteria and proportional sampling per message rather than fixed-sample characterisation.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; vertical-align:top;">Blind vs Review Evaluation</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">Comparison of blind and review evaluation methods for thematic allocation — when each is appropriate, how anchoring bias emerges in review evaluation, and a hybrid approach that splits the evaluation sample.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-size:0.8rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">Machine Translation</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; width:38%; vertical-align:top;">Machine Translation Workflow</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">How machine translation integrates with the topic modelling pipeline — when to translate before clustering vs after, the impact of translation quality on cluster coherence, and the operational workflow.</td>
+            </tr>
+            <tr>
+              <td style="padding:0.6rem 0.75rem; color:var(--heading); font-weight:600; vertical-align:top;">Machine Translation Metrics</td>
+              <td style="padding:0.6rem 0.75rem; color:var(--text-muted);">Overview of applicable MT evaluation metrics — BERTScore as the primary quality signal, METEOR, and a structured error analysis covering named entity preservation, domain shift, and morphologically rich languages.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack-card">
+        <h3>Project Checklist</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1.25rem;">A stage-by-stage quality gate distilled from recurring mistakes across projects. Each stage maps to the corresponding section of the Methodological Considerations document.</p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">1 · Data Collection</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">Seed lists completed before collection starts</li>
+              <li style="margin-bottom:0.3rem;">Time frame fixed and agreed</li>
+              <li>No missing data in the final corpus</li>
+            </ul>
+          </div>
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">2 · Preprocessing</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">Dataset size assessed — one model or split required?</li>
+              <li style="margin-bottom:0.3rem;">Tokenisation impact checked on the data</li>
+              <li>Data divided into appropriate analytical units</li>
+            </ul>
+          </div>
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">3 · Model Creation</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">Embedding model chosen for the language and domain</li>
+              <li style="margin-bottom:0.3rem;">Number-of-topics vs -1 tradeoff understood and tuned</li>
+              <li>Reproducibility measures in place (seeds, config versioning)</li>
+            </ul>
+          </div>
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">4 · Annotation Scheme</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">Scheme aligned with project methodology and goals</li>
+              <li style="margin-bottom:0.3rem;">Regular analyst–annotator interaction scheduled</li>
+              <li>Qualitative vs quantitative end product clarified</li>
+            </ul>
+          </div>
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">5 · Evaluation</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">Annotation split into validation stage and test stage</li>
+              <li>Blind and review evaluation roles defined before annotation begins</li>
+            </ul>
+          </div>
+
+          <div style="border:1px solid var(--border, #e8e0d0); border-radius:8px; padding:1rem;">
+            <p style="font-size:0.78rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.6rem;">6 · Analysis</p>
+            <ul style="padding-left:1rem; color:var(--text-muted); font-size:0.88rem; margin:0;">
+              <li style="margin-bottom:0.3rem;">All analytical claims backed by evaluation results</li>
+              <li>Insights scoped to what the data and annotation strategy can actually support</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">BERTopic</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">HDBSCAN</span>
+          <span class="tag">mBART</span>
+          <span class="tag">BERTScore</span>
+          <span class="tag">seqeval</span>
+          <span class="tag">Jupyter</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Repository</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/topic-modeling-recipes" class="btn btn-outline" target="_blank" rel="noopener">GitHub — topic-modeling-recipes ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Deep Dives — Individual Method Pages</p>
+        <ul class="links-list">
+          <li><a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a></li>
+          <li><a href="topic-outlier-mitigation.html" class="btn btn-outline">Outlier Mitigation in HDBSCAN →</a></li>
+          <li><a href="topic-annotation.html" class="btn btn-outline">Granular Annotation Scheme →</a></li>
+          <li><a href="topic-evaluation.html" class="btn btn-outline">Topic Model Evaluation →</a></li>
+          <li><a href="topic-translation.html" class="btn btn-outline">Translation for Topic Modelling →</a></li>
+          <li><a href="mt-evaluation.html" class="btn btn-outline">Machine Translation Evaluation →</a></li>
+          <li><a href="guided-topic-modeling.html" class="btn btn-outline">Guided Topic Modelling →</a></li>
+          <li><a href="multilayered-topic-modeling.html" class="btn btn-outline">Multilayered Topic Modelling →</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
