@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classification Approaches — Ahmed Younes</title>
+  <meta name="description" content="Three strategies for classifying documents at scale after topic modelling: zero-shot NLI, exemplar-based k-NN, and keyword and ML-based approaches — and a framework for choosing between them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-extended="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Analytical Method</p>
+        <h1 class="page-title">Classification Approaches</h1>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">Three strategies for assigning categories to documents at scale — from no labelled data to fully supervised — and a framework for choosing between them</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Context</p>
+          <h2 class="section-card-title">Classification After Topic Modelling</h2>
+          <div class="section-card-body">
+            <p>Topic modelling produces a thematic breakdown of a corpus — a set of discovered topics that describe what the data contains. In many projects, the next step is to go further: assign each document in the full corpus to a category from the analytical framework, producing counts, trends, and breakdowns that can be reported to a client or fed into downstream analysis.</p>
+            <p style="margin-top:0.75rem;">This classification step sits at a practical junction. The analyst has just run a computationally expensive topic model on a sample or subset of the data; rerunning the full pipeline on the entire corpus is often not feasible. The question becomes: given the thematic structure discovered so far, how do we classify the remaining documents quickly and reliably?</p>
+            <p style="margin-top:0.75rem;">The right approach depends on how much labelled data is available, how precisely the categories are defined, and what tradeoff between speed and accuracy the project tolerates. Three strategies cover the range of situations that arise in practice.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach 1 — No Labels Required</p>
+          <h2 class="section-card-title">Zero-shot Classification (NLI)</h2>
+          <div class="section-card-body">
+            <p>Zero-shot classification uses a Natural Language Inference (NLI) model — typically a BART-based model fine-tuned on entailment tasks — to score how well each document entails a natural language description of each category. No labelled examples are needed: each category is expressed as a hypothesis ("this text is about X"), and the model assigns a probability that the document is a positive instance of that hypothesis.</p>
+            <p style="margin-top:0.75rem;">This makes it well-suited for rapid prototyping, for classifying against categories defined mid-project before annotation has begun, or for cases where labelling is not feasible. The main constraint is hypothesis quality: the performance of zero-shot classification is directly determined by how well the hypothesis text captures what the category actually means. Vague or overly broad hypotheses produce noisy results.</p>
+            <p style="margin-top:0.75rem;">In practice, zero-shot is most useful as a first pass — to estimate how well the categories are separable before committing to annotation, or as a weak signal combined with other methods in an ensemble. For projects where categories are well-defined and interpretable, it can perform surprisingly well with no annotation overhead at all.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach 2 — Few Labels Required</p>
+          <h2 class="section-card-title">Exemplar-based k-NN</h2>
+          <div class="section-card-body">
+            <p>k-NN classification uses a small set of hand-annotated exemplar documents per category. Each exemplar is embedded using a sentence transformer and stored as a reference point. New documents are classified by finding their k nearest exemplars by cosine similarity and assigning the most common label among them — with no retraining of the embedding model.</p>
+            <p style="margin-top:0.75rem;">This is practical when a few dozen well-chosen exemplars per category are available — which is typically true after an annotation round on the topic model output. It handles large, multilingual corpora efficiently because classification is a vector lookup rather than a model inference call per document. A ChromaDB-backed store makes the exemplar index persistent and queryable at scale.</p>
+            <p style="margin-top:0.75rem;">Three voting strategies are available: majority vote (most common label among k neighbours), similarity-weighted sum (labels weighted by similarity score), and average similarity (labels weighted by mean similarity). The choice of strategy and the minimum similarity threshold are calibrated from the distance distribution of the exemplars themselves, grounding the thresholds in the actual geometric structure of each category rather than an arbitrary fixed value.</p>
+            <p style="margin-top:0.75rem;">The quality of k-NN classification is directly tied to the quality of the embedding space. When categories that should be distinct are semantically entangled in the baseline embedding space, <a href="contrastive-finetuning.html" style="color:var(--accent);">contrastive fine-tuning</a> can resolve that entanglement and produce a measurable improvement in classification accuracy.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach 3 — More Labels Available</p>
+          <h2 class="section-card-title">Keywords &amp; ML Classifiers</h2>
+          <div class="section-card-body">
+            <p><strong>Keyword-based classification</strong> uses explicit vocabulary lists or regex patterns to assign categories. It requires no model training and produces fully interpretable decisions: a document is assigned a category because it contains specific terms defined by the analyst. It is fast, auditable, and robust to domain shift — but its recall is limited to whatever vocabulary has been enumerated, making it brittle against paraphrase and variation in expression.</p>
+            <p style="margin-top:0.75rem;"><strong>Traditional ML classifiers</strong> — logistic regression or SVM on TF-IDF or embedding features — require a labelled training set but generalise beyond explicit vocabulary. They are fast to train, well-understood, and produce probability scores that can be thresholded. A reasonable choice when a few hundred labelled examples are available and a lightweight, deployable model is needed.</p>
+            <p style="margin-top:0.75rem;"><strong>Fine-tuned transformer classifiers</strong> reach the highest accuracy when sufficient labelled data is available. A pre-trained encoder (BERT, RoBERTa, or a domain-specific variant) is fine-tuned end-to-end on the labelled set, learning both the category boundaries and the relevant features jointly. Transfer learning from the pre-trained model reduces the data requirement substantially compared to training from scratch — in practice, a few hundred examples per class is often sufficient for good performance on well-defined categories.</p>
+            <p style="margin-top:0.75rem;">In multilingual settings, multilingual transformer models (e.g. mBERT, XLM-RoBERTa) extend this approach across languages without separate models per language.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Choosing an Approach</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 1rem;">The three approaches cover different positions on the labelled data and accuracy spectrum. In practice, projects rarely stay with a single method: zero-shot is used to validate category separability early, k-NN takes over once an annotation round has produced exemplars, and a fine-tuned classifier is introduced if accuracy requirements are high enough to justify the annotation cost.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;"></th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Labels needed</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Accuracy ceiling</th>
+              <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--heading); font-weight:600;">Best when</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Zero-shot NLI</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">None</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Moderate</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Categories are well-described in natural language; annotation is not yet feasible; rapid prototyping</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Exemplar k-NN</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">~20–100 per class</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Good–high</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">An annotation round has been completed; large corpus; no retraining budget; embedding space is clean</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Keywords</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">None (lexicon)</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Low–moderate</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Auditability is required; categories are narrow and vocabulary-stable; fast iteration on rules</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Traditional ML</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Hundreds per class</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Good</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Labelled data exists; lightweight deployable model required; interpretability of features valued</td>
+            </tr>
+            <tr>
+              <td style="padding:0.5rem 0.75rem; color:var(--heading); font-weight:500;">Fine-tuned Transformer</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Hundreds–thousands</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Highest</td>
+              <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Sufficient labelled data; accuracy is the priority; multilingual coverage needed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">ChromaDB</span>
+          <span class="tag">k-NN</span>
+          <span class="tag">BART / NLI</span>
+          <span class="tag">HuggingFace Transformers</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">PyTorch</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Library</p>
+        <ul class="links-list" style="margin-bottom:1.25rem;">
+          <li><a href="https://github.com/ay94/semantic-knn" class="btn btn-outline" target="_blank" rel="noopener">GitHub — semantic-knn ↗</a></li>
+        </ul>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Related Methods</p>
+        <ul class="links-list">
+          <li><a href="contrastive-finetuning.html" class="btn btn-outline">Contrastive Fine-tuning for Classification →</a></li>
+          <li><a href="topic-modeling.html" class="btn btn-outline">Topic Allocation Workflow →</a></li>
+          <li><a href="topic-annotation.html" class="btn btn-outline">Granular Annotation Scheme →</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
