@@ -33,7 +33,7 @@
       <div class="page-header">
         <p class="page-client">BBC Monitoring</p>
         <h1 class="page-title">China's Public Diplomacy on Social Media</h1>
-        <span class="status-badge badge-completed">Completed · 2020—2023</span>
+        <span class="status-badge badge-completed">Completed · 2019—2022</span>
       </div>
 
       <div class="project-page-banner"></div>
@@ -44,7 +44,7 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>An engagement with BBC Monitoring to map China's diplomatic social media activity across Twitter and Facebook — 102,883 posts from 370+ diplomatic accounts across 6 global regions, classified across 9 themes in 4 languages.</p>
+            <p>An engagement with BBC Monitoring to map China's diplomatic social media activity across Twitter and Facebook — 432,800 messages collected across 372 diplomatic accounts (2019–2020), with 102,883 of those messages classified across 9 themes, 4 languages and 6 global regions (2021).</p>
             <p style="margin-top:0.75rem;">The aim was to give BBC Monitoring a systematic, scalable view of how Chinese diplomatic accounts framed narratives across regions and platforms — from COVID-19 and geopolitics to human rights and technology.</p>
           </div>
         </div>
@@ -53,7 +53,7 @@
           <p class="section-card-label">My Role</p>
           <h2 class="section-card-title">Contributions</h2>
           <div class="section-card-body">
-            <p><strong>Phase 1 (2020):</strong> restructured and standardised the account seed list into a unified collection schema across 370+ diplomatic accounts (13 handle types). Set up and maintained the data collection pipeline — cron-based scheduling for ongoing ingestion and historic backfill. Led the keyword-based thematic pilot across all four languages to establish an agreed thematic breakdown. Named contributor on the published BBC Monitoring report.</p>
+            <p><strong>Phase 1 (2019–2020):</strong> restructured and standardised the account seed list into a unified collection schema across 372 diplomatic accounts (13 handle/link types). Set up and maintained the data collection pipeline — cron-based scheduling for ongoing ingestion and historic backfill, collecting 432,800 messages between October 2019 and December 2020. Led the keyword-based thematic pilot across all four languages to establish an agreed thematic breakdown. Named contributor on the published BBC Monitoring report.</p>
             <p style="margin-top:0.75rem;"><strong>Phase 2 (2021):</strong> contributed to training and evaluating 34 binary classifiers across 4 languages and 9 themes. Supported annotation coordination across language specialist teams, running active learning cycles to iteratively improve model quality and refining the pipeline throughout.</p>
           </div>
         </div>
@@ -62,14 +62,19 @@
           <p class="section-card-label">Scope</p>
           <h2 class="section-card-title">Project Scope</h2>
           <div class="section-card-body">
+            <p><strong>Phase 1 — Data Collection (Oct 2019 – Dec 2020)</strong></p>
             <ul>
-              <li><strong>Posts analysed:</strong> 102,883 across Twitter and Facebook</li>
-              <li><strong>Accounts monitored:</strong> 370+ diplomatic accounts (embassies, consulates, foreign ministry officials, Confucius Institutes)</li>
-              <li><strong>Regions:</strong> Asia-Pacific, Africa, Americas, Europe, Middle East, Eurasia</li>
+              <li><strong>Accounts mapped:</strong> 372 diplomatic accounts across 13 handle/link types (embassies, consulates, ambassadors, press officers)</li>
+              <li><strong>Messages collected:</strong> 432,800</li>
               <li><strong>Languages:</strong> English, Arabic, French, Spanish</li>
-              <li><strong>Time period:</strong> January 2020 – October 2022</li>
+              <li><strong>Pipeline:</strong> cron-based scheduling for ongoing ingestion and historic backfill</li>
+            </ul>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — Classification (2021)</strong></p>
+            <ul>
+              <li><strong>Posts classified:</strong> 102,883 across Twitter and Facebook</li>
+              <li><strong>Regions:</strong> Asia-Pacific, Africa, Americas, Europe, Middle East, Eurasia</li>
               <li><strong>Themes:</strong> 9 (Geopolitics, Economy, COVID-19, Politics &amp; Society, Culture &amp; People, Military &amp; Security, Technology, Environment, Human Rights)</li>
-              <li><strong>Classifiers trained:</strong> 34 binary classifiers across themes and languages</li>
+              <li><strong>Classifiers trained:</strong> 34 binary classifiers (9 themes × 4 languages)</li>
               <li><strong>Evaluation:</strong> manually annotated gold-standard datasets per language and theme</li>
             </ul>
           </div>
@@ -79,8 +84,8 @@
           <p class="section-card-label">Method</p>
           <h2 class="section-card-title">Approach &amp; Pipeline</h2>
           <div class="section-card-body">
-            <p><strong>Phase 1 — Keyword Discovery:</strong> account seed list compiled and unified into a consistent collection schema across 13 diplomatic handle types. Keyword-based thematic pilot run across all four languages to agree on a thematic framework before moving to supervised classification.</p>
-            <p style="margin-top:0.75rem;"><strong>Phase 2 — ML Classification:</strong> 9 themes × 4 languages = 34 binary classifiers, each trained on manually annotated gold-standard data. Annotation coordinated across four language specialist teams with defined guidelines and positive/negative example documentation. Active learning cycles used to iteratively surface high-value training examples and improve performance. Pipeline maintained and refined throughout.</p>
+            <p><strong>Phase 1 — Keyword Discovery (2019–2020):</strong> account seed list compiled and unified into a consistent collection schema across 372 accounts and 13 diplomatic handle types. Keyword-based thematic pilot run across all four languages to agree on a thematic framework before moving to supervised classification.</p>
+            <p style="margin-top:0.75rem;"><strong>Phase 2 — ML Classification (2021):</strong> 9 themes × 4 languages = 34 binary classifiers, each trained on manually annotated gold-standard data. Annotation coordinated across four language specialist teams with defined guidelines and positive/negative example documentation. Active learning cycles used to iteratively surface high-value training examples and improve performance. Pipeline maintained and refined throughout.</p>
           </div>
         </div>
 
@@ -90,7 +95,7 @@
           <div class="section-card-body">
             <ul>
               <li><strong>Average F1:</strong> 80.5% across 34 classifiers — consistent performance across 4 languages and 9 themes</li>
-              <li><strong>Coverage:</strong> 102,883 posts classified; 6 global regions; English and Arabic corpora analysed in full</li>
+              <li><strong>Coverage:</strong> 102,883 posts classified across 6 global regions, spanning English, Arabic, Spanish and French</li>
               <li><strong>Published report:</strong> "China's Public Diplomacy on Twitter and Facebook" — BBC Monitoring, May 2022</li>
             </ul>
           </div>
