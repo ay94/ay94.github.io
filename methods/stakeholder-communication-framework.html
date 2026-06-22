@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stakeholder Communication Framework — Ahmed Younes</title>
+  <meta name="description" content="A four-stage framework for presenting analytical findings to mixed technical and non-technical audiences — anchoring to the decision, the data funnel, business-meaning outputs, and engineered next steps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="index.html" class="back-link">← Back to Methods</a>
+
+      <div class="page-header">
+        <p class="page-client">Delivery Methodology</p>
+        <h1 class="page-title">Stakeholder Communication Framework</h1>
+        <span class="status-badge badge-incomplete">Draft</span>
+        <p style="font-size:1rem; color:var(--text-muted); margin-top:0.5rem;">A four-stage protocol for presenting analytical findings to mixed technical and non-technical audiences</p>
+        <p style="font-size:0.78rem; color:var(--accent); font-weight:600; letter-spacing:0.04em; margin-top:0.4rem; text-transform:uppercase;">Developed at CASM Technology &nbsp;·&nbsp; Senior Data Scientist</p>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">Overview</p>
+          <h2 class="section-card-title">Context &amp; Challenge</h2>
+          <div class="section-card-body">
+            <p>When presenting analytical findings to a mixed audience — some technical, some not — the natural instinct is to lead with what was built: the pipeline, the model, the metrics. But a mixed audience anchors to its own question first: what decision are they trying to make, and does this work actually help them make it?</p>
+            <p>This framework structures a presentation (or written report) around the audience's decision rather than the analyst's process, while still building the credibility a technical stakeholder needs to trust the result.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Approach</p>
+          <h2 class="section-card-title">Four-Stage Framework</h2>
+          <div class="section-card-body">
+            <p><strong>1. Anchor to the decision.</strong> Open with the question the audience is actually trying to answer — not "here's what I built" but "here's the question we were trying to answer." Everything that follows serves that question.</p>
+            <p style="margin-top:0.75rem;"><strong>2. The funnel — what went in, what came out.</strong> Establish trust in the inputs before presenting outputs. Describe data sources and scale at a high level — "we analysed X from Y sources" — not pipeline architecture. Non-technical audiences need to trust the funnel before they'll trust what comes out of it.</p>
+            <p style="margin-top:0.75rem;"><strong>3. Output translated to business meaning.</strong> Present findings in terms of what they mean for the audience's decision, not in terms of model metrics. "30% of your flagged cases are false positives" lands; "precision is 0.7" doesn't.</p>
+            <p style="margin-top:0.75rem;"><strong>4. Engineered next steps.</strong> List next steps that actively steer the audience toward the ones that maintain momentum, and away from the ones that introduce blockers or rabbit holes. This is the consultative part — shaping what the audience thinks the next question should be, not just reporting what could happen next.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Rationale</p>
+          <h2 class="section-card-title">Why It Works</h2>
+          <div class="section-card-body">
+            <p>The framework separates what the analysis <em>does</em> from what the audience needs to <em>act on</em> — most technical presentations conflate the two, leaving the audience with an understanding of the work but not of what to do next.</p>
+            <p style="margin-top:0.75rem;">The engineered next-steps stage is what distinguishes this from passive reporting. Most presentations list next steps neutrally; this framework treats them as a lever — actively steering the engagement toward productive next questions and away from dead ends, ambiguity, or scope creep.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Applied in</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0.4rem 0 0;">
+          Used when presenting findings to clients with mixed technical and programmatic stakeholders, including the
+          <a href="../projects/gates.html">Global Fund Advocacy Evaluation</a> (Bill &amp; Melinda Gates Foundation, via ITAD) and the
+          <a href="../projects/fcdo.html">Investor Sentiment Index</a> (FCDO / British International Investment, via ITAD).
+        </p>
+      </div>
+
+      <div class="stack-card">
+        <h3>Core Principles</h3>
+        <div class="tags">
+          <span class="tag">decision-first framing</span>
+          <span class="tag">funnel transparency</span>
+          <span class="tag">business translation</span>
+          <span class="tag">engineered next steps</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
