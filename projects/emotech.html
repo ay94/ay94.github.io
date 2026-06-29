@@ -76,9 +76,9 @@
           <p class="section-card-label">Iteration</p>
           <h2 class="section-card-title">Evaluation Methodology: Three Stages</h2>
           <div class="section-card-body">
-            <p><strong>Stage 1 — Fully automated (GPT generates and evaluates):</strong> Initial approach used GPT for both scenario generation and evaluation simultaneously. This produced inconsistent scoring — GPT was either too lenient or too strict, and edge cases with cross-test dependencies (e.g. a greeting bug exposing a menu discussion issue) were not reliably caught. v0.1.0 results across 283 runs: 48% overall pass rate (72% automation, 28% bug, 0% feature).</p>
-            <p><strong>Stage 2 — Methodology revision:</strong> Simulation tests removed as they were too simplistic. Focus shifted to edge cases and bug isolation, with explicit pass/fail logic requiring multiple conditions to fail together rather than single binary judgments. Bug isolation became a priority — resolving one issue consistently revealed the next.</p>
-            <p><strong>Stage 3 — Hybrid manual/automated:</strong> Automated evaluation disabled for most test cases. Manual validation introduced for bug-related tests, with a structured review process: examine conversation logs, identify hallucinations, flow execution mistakes, and intent classification errors, document findings in a shared sheet, log confirmed bugs in Jira. v0.2.6: 42 test cases validated manually with full traceability.</p>
+            <p><strong>Stage 1 — Fully automated:</strong> GPT used for both scenario generation and evaluation simultaneously. This produced inconsistent scoring — too lenient or too strict — and edge cases with cross-test dependencies were not reliably caught. v0.1.0: 283 runs, 48% overall pass rate (72% automation, 28% bug, 0% feature).</p>
+            <p><strong>Stage 2 — Revised approach:</strong> Simulation tests removed. Focus shifted to edge cases and bug isolation, with structured pass/fail logic requiring multiple failure conditions rather than single binary judgments. Bug isolation became the priority — resolving one issue consistently exposed the next.</p>
+            <p><strong>Stage 3 — Hybrid manual/automated:</strong> Automated evaluation disabled for most test cases. Manual validation introduced for bug-related tests: examine conversation logs, identify hallucinations, flow execution mistakes and intent classification errors, document in a shared sheet, log confirmed bugs in Jira. v0.2.6: 42 test cases with full manual traceability.</p>
           </div>
         </div>
 
@@ -97,7 +97,7 @@
           <p class="section-card-label">Research</p>
           <h2 class="section-card-title">Rasa CALM: Codebase Mapping &amp; Architecture Analysis</h2>
           <div class="section-card-body">
-            <p>In parallel with the evaluation work, I was tasked with understanding Rasa CALM deeply enough to inform whether Emoflow's architecture should be migrated toward it. This required reading and unpacking the full Rasa CALM codebase — mapping an underdocumented open-source system from the inside out.</p>
+            <p>In parallel with the evaluation work, I was tasked with understanding Rasa CALM deeply enough to inform whether Emoflow's architecture should be migrated toward it. This required reading the full open-source Rasa CALM codebase and producing a complete explanation of its architecture — how each component worked and how they connected.</p>
             <p>The research produced a complete architectural analysis covering: the Dialogue Manager (FlowPolicy, processor, broker, channels), the Tracker (DialogueStateTracker — conversation history, slots, events), the Stack (DialogueStack — active flows, frame-based execution, ordered step sequencing), Dialogue Understanding (LLM Command Generator, Flow Retrieval, Command Processor), and Conversation Repair patterns.</p>
             <p>A key finding was the fundamental architectural difference between EmoFlow and CALM: EmoFlow relied on the LLM to determine each step dynamically (unpredictable, hard to debug), while CALM constrained the LLM to selecting from a predefined command set (StartFlow, SetSlot, CancelFlow) with flow execution handled deterministically by FlowPolicy. This is the difference between an LLM driving the conversation and an LLM serving the conversation structure.</p>
             <p>The research produced a concrete four-week migration plan — retaining the LLM for intent classification and slot extraction while transferring flow control to CALM's structured stack — which the engineering team could evaluate and act on.</p>
@@ -108,7 +108,7 @@
           <p class="section-card-label">Scope</p>
           <h2 class="section-card-title">Languages &amp; Voice Pipeline</h2>
           <div class="section-card-body">
-            <p>The system operated across English and multiple Arabic dialects — a significant source of quality variation. I supported the TTS/STT team with validation across these language combinations, assessing voice pipeline robustness and flagging where dialect-specific vocabulary and speech patterns introduced failures not present in standard Arabic or English. Transcription-based test cases were also supported in the toolkit — allowing real conversation logs from the voice pipeline to be fed directly into the evaluation framework.</p>
+            <p>The system operated across English and multiple Arabic dialects. For the TTS/STT pipeline, I sampled inputs and outputs from Emoflow to assess voice pipeline quality — testing how well the system handled dialect-specific speech patterns and flagging failures that didn't surface in text-based testing. Transcription-based test cases were also supported in the toolkit, allowing real voice pipeline logs to be fed directly into the evaluation framework.</p>
           </div>
         </div>
 
