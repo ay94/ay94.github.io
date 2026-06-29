@@ -44,17 +44,17 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Emotech builds voice AI systems for customer service — an LLM-powered conversational engine (Emoflow) handling order queries, task resolution, delegation, and cross-lingual interaction across English and Arabic dialects. As the system grew from 3 to 12+ conversational flows, manual testing became insufficient: bugs were inconsistently reproduced, quality variation across versions was invisible, and findings had no structured path to the right stakeholder.</p>
-            <p>I was brought in as Applied LLM Researcher — a role that in practice spanned four responsibilities: LLM research, software development, QA/testing, and cross-team coordination between the product manager, engineering team, and TTS/STT specialists. My work covered the full evaluation lifecycle and a deep architectural research track on Rasa CALM.</p>
+            <p>Emotech builds voice AI systems for customer service — an LLM-powered conversational engine (Emoflow) handling order queries, task resolution, delegation, and cross-lingual interaction across English and Arabic dialects. The system had 3 conversational flows when I joined. Manual testing was not producing reliable quality signals: bugs were inconsistently reproduced, quality variation across versions was invisible, and findings had no structured path to the right stakeholder.</p>
+            <p>I was brought in as Applied LLM Researcher — a multidisciplinary role covering LLM research, software development, QA design, and cross-team coordination between the product manager, engineering team, and TTS/STT specialists. My work covered the full evaluation lifecycle and a parallel architectural research track on Rasa CALM.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">My Role</p>
-          <h2 class="section-card-title">Researcher · Developer · Tester · Connector</h2>
+          <h2 class="section-card-title">Applied LLM Researcher — Multidisciplinary</h2>
           <div class="section-card-body">
             <p>The engagement required operating across multiple teams simultaneously. I read product requirements and use cases from Confluence and Jira, worked directly with the PM to understand what needed testing and why, liaised with the engineering team on the technical feasibility of test designs, and supported the TTS/STT team with their own validation work on Arabic dialects and English.</p>
-            <p>On the engineering side, I built the evaluation toolkit from scratch — including a parallel-processing WebSocket client that both experienced software developers on the team could not implement. I also reverse-engineered the entire Rasa codebase to produce architectural documentation that grounded the CALM migration research.</p>
+            <p>On the engineering side, an initial prototype existed — GPT driving conversations with Emoflow over WebSocket. I built the complete library around it: the automated reporting system, versioned folder management, configuration layer, runner, and parallel-processing WebSocket client (using daemon threads, resolving a thread-sticking bug in the single-processing version). I also mapped the full Rasa CALM codebase to produce the architectural documentation that grounded the migration research.</p>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
             <p>The core system used GPT to both simulate user behaviour and evaluate chatbot responses in the same pipeline. A WebSocket client drove live conversations between GPT (acting as a user) and Emoflow — with GPT-generated prompts targeting specific failure modes across three test types:</p>
             <ul>
               <li><strong>Automation tests</strong> — design and flow compliance (did the conversation follow the intended path?)</li>
-              <li><strong>Bug reproduction tests</strong> — whether a known bug was reproducible under controlled conditions</li>
+              <li><strong>Bug reproduction tests</strong> — design bugs (conversation design errors), logic bugs (flow execution errors), and quality issues — each routed to the right owner</li>
               <li><strong>Feature tests</strong> — whether newly implemented features behaved as specified</li>
             </ul>
             <p>Each conversation was evaluated by GPT-4o-mini against structured behavioural criteria: unexpected behaviour (premature termination, unnecessary delegation, restarting), delegation necessity, and task resolution. Findings were classified by type and automatically routed to the relevant stakeholder — PM, developer, or manual testing queue. Results were logged as structured JSON and compiled into versioned summary reports and a live Google Sheet updated after each run cycle.</p>
@@ -95,9 +95,9 @@
 
         <div class="section-card">
           <p class="section-card-label">Research</p>
-          <h2 class="section-card-title">Rasa CALM: Codebase Reverse-Engineering &amp; Architecture Analysis</h2>
+          <h2 class="section-card-title">Rasa CALM: Codebase Mapping &amp; Architecture Analysis</h2>
           <div class="section-card-body">
-            <p>In parallel with the evaluation work, I was tasked with understanding Rasa CALM deeply enough to inform whether Emoflow's architecture should be migrated toward it. This required reverse-engineering the full Rasa codebase — unpacking the internal structure that two senior software developers on the team had not been able to map.</p>
+            <p>In parallel with the evaluation work, I was tasked with understanding Rasa CALM deeply enough to inform whether Emoflow's architecture should be migrated toward it. This required reading and unpacking the full Rasa CALM codebase — mapping an underdocumented open-source system from the inside out.</p>
             <p>The research produced a complete architectural analysis covering: the Dialogue Manager (FlowPolicy, processor, broker, channels), the Tracker (DialogueStateTracker — conversation history, slots, events), the Stack (DialogueStack — active flows, frame-based execution, ordered step sequencing), Dialogue Understanding (LLM Command Generator, Flow Retrieval, Command Processor), and Conversation Repair patterns.</p>
             <p>A key finding was the fundamental architectural difference between EmoFlow and CALM: EmoFlow relied on the LLM to determine each step dynamically (unpredictable, hard to debug), while CALM constrained the LLM to selecting from a predefined command set (StartFlow, SetSlot, CancelFlow) with flow execution handled deterministically by FlowPolicy. This is the difference between an LLM driving the conversation and an LLM serving the conversation structure.</p>
             <p>The research produced a concrete four-week migration plan — retaining the LLM for intent classification and slot extraction while transferring flow control to CALM's structured stack — which the engineering team could evaluate and act on.</p>
@@ -117,7 +117,7 @@
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
             <ul>
-              <li>Conversational flow coverage scaled from 3 to 12+ during the engagement, supported by a testing framework that kept pace with each new version</li>
+              <li>The evaluation framework kept pace as the engineering team expanded from 3 to 12+ conversational flows — providing a quality signal at each version iteration</li>
               <li>Developers received structured, reproducible bug reports (JSON logs, Jira tickets, versioned conversation traces) — eliminating time spent on ad-hoc bug reproduction</li>
               <li>Automated stakeholder routing ensured every finding reached the right person; weekly reporting gave the team a consistent quality signal across versions</li>
               <li>Full architectural documentation of Rasa CALM — codebase structure, dialogue stack, tracker, command generation pipeline — produced as a research deliverable the engineering team had not previously had access to</li>
