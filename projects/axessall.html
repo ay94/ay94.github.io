@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AxessAll — Ahmed Younes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="../methods/index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">AxessAll · AI Integration Lead</p>
+        <h1 class="page-title">AI-Driven Accessibility Platform — Strategy &amp; Implementation</h1>
+        <span class="status-badge badge-pilot">Active · Jan 2026 – Present</span>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">The Problem</p>
+          <h2 class="section-card-title">Accessibility at Scale is a Manual-First Bottleneck</h2>
+          <div class="section-card-body">
+            <p>AxessAll is a digital accessibility consultancy operating across government and enterprise clients — running accessibility audits, producing remediation plans, and supporting organisations in meeting WCAG 2.2 AA compliance. At small scale this works. At national programme scale it breaks: auditors produce reports manually, findings are emailed to developers, tickets are created by hand, and there is no consistent data layer to measure progress or guide decisions.</p>
+            <p>The rate of generating issues always outpaces the rate of fixing them. Without automation, that gap grows as scope expands. Without data, there is no way to know where to intervene — which entities are falling behind, which bottlenecks are systemic, and whether any given investment in training or tooling is actually moving the dial.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">The Approach</p>
+          <h2 class="section-card-title">Data Science to Introduce AI — Then to Measure It</h2>
+          <div class="section-card-body">
+            <p>The approach is intentionally sequenced. Before deploying AI, build the data science layer that validates where AI can have impact and grounds every decision in evidence. The RAG autocomplete system and the analytics pipeline are not just tools — they are the empirical foundation that makes it possible to say with confidence which AI capabilities will improve outcomes and which will not.</p>
+            <p>Once AI is introduced, the same data science layer measures what changes: fix rates, issue generation rates, auditor throughput, remediation time. This is the difference between deploying a tool and running a programme — the measurement layer is what turns individual AI interventions into a continuously improving system.</p>
+            <p>This sequencing also de-risks adoption. Starting with RAG-assisted workflows gives consultants and clients a concrete, low-risk demonstration of AI value before anything more complex is introduced. Evidence replaces persuasion.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Implementation · 1</p>
+          <h2 class="section-card-title">RAG Autocomplete — Production System</h2>
+          <div class="section-card-body">
+            <p>The first implementation is a production RAG system that reads the existing YouTrack issue database — accumulated audit findings across clients — and uses them to auto-complete structured issue fields for accessibility consultants. When an auditor identifies a new issue, the system retrieves semantically similar past issues and generates a draft: issue description, WCAG criterion, severity rating, remediation context. The auditor reviews and commits rather than writing from scratch.</p>
+            <p>The system is built as a FastAPI service with a switchable retrieval backend — ChromaDB, Qdrant, and a NumPy-based backend for comparison — allowing retrieval strategy to be evaluated empirically rather than assumed. A dedicated experiment framework runs controlled comparisons between RAG and in-context learning (ICL) approaches, producing evaluation reports to guide prompt and retrieval design. An observability pipeline logs every call for ongoing performance monitoring.</p>
+            <p>The system has been running in active use since April 2026, with production call logs across multiple sessions. YouTrack integration is bidirectional — reading historical issues to build the retrieval index, and supporting write-back as the workflow matures.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Implementation · 2</p>
+          <h2 class="section-card-title">RAG Strategy Pipeline — Analytics &amp; Intelligence</h2>
+          <div class="section-card-body">
+            <p>The second implementation is an NLP analytics pipeline over the full audit issue corpus — the data science layer that connects raw audit data to strategic decisions. The pipeline runs: ingest from YouTrack → prepare → embed (sentence transformers) → dimensionality reduction → topic modelling → theme allocation → visualisation → Dash dashboard with RAG synthesis.</p>
+            <p>The output is an operational intelligence layer. Topic clusters surface recurring issue patterns across clients — the same underlying accessibility barrier appearing as different individual tickets across different entities. RAG synthesis generates thematic summaries from the cluster data, grounding strategic recommendations in the actual issue corpus rather than consultant intuition. The dashboard provides a live view of issue distribution, themes, and programme-level patterns.</p>
+            <p>This pipeline is the analytical foundation for the AccessOps layer — the mechanism that will measure what AI interventions actually change, run hypothesis-driven experiments to validate procurement decisions, and surface where resource and investment will have the greatest impact.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Implementation · 3</p>
+          <h2 class="section-card-title">Accessibility Auditing Agent — In Development</h2>
+          <div class="section-card-body">
+            <p>The third implementation is an AI auditing agent that automates the detection side of the accessibility workflow. Using Playwright, the agent reads government and enterprise codebases, identifies accessibility issues against WCAG 2.2 AA criteria, and generates structured findings — including issue description, WCAG criterion violated, severity, and initial remediation context — without manual intervention.</p>
+            <p>The agent operates in two modes: automated scan (rule-based WCAG checks) and assisted review (LLM-interpreted structural analysis for issues that require code understanding). Output is a pre-populated issue card ready for YouTrack submission. The auditor's role shifts from writing reports to reviewing agent findings and handling the cases that require expert judgement.</p>
+            <p>This is the earliest-stage of the three implementations — currently in active development — but the direction is clear: the agent connects directly into the RAG autocomplete system (its output becomes the input) and into the analytics pipeline (its findings populate the data layer that measures programme health).</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Strategy</p>
+          <h2 class="section-card-title">National AI Platform Vision — Seven Layers</h2>
+          <div class="section-card-body">
+            <p>The three implementations above sit within a larger strategic framework designed for deployment at national programme scale — a seven-layer architecture covering the full stack from infrastructure to governance, with analytics and dashboarding spanning every layer.</p>
+            <p>The framework addresses accessibility at the ecosystem level rather than the tool level. The infrastructure layer defines shared national resource pools. The integration layer connects auditing agents, developer tools, and project management systems so findings become actions without manual handoffs. The automation layer introduces three AI agents working in sequence: the auditing agent detects and documents issues, the developer agent reads the issue queue and generates remediation plans with test cases, and the content agent intervenes upstream — checking new content against WCAG requirements before it is published. The governance layer defines who sees what data, who makes which decisions, and how compliance is enforced across the ecosystem.</p>
+            <p>This strategy was produced in support of a national government digital accessibility bid — the AI remediation workstream specifically. The platform architecture, agent design, and AccessOps intelligence layer are direct outputs of that work.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Outcomes</p>
+          <h2 class="section-card-title">Current State &amp; Direction</h2>
+          <div class="section-card-body">
+            <ul>
+              <li>RAG autocomplete system in production use — actively reducing issue creation time and improving consistency across the consultant team</li>
+              <li>Experiment framework established — RAG vs ICL comparisons running with structured evaluation reports guiding prompt and retrieval design</li>
+              <li>Analytics pipeline operational — YouTrack audit data processed through full NLP stack, topic clusters and RAG synthesis surfaced through live dashboard</li>
+              <li>Client reports produced from the analytics layer — thematic summaries grounded in the issue corpus rather than manual analysis</li>
+              <li>AI platform strategy and seven-layer framework documented — agent architecture, AccessOps intelligence layer, and phased roadmap defined</li>
+              <li>Accessibility auditing agent in active development — Playwright-based scanning with structured WCAG issue output</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">OpenAI API</span>
+          <span class="tag">RAG</span>
+          <span class="tag">ChromaDB</span>
+          <span class="tag">Qdrant</span>
+          <span class="tag">sentence-transformers</span>
+          <span class="tag">YouTrack API</span>
+          <span class="tag">Playwright</span>
+          <span class="tag">Dash</span>
+          <span class="tag">UMAP</span>
+          <span class="tag">BERTopic</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">WCAG 2.2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
