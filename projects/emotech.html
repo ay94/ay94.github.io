@@ -32,7 +32,7 @@
 
       <div class="page-header">
         <p class="page-client">Emotech · Contract</p>
-        <h1 class="page-title">LLM-as-a-Judge Evaluation Framework for Conversational AI</h1>
+        <h1 class="page-title">LLM Evaluation Infrastructure &amp; Rasa CALM Research for Conversational AI</h1>
         <span class="status-badge badge-completed">Completed · Jan – Mar 2025</span>
       </div>
 
@@ -44,45 +44,63 @@
           <p class="section-card-label">The Project</p>
           <h2 class="section-card-title">Context &amp; Objectives</h2>
           <div class="section-card-body">
-            <p>Emotech builds voice AI systems for customer service — an LLM-powered conversational engine handling order queries, delegation, and task resolution across English and Arabic dialects. As the system grew in complexity (from 3 conversational flows to 12+), manual testing became insufficient: bugs were inconsistently reproduced, quality was hard to measure across versions, and findings were not systematically routed to the right stakeholders.</p>
-            <p>I was brought in as Applied LLM Researcher to research and accelerate the chatbot development lifecycle — which in practice meant designing and building the evaluation infrastructure the team needed to move faster and with more confidence.</p>
+            <p>Emotech builds voice AI systems for customer service — an LLM-powered conversational engine (Emoflow) handling order queries, task resolution, delegation, and cross-lingual interaction across English and Arabic dialects. As the system grew from 3 to 12+ conversational flows, manual testing became insufficient: bugs were inconsistently reproduced, quality variation across versions was invisible, and findings had no structured path to the right stakeholder.</p>
+            <p>I was brought in as Applied LLM Researcher — a role that in practice spanned four responsibilities: LLM research, software development, QA/testing, and cross-team coordination between the product manager, engineering team, and TTS/STT specialists. My work covered the full evaluation lifecycle and a deep architectural research track on Rasa CALM.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">My Role</p>
-          <h2 class="section-card-title">Applied LLM Researcher</h2>
+          <h2 class="section-card-title">Researcher · Developer · Tester · Connector</h2>
           <div class="section-card-body">
-            <p>The role evolved significantly during the engagement. Initially focused on research — understanding how the chatbot was built, how Rasa CALM structured conversational flows, and where the system's architecture created evaluation challenges. This research then directly fed into building the evaluation toolkit and designing the testing methodology.</p>
-            <p>I worked alongside the software development team, bridging the gap between LLM research and practical QA tooling — translating unclear failure modes into reproducible, categorised test cases that developers could act on.</p>
+            <p>The engagement required operating across multiple teams simultaneously. I read product requirements and use cases from Confluence and Jira, worked directly with the PM to understand what needed testing and why, liaised with the engineering team on the technical feasibility of test designs, and supported the TTS/STT team with their own validation work on Arabic dialects and English.</p>
+            <p>On the engineering side, I built the evaluation toolkit from scratch — including a parallel-processing WebSocket client that both experienced software developers on the team could not implement. I also reverse-engineered the entire Rasa codebase to produce architectural documentation that grounded the CALM migration research.</p>
           </div>
         </div>
 
         <div class="section-card">
-          <p class="section-card-label">Method</p>
-          <h2 class="section-card-title">LLM-as-a-Judge Evaluation Pipeline</h2>
+          <p class="section-card-label">Evaluation System</p>
+          <h2 class="section-card-title">LLM-as-a-Judge Pipeline</h2>
           <div class="section-card-body">
-            <p>The core system used GPT to simulate user behaviour and evaluate chatbot responses in the same pipeline. A WebSocket client drove live conversations between GPT (acting as a user) and the chatbot — with GPT-generated prompts designed to surface specific failure modes, edge cases, and design bugs.</p>
-            <p>Each conversation was then evaluated by a GPT judge against structured criteria: unexpected behaviour (premature termination, unnecessary delegation, restarts), task resolution, and quality metrics. Outputs were classified into two tracks — <em>automation tests</em> (design and flow compliance) and <em>bug reproduction tests</em> — with findings automatically routed to the relevant stakeholder: product manager, developer, or manual testing queue.</p>
-            <p>To support reproducibility and traceability across deployment cycles, I built a versioned folder hierarchy that tracked test cases, prompts, and run logs against each chatbot version and model configuration. A parallel-processing client allowed multiple conversations to run concurrently. Results were consolidated into structured summary reports and a daily-updated Google Sheet shared across the team.</p>
+            <p>The core system used GPT to both simulate user behaviour and evaluate chatbot responses in the same pipeline. A WebSocket client drove live conversations between GPT (acting as a user) and Emoflow — with GPT-generated prompts targeting specific failure modes across three test types:</p>
+            <ul>
+              <li><strong>Automation tests</strong> — design and flow compliance (did the conversation follow the intended path?)</li>
+              <li><strong>Bug reproduction tests</strong> — whether a known bug was reproducible under controlled conditions</li>
+              <li><strong>Feature tests</strong> — whether newly implemented features behaved as specified</li>
+            </ul>
+            <p>Each conversation was evaluated by GPT-4o-mini against structured behavioural criteria: unexpected behaviour (premature termination, unnecessary delegation, restarting), delegation necessity, and task resolution. Findings were classified by type and automatically routed to the relevant stakeholder — PM, developer, or manual testing queue. Results were logged as structured JSON and compiled into versioned summary reports and a live Google Sheet updated after each run cycle.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">Iteration</p>
-          <h2 class="section-card-title">Evaluation Methodology Evolution</h2>
+          <h2 class="section-card-title">Evaluation Methodology: Three Stages</h2>
           <div class="section-card-body">
-            <p>The initial approach used GPT for both scenario generation and evaluation simultaneously. This produced inconsistent assessments — GPT would apply criteria unevenly across similar conversations, making pass/fail rates unreliable as a quality signal. The approach was revised to separate generation from evaluation, introducing more structured criteria with explicit logic for pass/fail decisions (requiring multiple conditions to fail together, not individual binary judgments).</p>
-            <p>This restructuring substantially improved evaluation consistency and made the reports actionable — developers received structured JSON outputs with clear failure reasoning rather than vague pass/fail verdicts.</p>
+            <p><strong>Stage 1 — Fully automated (GPT generates and evaluates):</strong> Initial approach used GPT for both scenario generation and evaluation simultaneously. This produced inconsistent scoring — GPT was either too lenient or too strict, and edge cases with cross-test dependencies (e.g. a greeting bug exposing a menu discussion issue) were not reliably caught. v0.1.0 results across 283 runs: 48% overall pass rate (72% automation, 28% bug, 0% feature).</p>
+            <p><strong>Stage 2 — Methodology revision:</strong> Simulation tests removed as they were too simplistic. Focus shifted to edge cases and bug isolation, with explicit pass/fail logic requiring multiple conditions to fail together rather than single binary judgments. Bug isolation became a priority — resolving one issue consistently revealed the next.</p>
+            <p><strong>Stage 3 — Hybrid manual/automated:</strong> Automated evaluation disabled for most test cases. Manual validation introduced for bug-related tests, with a structured review process: examine conversation logs, identify hallucinations, flow execution mistakes, and intent classification errors, document findings in a shared sheet, log confirmed bugs in Jira. v0.2.6: 42 test cases validated manually with full traceability.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Toolkit</p>
+          <h2 class="section-card-title">Architecture &amp; Engineering</h2>
+          <div class="section-card-body">
+            <p>The toolkit consisted of three primary components: a WebSocket client, a folder manager, and a runner/reporting layer.</p>
+            <p>The <strong>client</strong> handled real-time communication with Emoflow — generating GPT completions, sending them over WebSocket, receiving and logging responses. I built both a single-processing version and a parallel-processing implementation (using daemon threads), the latter allowing multiple conversations to run concurrently and significantly increasing throughput.</p>
+            <p>The <strong>folder manager</strong> maintained a versioned hierarchy — tracking each EmoFlow model version, flow version, test case, prompt, and individual run with timestamps. Any change in the chatbot configuration triggered automatic creation of a new version folder, ensuring full traceability across deployment cycles.</p>
+            <p>The <strong>runner</strong> managed execution based on a config file: which test cases to run, how many times, whether to persist results, and whether to evaluate. The <strong>reporting layer</strong> compiled all run results into daily summaries, per-test-case reports, version-level summaries, and a centralised Google Sheet.</p>
           </div>
         </div>
 
         <div class="section-card">
           <p class="section-card-label">Research</p>
-          <h2 class="section-card-title">Rasa CALM Architecture Research</h2>
+          <h2 class="section-card-title">Rasa CALM: Codebase Reverse-Engineering &amp; Architecture Analysis</h2>
           <div class="section-card-body">
-            <p>In parallel with the evaluation work, I researched and mapped Rasa's CALM (Conversational AI with Language Models) workflow — understanding how CALM structures conversation control through flow policies and stack-based dialogue management, as distinct from fully LLM-driven approaches.</p>
-            <p>The research produced a detailed mapping of the existing chatbot architecture against CALM's flow execution model, identifying which components could be reused versus restructured. This included a proposed four-week migration plan — keeping the LLM for intent classification and slot extraction, while delegating flow transitions and conversation history to CALM's structured stack — to improve reliability and reduce unpredictable LLM-driven behaviour.</p>
+            <p>In parallel with the evaluation work, I was tasked with understanding Rasa CALM deeply enough to inform whether Emoflow's architecture should be migrated toward it. This required reverse-engineering the full Rasa codebase — unpacking the internal structure that two senior software developers on the team had not been able to map.</p>
+            <p>The research produced a complete architectural analysis covering: the Dialogue Manager (FlowPolicy, processor, broker, channels), the Tracker (DialogueStateTracker — conversation history, slots, events), the Stack (DialogueStack — active flows, frame-based execution, ordered step sequencing), Dialogue Understanding (LLM Command Generator, Flow Retrieval, Command Processor), and Conversation Repair patterns.</p>
+            <p>A key finding was the fundamental architectural difference between EmoFlow and CALM: EmoFlow relied on the LLM to determine each step dynamically (unpredictable, hard to debug), while CALM constrained the LLM to selecting from a predefined command set (StartFlow, SetSlot, CancelFlow) with flow execution handled deterministically by FlowPolicy. This is the difference between an LLM driving the conversation and an LLM serving the conversation structure.</p>
+            <p>The research produced a concrete four-week migration plan — retaining the LLM for intent classification and slot extraction while transferring flow control to CALM's structured stack — which the engineering team could evaluate and act on.</p>
           </div>
         </div>
 
@@ -90,7 +108,7 @@
           <p class="section-card-label">Scope</p>
           <h2 class="section-card-title">Languages &amp; Voice Pipeline</h2>
           <div class="section-card-body">
-            <p>The system operated across English and multiple Arabic dialects — a significant source of quality variation given dialect-specific vocabulary, register, and speech patterns. I conducted TTS (text-to-speech) and STT (speech-to-text) validation across these language combinations, assessing voice pipeline quality and cross-lingual robustness and flagging where dialect handling introduced inconsistencies or failures not present in standard Arabic or English.</p>
+            <p>The system operated across English and multiple Arabic dialects — a significant source of quality variation. I supported the TTS/STT team with validation across these language combinations, assessing voice pipeline robustness and flagging where dialect-specific vocabulary and speech patterns introduced failures not present in standard Arabic or English. Transcription-based test cases were also supported in the toolkit — allowing real conversation logs from the voice pipeline to be fed directly into the evaluation framework.</p>
           </div>
         </div>
 
@@ -99,11 +117,11 @@
           <h2 class="section-card-title">Results &amp; Impact</h2>
           <div class="section-card-body">
             <ul>
-              <li>Evaluation coverage scaled from 3 to 12+ conversational flows during the engagement</li>
-              <li>Developers received structured, reproducible bug reports — eliminating time spent on inconsistently reproduced failures reported without context</li>
-              <li>Automated stakeholder routing (PM / developer / manual testing) ensured findings reached the right person each iteration</li>
-              <li>Weekly reporting gave the team a consistent quality signal across versions, making regression visible</li>
-              <li>RASA CALM research produced a concrete migration roadmap the engineering team could act on</li>
+              <li>Conversational flow coverage scaled from 3 to 12+ during the engagement, supported by a testing framework that kept pace with each new version</li>
+              <li>Developers received structured, reproducible bug reports (JSON logs, Jira tickets, versioned conversation traces) — eliminating time spent on ad-hoc bug reproduction</li>
+              <li>Automated stakeholder routing ensured every finding reached the right person; weekly reporting gave the team a consistent quality signal across versions</li>
+              <li>Full architectural documentation of Rasa CALM — codebase structure, dialogue stack, tracker, command generation pipeline — produced as a research deliverable the engineering team had not previously had access to</li>
+              <li>CALM migration roadmap delivered as a concrete four-week implementation plan</li>
             </ul>
           </div>
         </div>
@@ -123,6 +141,9 @@
           <span class="tag">Prompt Engineering</span>
           <span class="tag">Arabic NLP</span>
           <span class="tag">TTS / STT</span>
+          <span class="tag">Jira</span>
+          <span class="tag">Confluence</span>
+          <span class="tag">Google Sheets API</span>
         </div>
       </div>
 
