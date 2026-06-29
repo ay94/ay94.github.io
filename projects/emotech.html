@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emotech — Ahmed Younes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand">AYD</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../research/deformar.html">Research</a></li>
+      <li><a href="../methods/index.html">Methods</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <a href="../index.html" class="back-link">← Back to Portfolio</a>
+
+      <div class="page-header">
+        <p class="page-client">Emotech · Contract</p>
+        <h1 class="page-title">LLM-as-a-Judge Evaluation Framework for Conversational AI</h1>
+        <span class="status-badge badge-completed">Completed · Jan – Mar 2025</span>
+      </div>
+
+      <div class="project-page-banner"></div>
+
+      <div class="sections-grid">
+
+        <div class="section-card">
+          <p class="section-card-label">The Project</p>
+          <h2 class="section-card-title">Context &amp; Objectives</h2>
+          <div class="section-card-body">
+            <p>Emotech builds voice AI systems for customer service — an LLM-powered conversational engine handling order queries, delegation, and task resolution across English and Arabic dialects. As the system grew in complexity (from 3 conversational flows to 12+), manual testing became insufficient: bugs were inconsistently reproduced, quality was hard to measure across versions, and findings were not systematically routed to the right stakeholders.</p>
+            <p>I was brought in as Applied LLM Researcher to research and accelerate the chatbot development lifecycle — which in practice meant designing and building the evaluation infrastructure the team needed to move faster and with more confidence.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">My Role</p>
+          <h2 class="section-card-title">Applied LLM Researcher</h2>
+          <div class="section-card-body">
+            <p>The role evolved significantly during the engagement. Initially focused on research — understanding how the chatbot was built, how Rasa CALM structured conversational flows, and where the system's architecture created evaluation challenges. This research then directly fed into building the evaluation toolkit and designing the testing methodology.</p>
+            <p>I worked alongside the software development team, bridging the gap between LLM research and practical QA tooling — translating unclear failure modes into reproducible, categorised test cases that developers could act on.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Method</p>
+          <h2 class="section-card-title">LLM-as-a-Judge Evaluation Pipeline</h2>
+          <div class="section-card-body">
+            <p>The core system used GPT to simulate user behaviour and evaluate chatbot responses in the same pipeline. A WebSocket client drove live conversations between GPT (acting as a user) and the chatbot — with GPT-generated prompts designed to surface specific failure modes, edge cases, and design bugs.</p>
+            <p>Each conversation was then evaluated by a GPT judge against structured criteria: unexpected behaviour (premature termination, unnecessary delegation, restarts), task resolution, and quality metrics. Outputs were classified into two tracks — <em>automation tests</em> (design and flow compliance) and <em>bug reproduction tests</em> — with findings automatically routed to the relevant stakeholder: product manager, developer, or manual testing queue.</p>
+            <p>To support reproducibility and traceability across deployment cycles, I built a versioned folder hierarchy that tracked test cases, prompts, and run logs against each chatbot version and model configuration. A parallel-processing client allowed multiple conversations to run concurrently. Results were consolidated into structured summary reports and a daily-updated Google Sheet shared across the team.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Iteration</p>
+          <h2 class="section-card-title">Evaluation Methodology Evolution</h2>
+          <div class="section-card-body">
+            <p>The initial approach used GPT for both scenario generation and evaluation simultaneously. This produced inconsistent assessments — GPT would apply criteria unevenly across similar conversations, making pass/fail rates unreliable as a quality signal. The approach was revised to separate generation from evaluation, introducing more structured criteria with explicit logic for pass/fail decisions (requiring multiple conditions to fail together, not individual binary judgments).</p>
+            <p>This restructuring substantially improved evaluation consistency and made the reports actionable — developers received structured JSON outputs with clear failure reasoning rather than vague pass/fail verdicts.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Research</p>
+          <h2 class="section-card-title">Rasa CALM Architecture Research</h2>
+          <div class="section-card-body">
+            <p>In parallel with the evaluation work, I researched and mapped Rasa's CALM (Conversational AI with Language Models) workflow — understanding how CALM structures conversation control through flow policies and stack-based dialogue management, as distinct from fully LLM-driven approaches.</p>
+            <p>The research produced a detailed mapping of the existing chatbot architecture against CALM's flow execution model, identifying which components could be reused versus restructured. This included a proposed four-week migration plan — keeping the LLM for intent classification and slot extraction, while delegating flow transitions and conversation history to CALM's structured stack — to improve reliability and reduce unpredictable LLM-driven behaviour.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Scope</p>
+          <h2 class="section-card-title">Languages &amp; Voice Pipeline</h2>
+          <div class="section-card-body">
+            <p>The system operated across English and multiple Arabic dialects — a significant source of quality variation given dialect-specific vocabulary, register, and speech patterns. I conducted TTS (text-to-speech) and STT (speech-to-text) validation across these language combinations, assessing voice pipeline quality and cross-lingual robustness and flagging where dialect handling introduced inconsistencies or failures not present in standard Arabic or English.</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-card-label">Outcomes</p>
+          <h2 class="section-card-title">Results &amp; Impact</h2>
+          <div class="section-card-body">
+            <ul>
+              <li>Evaluation coverage scaled from 3 to 12+ conversational flows during the engagement</li>
+              <li>Developers received structured, reproducible bug reports — eliminating time spent on inconsistently reproduced failures reported without context</li>
+              <li>Automated stakeholder routing (PM / developer / manual testing) ensured findings reached the right person each iteration</li>
+              <li>Weekly reporting gave the team a consistent quality signal across versions, making regression visible</li>
+              <li>RASA CALM research produced a concrete migration roadmap the engineering team could act on</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack-card">
+        <h3>Tech Stack</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">OpenAI API</span>
+          <span class="tag">GPT-4o / GPT-4o-mini</span>
+          <span class="tag">LLM-as-a-Judge</span>
+          <span class="tag">WebSockets</span>
+          <span class="tag">Rasa CALM</span>
+          <span class="tag">LiteLLM</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Arabic NLP</span>
+          <span class="tag">TTS / STT</span>
+        </div>
+      </div>
+
+      <div class="links-card">
+        <h3>Links</h3>
+        <ul class="links-list">
+          <li><a href="https://github.com/ay94/rasa-calm" class="btn btn-outline" target="_blank" rel="noopener">GitHub — rasa-calm research ↗</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">Ahmed Younes — AI Engineer &amp; NLP Researcher</span>
+      <span class="footer-copy">&copy; 2025 Ahmed Younes</span>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+
+</body>
+</html>
