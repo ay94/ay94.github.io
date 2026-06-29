@@ -78,7 +78,55 @@
           <div class="section-card-body">
             <p><strong>Stage 1 — Fully automated:</strong> GPT used for both scenario generation and evaluation simultaneously. This produced inconsistent scoring — too lenient or too strict — and edge cases with cross-test dependencies were not reliably caught. v0.1.0: 283 runs, 48% overall pass rate (72% automation, 28% bug, 0% feature).</p>
             <p><strong>Stage 2 — Revised approach:</strong> Simulation tests removed. Focus shifted to edge cases and bug isolation, with structured pass/fail logic requiring multiple failure conditions rather than single binary judgments. Bug isolation became the priority — resolving one issue consistently exposed the next.</p>
-            <p><strong>Stage 3 — Hybrid manual/automated:</strong> Automated evaluation disabled for most test cases. Manual validation introduced for bug-related tests: examine conversation logs, identify hallucinations, flow execution mistakes and intent classification errors, document in a shared sheet, log confirmed bugs in Jira. v0.2.6: 42 test cases with full manual traceability.</p>
+            <p><strong>Stage 3 — Hybrid manual/automated:</strong> Automated evaluation disabled for most test cases. Manual validation introduced for bug-related tests: examine conversation logs, identify hallucinations, flow execution mistakes and intent classification errors, document in a shared sheet, log confirmed bugs in Jira. v0.2.6: 42 test cases, 330 runs, 14 test categories — all manually reviewed.</p>
+            <div style="overflow-x:auto; margin-top:1rem;">
+              <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                <thead>
+                  <tr style="border-bottom:2px solid var(--border, #e8e0d0);">
+                    <th style="text-align:left; padding:0.4rem 0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Category</th>
+                    <th style="text-align:center; padding:0.4rem 0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Tests</th>
+                    <th style="text-align:left; padding:0.4rem 0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">What it covered</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">Design</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">10</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Flow compliance, menu handling, greeting loops, phone number collection</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">Reliability</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">12</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Emotional responses, frustration, passive aggression, interruption, memory, overlapping questions</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">Adversarial</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">8</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Prompt injection, jailbreaking, security bypass, memory attacks, role-play, intent mixing</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">External testing</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">110 runs</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Real conversations from external testers fed directly into the framework</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">ASR / Human transcripts</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">3</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Real voice pipeline output integrated as test input — ASR transcripts and human-reviewed transcripts</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid var(--border, #e8e0d0);">
+                    <td style="padding:0.5rem 0.75rem;">Malicious intent</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">3</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">Out-of-scope adversarial users, malicious prompts, intent confusion</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0.5rem 0.75rem;">Feature / Code bug</td>
+                    <td style="padding:0.5rem 0.75rem; text-align:center;">3</td>
+                    <td style="padding:0.5rem 0.75rem; color:var(--text-muted);">New features under validation; infrastructure-level failure handling</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
